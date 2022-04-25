@@ -1,0 +1,34 @@
+.AccountOptionsHolder {
+    width: 200px;
+    height: 150px;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+    border-radius: 4px;
+    box-sizing: border-box;
+    position: relative;
+}
+
+.AccountOptionsHolder ul {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+.accountOption {
+    width: 100%;
+    height: 100%;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+.accountOption i {
+    font-size: 16px;
+    margin: 0 15px;
+}
+
+.accountOption:hover {
+    background-color: rgb(243, 243, 243);
+}

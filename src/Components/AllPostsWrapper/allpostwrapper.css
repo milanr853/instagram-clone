@@ -1,0 +1,6 @@
+.ALL_POSTS_WRAPPER {
+    max-width: 600px;
+    min-height: 600px;
+    display: flex;
+    flex-direction: column;
+}
