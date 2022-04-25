@@ -3,7 +3,6 @@ import "./Body.css"
 
 import { Routes, Route } from "react-router-dom"
 
-import AccountOptions from "../Accounts/AccountOptions"
 
 
 
@@ -15,7 +14,6 @@ function Body() {
     return (
         <>
             <div className="Body">
-                <AccountOptions />
                 <Routes>
                     <Route path='/' element={<AllPostsWrapper />} />
                     <Route path='/inbox' element={<Inbox />} />

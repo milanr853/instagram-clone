@@ -69,6 +69,8 @@
     box-sizing: border-box;
     padding: 0 20px;
     flex-grow: 1;
+
+    position: relative;
 }
 
 
@@ -105,7 +107,9 @@
     display: none;
 }
 
-
+#logoBox {
+    display: flex;
+}
 
 
 @media screen and (max-width:640px) {

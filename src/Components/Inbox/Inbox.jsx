@@ -6,7 +6,8 @@ import "./inbox.css"
 
 function Inbox() {
     return (
-        <div>Inbox</div>
+        <div className='Inbox'>
+        </div>
     )
 }
 

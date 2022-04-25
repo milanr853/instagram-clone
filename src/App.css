@@ -4,5 +4,6 @@
 }
 
 .App {
+    overflow-x: hidden;
     position: relative;
 }

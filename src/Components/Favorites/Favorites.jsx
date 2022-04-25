@@ -4,7 +4,9 @@ import "./favorites.css"
 
 function Favorites() {
     return (
-        <div>Favorites</div>
+        <div className='Favorites'>
+            favorites
+        </div>
     )
 }
 
