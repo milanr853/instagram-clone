@@ -1,0 +1,79 @@
+.SearchResultsDisplay {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, 6%);
+
+    width: 350px;
+    height: 400px;
+
+    background-color: white;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+    border-radius: 4px;
+
+    box-sizing: border-box;
+    padding: 15px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+
+    overflow: hidden;
+    overflow-y: scroll;
+}
+
+
+.SearchResultsDisplay p {
+    color: gray;
+}
+
+
+.SearchProfileResult {
+    width: 100%;
+    height: 70px;
+
+    box-sizing: border-box;
+    padding: 10px;
+
+    cursor: pointer;
+
+    display: flex;
+    align-items: center;
+}
+
+.userAvatar {
+    width: 50px;
+    height: 50px;
+    border: 1px solid black;
+    border-radius: 50%;
+}
+
+.SearchProfileResult:hover {
+    background-color: rgb(249, 249, 249);
+}
+
+
+#userAvatarImage {
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+}
+
+
+.userNameFromSearch {
+    display: inline-block;
+    padding-bottom: 5px;
+}
+
+.userInfoFromSearchContainer {
+    margin-left: 10px;
+}
+
+
+@media screen and (max-width:350px) {
+    .SearchResultsDisplay {
+        width: 100%;
+    }
+}

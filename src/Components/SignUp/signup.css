@@ -1,0 +1,104 @@
+.Signup {
+    background-color: #fafafa;
+    width: 100vw;
+    /* height: calc(100vh - 125px); */
+    height: 100vh;
+
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+
+    box-sizing: border-box;
+    padding: 10px;
+}
+
+.signup_Box {
+    background-color: white;
+    width: 340px;
+    height: 70%;
+    border: 1px solid rgb(215, 215, 215);
+
+    box-sizing: border-box;
+    padding: 40px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+
+    border-radius: 3px;
+    margin-bottom: 10px;
+}
+
+
+.logo_signup {
+    width: 175px;
+    margin-bottom: 45px;
+}
+
+
+.credentialsWrapper {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 8px;
+}
+
+.mailInput,
+.passwordInput,
+.fullNameInput,
+.userNameInput {
+    padding: 10px 10px;
+    border: 1px solid lightgray;
+    outline: none;
+    margin-bottom: 7px;
+    border-radius: 3px;
+    background: #fafafa;
+}
+
+.signupBtn {
+    padding: 7px 0;
+    border: none;
+    border-radius: 5px;
+    background: dodgerblue;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    cursor: pointer;
+}
+
+
+.logInoption {
+    width: 340px;
+    height: 70px;
+    border: 1px solid rgb(215, 215, 215);
+    background-color: white;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 3px;
+}
+
+
+.logInoption .logInLink {
+    color: dodgerblue;
+    font-weight: 600;
+    margin-left: 10px;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+
+
+@media screen and (max-width:350px) {
+
+    .signup_Box,
+    .logInoption {
+        background-color: #fafafa;
+        border: none;
+    }
+}

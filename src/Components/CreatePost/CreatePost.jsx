@@ -16,6 +16,8 @@ function CreatePost() {
 
     const hideUploadOptions = () => {
         dispatch(makeUploadOptionsDisappear())
+        document.querySelector("body").style.overflowY = "scroll"
+
     }
 
 

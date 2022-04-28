@@ -1,0 +1,149 @@
+.SinglePostView {
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    z-index: 1000;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.individualPostContainer {
+    width: 68vmax;
+    background-color: white;
+    height: 45vmax;
+
+    display: flex;
+}
+
+
+.bi-x-lg {
+    color: white;
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    cursor: pointer;
+}
+
+
+.photoPart {
+    width: 55%;
+    height: 100%;
+
+    background: #000;
+}
+
+.commentsPart {
+    width: 45%;
+    height: 100%;
+    position: relative;
+}
+
+
+.commentsPartSmaller {
+    position: relative;
+    height: 55%;
+    width: 100%;
+    display: none;
+}
+
+
+.photoPart img {
+    object-fit: contain;
+    width: 100%;
+    height: 100%;
+}
+
+
+.commentPartHeader {
+    min-height: 60px;
+    border-bottom: 1px solid lightgray;
+
+    display: flex;
+    align-items: center;
+    box-sizing: border-box;
+    padding: 0 15px;
+}
+
+#img {
+    width: 40px;
+    height: 40px;
+    margin-right: 15px;
+}
+
+#img img {
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+}
+
+
+
+
+.commentPartBottom {
+    background-color: #fff;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    border-top: 1px solid lightgray;
+}
+
+
+.allCommentsArea {
+    width: 100%;
+    height: calc(100% - 230px);
+    overflow: hidden;
+    overflow-y: scroll;
+}
+
+
+.Comment {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 15px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.cmtImgCntnr {
+    width: 40px;
+    height: 40px;
+}
+
+.cmtImgCntnr img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+    margin-right: 15px;
+}
+
+.Comment span {
+    width: calc(100% - 15px - 40px);
+}
+
+
+@media screen and (max-width:400px) {
+    .commentsPart {
+        display: none;
+    }
+
+    .commentsPartSmaller {
+        display: block;
+    }
+
+    .photoPart {
+        width: 100%;
+        height: 45%;
+    }
+
+    .individualPostContainer {
+        height: 700px;
+        flex-direction: column;
+        justify-content: flex-start;
+    }
+}
