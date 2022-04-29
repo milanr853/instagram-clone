@@ -12,6 +12,8 @@ import { makeOptionsDisappear } from "./Redux/Feature/accountOptionsVisibilitySl
 import CreatePost from "./Components/CreatePost/CreatePost";
 import { disappearContainer } from "./Redux/Feature/showSearchResultsContainerSlice";
 import SinglePostView from "./Components/SinglePostView/SinglePostView";
+import { fetchAll_Users } from "./Redux/Feature/usersSlice";
+
 
 
 
@@ -22,22 +24,25 @@ function App() {
 
   useEffect(() => {
     dispatch(fetchAll_Images())
+    dispatch(fetchAll_Users())
   }, [])
 
 
-  const accountOptionsDisappear = (e) => {
+  const DisappearFeatures = (e) => {
     if (![...e.target.classList].includes("bi-person-circle")) {
       dispatch(makeOptionsDisappear())
     }
-    if (![...e.target.classList].includes("searchUsersInput") && ![...e.target.classList].includes("search")) {
-      dispatch(disappearContainer())
-    }
+    setTimeout(() => {
+      if (![...e.target.classList].includes("searchUsersInput") && ![...e.target.classList].includes("search")) {
+        dispatch(disappearContainer())
+      }
+    }, 100);
   }
 
 
 
   return (
-    <div className="App" onClick={accountOptionsDisappear}>
+    <div className="App" onClick={DisappearFeatures}>
       <Router>
         <SinglePostView />
         <CreatePost />

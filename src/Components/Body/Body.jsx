@@ -1,7 +1,7 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import "./Body.css"
 
-import { Routes, Route } from "react-router-dom"
+import { Routes, Route, useLocation } from "react-router-dom"
 
 
 
@@ -13,10 +13,18 @@ import NotFound from "../NotFound/NotFound"
 import Profile from '../Profile/Profile'
 import ExplorePage from '../ExplorePage/ExplorePage'
 
-
+import { setInput } from "../../Redux/Feature/inputSlice"
+import { useDispatch } from 'react-redux'
 
 
 function Body() {
+    const dispatch = useDispatch()
+
+    const { pathname } = useLocation()
+    useEffect(() => {
+        dispatch(setInput(""))
+        document.querySelector(".search").value = ""
+    }, [pathname])
 
 
 
@@ -27,7 +35,7 @@ function Body() {
                     <Route path='/' element={<AllPostsWrapper />} />
                     <Route path='/inbox' element={<Inbox />} />
                     <Route path='/favorites' element={<Favorites />} />
-                    <Route path='/profile' element={<Profile />} />
+                    <Route path={`/profile/:param`} element={<Profile />} />
                     <Route path='/explore' element={<ExplorePage />} />
                     <Route path='*' element={<NotFound />} />
                 </Routes>

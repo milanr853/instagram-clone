@@ -26,6 +26,6 @@ const imagesSlice = createSlice({
 })
 
 
-export const { getAll_Images } = imagesSlice.actions
+// export const { getAll_Images } = imagesSlice.actions
 
 export default imagesSlice.reducer

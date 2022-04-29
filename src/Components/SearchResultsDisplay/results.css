@@ -40,12 +40,12 @@
 
     display: flex;
     align-items: center;
+    text-decoration: none;
 }
 
 .userAvatar {
     width: 50px;
     height: 50px;
-    border: 1px solid black;
     border-radius: 50%;
 }
 
@@ -65,6 +65,7 @@
 .userNameFromSearch {
     display: inline-block;
     padding-bottom: 5px;
+    color: black
 }
 
 .userInfoFromSearchContainer {

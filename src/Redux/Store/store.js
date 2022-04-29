@@ -6,6 +6,9 @@ import uploadPostOptionVisibilityReducer from "../Feature/uploadPostOptionVisibi
 import isAuthenticated from "../Feature/isAuthenticated"
 import showSearchResultsContainer from "../Feature/showSearchResultsContainerSlice"
 import individualPostDisplayReducer from "../Feature/individualPostSlice"
+import userReducer from "../Feature/usersSlice"
+import selectedUserReducer from "../Feature/selectedUserSlice"
+import inputReducer from "../Feature/inputSlice"
 
 
 
@@ -17,7 +20,11 @@ const store = configureStore({
         uploadPostOptionVisibilityReducer,
         isAuthenticated,
         showSearchResultsContainer,
-        individualPostDisplayReducer
+        individualPostDisplayReducer,
+
+        userReducer,
+        selectedUserReducer,
+        inputReducer
     }
 })
 

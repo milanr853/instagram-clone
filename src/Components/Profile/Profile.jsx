@@ -1,19 +1,30 @@
 import "./profile.css"
 
-import React from 'react'
+import React, { useRef } from 'react'
 
 import bg from "../../Extra/bg2.jpg"
-import { useDispatch } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import { showIndividualPost } from "../../Redux/Feature/individualPostSlice"
+import { useParams } from "react-router-dom"
+import { setSelectedUser } from "../../Redux/Feature/selectedUserSlice"
+
+
+
 
 function Profile() {
     const dispatch = useDispatch()
 
+    const { param } = useParams()
+
+    dispatch(setSelectedUser(param))
+
+    const selectedUser = useSelector(store => store.selectedUserReducer.value)
+
+    const { login, name, picture } = selectedUser
 
     const ShowIndividualPost = () => {
         dispatch(showIndividualPost())
         document.querySelector("body").style.overflowY = "hidden"
-
     }
 
 
@@ -23,13 +34,13 @@ function Profile() {
                 <div className="profileHeader">
                     <div className="profileImageSection">
                         <div className="profileImageContainer">
-                            <img src={bg} alt="profile-image" id="profileImage" />
+                            <img src={picture.large} alt="profile-image" id="profileImage" />
                         </div>
                     </div>
                     <div className="profileInfoSection">
-                        <p id="profileName">profile_name</p>
+                        <p id="profileName">{login.username}</p>
                         <p id="totalposts"><strong>0</strong> posts</p>
-                        <strong id="fullname">Full Name</strong>
+                        <strong id="fullname">{`${name.first} ${name.last}`}</strong>
                     </div>
                 </div>
                 <div className="profileInfoSectionSmaller" >
@@ -45,12 +56,12 @@ function Profile() {
                 </div>
                 {1 > 0 ?
                     <div className="profilePostsGrid">
-                        <img src={bg} alt="" className="profilePost" onClick={ShowIndividualPost} />
-                        <img src={bg} alt="" className="profilePost" onClick={ShowIndividualPost} />
-                        <img src={bg} alt="" className="profilePost" onClick={ShowIndividualPost} />
-                        <img src={bg} alt="" className="profilePost" onClick={ShowIndividualPost} />
-                        <img src={bg} alt="" className="profilePost" onClick={ShowIndividualPost} />
-                        <img src={bg} alt="" className="profilePost" onClick={ShowIndividualPost} />
+                        <img src={bg} alt="profile_image" className="profilePost" onClick={ShowIndividualPost} />
+                        <img src={bg} alt="profile_image" className="profilePost" onClick={ShowIndividualPost} />
+                        <img src={bg} alt="profile_image" className="profilePost" onClick={ShowIndividualPost} />
+                        <img src={bg} alt="profile_image" className="profilePost" onClick={ShowIndividualPost} />
+                        <img src={bg} alt="profile_image" className="profilePost" onClick={ShowIndividualPost} />
+                        <img src={bg} alt="profile_image" className="profilePost" onClick={ShowIndividualPost} />
                     </div>
                     :
                     <div className="noPostsYet">
