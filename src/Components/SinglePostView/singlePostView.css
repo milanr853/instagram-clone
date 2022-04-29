@@ -129,12 +129,10 @@
 
 @media screen and (max-width:400px) {
     .commentsPart {
-        display: none;
+        width: 100%;
+        height: 55%;
     }
 
-    .commentsPartSmaller {
-        display: block;
-    }
 
     .photoPart {
         width: 100%;

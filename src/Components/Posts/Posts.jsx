@@ -2,13 +2,14 @@ import "./Posts.css"
 
 import { useDispatch, useSelector } from 'react-redux'
 
-
-
-
-import React from 'react'
+import React, { useRef } from 'react'
 import { showIndividualPost } from "../../Redux/Feature/individualPostSlice"
 
+
+
+
 function Posts() {
+
     const imageData = useSelector(store => store.imagesReducer.value)
 
     const dispatch = useDispatch()
@@ -19,6 +20,10 @@ function Posts() {
     }
 
 
+    const likePost = (e) => {
+        e.target.classList.replace("bi-heart", "bi-heart-fill")
+        e.target.style.color = "#ed4956"
+    }
 
 
     const renderPosts_Images =
@@ -38,7 +43,7 @@ function Posts() {
                     <img className="postImage" src={regular} alt="postImage" style={{ cursor: "pointer" }} onClick={ShowIndividualPost} />
                     <div className="postBottom">
                         <div className="postBottomIconsBar">
-                            <i className="bi bi-heart postBottomIcons"></i>
+                            <i className="bi bi-heart postBottomIcons" onClick={likePost}></i>
                             <i className="bi bi-share postBottomIcons"></i>
                             <i className="bi bi-dash-square postBottomIcons" onClick={ShowIndividualPost}></i>
                         </div>

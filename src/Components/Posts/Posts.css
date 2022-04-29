@@ -138,7 +138,9 @@ i {
     margin-left: 0;
 }
 
-.postBottomIcons:hover {
+.bi-heart:hover,
+.bi-dash-square:hover,
+.bi-share:hover {
     color: rgb(170, 170, 170);
 }
 
