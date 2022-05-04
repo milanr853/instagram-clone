@@ -1,11 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { allUsersData } from "../../allUsersDataStore"
 
 const initialState = { allFetched: [], requiredData: [] }
 
 
 
-const response = allUsersData()
+const response = []
 
 
 const userSlice = createSlice({

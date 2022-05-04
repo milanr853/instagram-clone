@@ -2,7 +2,7 @@ import "./Posts.css"
 
 import { useDispatch, useSelector } from 'react-redux'
 
-import React, { useRef } from 'react'
+import React from 'react'
 import { showIndividualPost } from "../../Redux/Feature/individualPostSlice"
 
 

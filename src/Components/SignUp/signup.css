@@ -11,6 +11,7 @@
 
     box-sizing: border-box;
     padding: 10px;
+
 }
 
 .signup_Box {
@@ -29,6 +30,8 @@
 
     border-radius: 3px;
     margin-bottom: 10px;
+
+    position: relative;
 }
 
 
@@ -84,6 +87,12 @@
 }
 
 
+.signupBtnHolder {
+    width: 100%;
+    position: relative;
+}
+
+
 .logInoption .logInLink {
     color: dodgerblue;
     font-weight: 600;
@@ -92,6 +101,22 @@
     text-decoration: none;
 }
 
+.overTheSignupBtn {
+    background-color: white;
+    position: absolute;
+    top: 0;
+    opacity: 0.5;
+    cursor: default;
+    height: 100%;
+}
+
+.errorMessage {
+    text-align: center;
+    width: 100%;
+    color: rgb(217, 57, 57);
+    position: absolute;
+    bottom: 50px;
+}
 
 
 @media screen and (max-width:350px) {

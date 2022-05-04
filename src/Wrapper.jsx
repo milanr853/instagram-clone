@@ -1,19 +1,57 @@
-import React from 'react'
-import { useSelector } from 'react-redux'
+import React, { useEffect, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 
 import App from './App'
 
 import ToAuthenticate from './ToAuthenticate'
+import { auth } from "./Database/firebaseConfig"
+
+import { onAuthStateChanged } from "firebase/auth"
+import { readFirebaseDB } from './Database/firestoreDB'
+import { getFirebaseUsersData } from './Redux/Feature/firebaseUsersDatabaseSlice'
+import { getAllData } from './Redux/Feature/userDataFromDbSlice'
 
 
 
 function Wrapper() {
-    const authenticated = useSelector(store => store.isAuthenticated.value)
+    const [user, setUser] = useState(null)
+
+    const dispatch = useDispatch()
+
+
+    // ------------------------------------------
+    //Get current user || Session Continuity
+    useEffect(() => {
+        onAuthStateChanged(auth, (currentUser) => {
+            setUser(currentUser)
+        })
+    }, [])
+
+
+    //Save data from Firebase data into Store
+    useEffect(() => {
+        const getData = async () => {
+            const data = await readFirebaseDB()
+            dispatch(getFirebaseUsersData(data))
+        }
+        getData()
+    }, [user])
+
+
+    //Get All Users Data from Store
+    const All_Data = useSelector(store => store.firestoreDBReducer.value)
+
+
+    //Dispatch Action to get the current user data from Store
+    useEffect(() => {
+        dispatch(getAllData({ DB: All_Data, currentUserMail: user?.email }))
+    }, [user, All_Data])
+
 
 
 
     return (
-        !authenticated ? <ToAuthenticate /> : <App />
+        user?.email ? <App /> : <ToAuthenticate />
     )
 }
 

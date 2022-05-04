@@ -26,6 +26,7 @@
 
     border-radius: 3px;
     margin-bottom: 10px;
+    position: relative;
 }
 
 
@@ -52,6 +53,11 @@
     background: #fafafa;
 }
 
+.loginBtnHolder {
+    width: 100%;
+    position: relative;
+}
+
 .loginBtn {
     padding: 7px 0;
     border: none;
@@ -63,6 +69,25 @@
     align-items: center;
     color: white;
     cursor: pointer;
+}
+
+
+.overTheLoginBtn {
+    background-color: white;
+    position: absolute;
+    top: 0;
+    opacity: 0.5;
+    cursor: default;
+    height: 100%;
+}
+
+
+.errormsg {
+    color: rgb(217, 57, 57);
+    position: absolute;
+    bottom: 50px;
+    text-align: center;
+    width: 100%;
 }
 
 

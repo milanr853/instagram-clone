@@ -2,21 +2,24 @@ import React from 'react'
 
 import "./options.css"
 
-import { useDispatch, useSelector } from 'react-redux'
+import { useSelector } from 'react-redux'
 
-import { logOut } from "../../Redux/Feature/isAuthenticated"
-
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
+import { signOut } from 'firebase/auth'
+import { auth } from '../../Database/firebaseConfig'
 
 
 
 function AccountOptions() {
-    const dispatch = useDispatch()
+    const navigate = useNavigate()
 
     const optionsVisibility = useSelector(store => store.accountOptionsVisibilityReducer.value)
+    const { Username } = useSelector(store => store.selectedUserDataReducer.userData)
 
-    const logoutUser = () => {
-        dispatch(logOut())
+
+    const logoutUser = async () => {
+        await signOut(auth)
+        navigate("/login")
     }
 
 
@@ -24,7 +27,7 @@ function AccountOptions() {
         <>
             <div className="AccountOptionsHolder" style={{ display: optionsVisibility }}>
                 <ul>
-                    <Link to='/profile' className='accountOption'><i className="bi bi-person"></i> Profile</Link>
+                    <Link to={Username ? `/profile/${Username}` : "/profile"} className='accountOption'><i className="bi bi-person"></i> Profile</Link>
                     <li className='accountOption'><i className="bi bi-gear"></i> Settings</li>
                     <li className='accountOption' onClick={logoutUser}><i className="bi bi-box-arrow-right"></i> Logout</li>
                 </ul>

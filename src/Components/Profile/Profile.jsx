@@ -1,26 +1,20 @@
 import "./profile.css"
 
-import React, { useRef } from 'react'
+import React from 'react'
 
 import bg from "../../Extra/bg2.jpg"
 import { useDispatch, useSelector } from "react-redux"
 import { showIndividualPost } from "../../Redux/Feature/individualPostSlice"
-import { useParams } from "react-router-dom"
-import { setSelectedUser } from "../../Redux/Feature/selectedUserSlice"
-
 
 
 
 function Profile() {
     const dispatch = useDispatch()
 
-    const { param } = useParams()
+    const { Fullname, Username } = useSelector(store => store.selectedUserDataReducer.userData)
 
-    dispatch(setSelectedUser(param))
 
-    const selectedUser = useSelector(store => store.selectedUserReducer.value)
 
-    const { login, name, picture } = selectedUser
 
     const ShowIndividualPost = () => {
         dispatch(showIndividualPost())
@@ -34,13 +28,13 @@ function Profile() {
                 <div className="profileHeader">
                     <div className="profileImageSection">
                         <div className="profileImageContainer">
-                            <img src={picture.large} alt="profile-image" id="profileImage" />
+                            <img src={"https://bityl.co/C1cV"} alt="profile-image" id="profileImage" />
                         </div>
                     </div>
                     <div className="profileInfoSection">
-                        <p id="profileName">{login.username}</p>
+                        <p id="profileName">{Username}</p>
                         <p id="totalposts"><strong>0</strong> posts</p>
-                        <strong id="fullname">{`${name.first} ${name.last}`}</strong>
+                        <strong id="fullname">{Fullname}</strong>
                     </div>
                 </div>
                 <div className="profileInfoSectionSmaller" >
