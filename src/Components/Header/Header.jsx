@@ -44,7 +44,6 @@ function Header() {
 
     // --------------EVENTS--------------------
 
-
     const showAccountOptions = () => {
         dispatch(makeOptionsVisible())
     }

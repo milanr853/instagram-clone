@@ -10,22 +10,18 @@ import { onAuthStateChanged } from "firebase/auth"
 import { readFirebaseDB } from './Database/firestoreDB'
 import { getFirebaseUsersData } from './Redux/Feature/firebaseUsersDatabaseSlice'
 import { getAllData } from './Redux/Feature/userDataFromDbSlice'
+import { useAuth } from './Database/authenticate'
 
 
 
 function Wrapper() {
-    const [user, setUser] = useState(null)
 
     const dispatch = useDispatch()
 
 
     // ------------------------------------------
     //Get current user || Session Continuity
-    useEffect(() => {
-        onAuthStateChanged(auth, (currentUser) => {
-            setUser(currentUser)
-        })
-    }, [])
+    const user = useAuth()
 
 
     //Save data from Firebase data into Store
@@ -44,9 +40,9 @@ function Wrapper() {
 
     //Dispatch Action to get the current user data from Store
     useEffect(() => {
+        // console.log(All_Data)
         dispatch(getAllData({ DB: All_Data, currentUserMail: user?.email }))
     }, [user, All_Data])
-
 
 
 

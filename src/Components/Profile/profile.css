@@ -49,14 +49,36 @@
     width: 150px;
     height: 150px;
     border-radius: 50%;
+    position: relative;
 }
 
 #profileImage {
     object-fit: cover;
+    /* background-position: top; */
+    /* background-color: lightgray; */
     border-radius: 50%;
     width: 100%;
     height: 100%;
 }
+
+#profile_upload {
+    object-fit: cover;
+    border-radius: 50%;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+    background-color: black;
+    position: absolute;
+    opacity: 0;
+}
+
+/* #spinner {
+    width: 100%;
+    position: absolute;
+    top: 0;
+    right: 0;
+} */
+
 
 
 .profileInfoSection {

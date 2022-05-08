@@ -74,8 +74,9 @@ function SignUp() {
 
     useEffect(() => {
         const strArr = usernameLength.split(" ")
-        if (strArr.length > 1) setEnableSignupBtn("block")
-        else setEnableSignupBtn("none")
+        if (strArr.length > 1) {
+            setEnableSignupBtn("block")
+        }
     }, [usernameLength])
 
     // -----------------FIREBASE-REGISTRATION------------------
@@ -85,6 +86,7 @@ function SignUp() {
             Fullname: fullname.current.value.toLowerCase().trim(),
             Username: name.current.value.trim(),
             PassWord: pass.current.value.trim(),
+            All_Images: []
         }
 
         const { Username, Email, PassWord } = user_credential

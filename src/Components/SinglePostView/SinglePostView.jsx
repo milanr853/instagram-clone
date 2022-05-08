@@ -16,7 +16,6 @@ function SinglePostView() {
     const HideIndividualPost = () => {
         dispatch(hideIndividualPost())
         document.querySelector("body").style.overflowY = "scroll"
-
     }
 
 

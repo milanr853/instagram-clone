@@ -9,6 +9,7 @@ const firestoreDBSlice = createSlice({
     initialState,
     reducers: {
         getFirebaseUsersData: (state, { payload }) => {
+            // console.log(payload)
             state.value = payload
         }
     }

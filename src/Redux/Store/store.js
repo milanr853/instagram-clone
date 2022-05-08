@@ -23,7 +23,7 @@ const store = configureStore({
         userReducer,
         inputReducer,
         firestoreDBReducer,
-        selectedUserDataReducer
+        selectedUserDataReducer,
     }
 })
 

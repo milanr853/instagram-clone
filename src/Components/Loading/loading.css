@@ -1,0 +1,17 @@
+.loadingHolder {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+    /* background: bisque; */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#spinner {
+    object-fit: cover;
+    width: 30%;
+
+}
