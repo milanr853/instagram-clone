@@ -9,7 +9,6 @@ import SearchResultsDisplay from "../SearchResultsDisplay/SearchResultsDisplay"
 import { useDispatch, useSelector } from "react-redux"
 
 import { showContainer } from "../../Redux/Feature/showSearchResultsContainerSlice"
-import { getRequiredData } from "../../Redux/Feature/usersSlice"
 
 import { setInput } from "../../Redux/Feature/inputSlice"
 
@@ -26,11 +25,7 @@ function ExplorePage() {
 
     const allImages = useSelector(store => store.imagesReducer.value)
 
-    let allUsers = useSelector(store => store.userReducer.allFetched)
-
-    useEffect(() => { dispatch(getRequiredData(allUsers)) }, [allUsers])
-
-    const AllUsers = useSelector(store => store.userReducer.requiredData)
+    const AllUsers = useSelector(store => store.firestoreDBReducer.value)
 
 
     // -------------EVENTS----------------
@@ -60,7 +55,7 @@ function ExplorePage() {
         setFilteredUsers(
             [...AllUsers.filter(user => {
                 if (input) {
-                    if (user.login.username.includes(input)) return user
+                    if (user.Username.includes(input)) return user
                 }
             })]
         )

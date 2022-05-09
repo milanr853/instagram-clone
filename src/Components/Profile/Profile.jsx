@@ -4,7 +4,7 @@ import React, { useEffect, useMemo, useState } from 'react'
 
 import bg from "../../Extra/bg2.jpg"
 import { useDispatch, useSelector } from "react-redux"
-import { showIndividualPost } from "../../Redux/Feature/individualPostSlice"
+import { showIndividualPost, chooseImg } from "../../Redux/Feature/individualPostSlice"
 import { db, storage } from "../../Database/firebaseConfig"
 import { useAuth } from "../../Database/authenticate"
 import { getDownloadURL, listAll, ref, uploadBytesResumable } from "firebase/storage"
@@ -31,8 +31,9 @@ function Profile() {
     const user = useAuth()
 
     // ---------------------------------
-    const ShowIndividualPost = () => {
+    const ShowIndividualPost = (e) => {
         dispatch(showIndividualPost())
+        dispatch(chooseImg({ clickedImg: e.target.src, All_Images, Username, ProfilePic }))
         document.querySelector("body").style.overflowY = "hidden"
     }
 

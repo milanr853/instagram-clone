@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 
-const initialState = { value: "none" }
+const initialState = { value: "none", selectedImg: "", userData: "" }
 
 const individualPostDisplay = createSlice({
     name: "individualPostDisplay",
@@ -12,11 +12,19 @@ const individualPostDisplay = createSlice({
         },
         hideIndividualPost: (state, action) => {
             state.value = "none"
+        },
+        chooseImg: (state, { payload }) => {
+            const { clickedImg, All_Images, Username, ProfilePic } = payload
+            const selected = All_Images.filter(obj => {
+                if (obj.url === clickedImg) return obj
+            })
+            state.selectedImg = selected[0]
+            state.userData = { Username, ProfilePic }
         }
     }
 })
 
 
-export const { showIndividualPost, hideIndividualPost } = individualPostDisplay.actions
+export const { showIndividualPost, hideIndividualPost, chooseImg } = individualPostDisplay.actions
 
 export default individualPostDisplay.reducer

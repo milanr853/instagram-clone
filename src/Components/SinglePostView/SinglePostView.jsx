@@ -1,15 +1,29 @@
 import "./singlePostView.css"
 
-import React from 'react'
+import React, { useRef, useState } from 'react'
 
 import bg from "../../Extra/instaBg.jpg"
 
 import { useDispatch, useSelector } from "react-redux"
 import { hideIndividualPost } from "../../Redux/Feature/individualPostSlice"
+import { db } from "../../Database/firebaseConfig"
+import { doc, updateDoc } from "firebase/firestore"
 
 
 function SinglePostView() {
     const display = useSelector(store => store.individualPostDisplayReducer.value)
+
+    const { selectedImg, userData } = useSelector(store => store.individualPostDisplayReducer)
+
+    let { All_Images } = useSelector(store => store.selectedUserDataReducer.userData)
+
+    let { id, comments, url, caption, like_count } = selectedImg
+
+    let { Username, ProfilePic } = userData
+
+    const [comment, setComment] = useState(null)
+
+    const commentRef = useRef()
 
     const dispatch = useDispatch()
 
@@ -24,6 +38,39 @@ function SinglePostView() {
         e.target.style.color = "#ed4956"
     }
 
+    // -----------------------------------------
+    const handleCommentInput = (e) => {
+        // setComment(e.target.value)
+    }
+
+
+    const handleCommentPost = () => {
+        // if (comment) {
+        //     const docRef = doc(db, 'registeredUsersCredentials', id)
+        //     const obj = {
+        //         comment: comment,
+        //         userDetails: ""
+        //     }
+
+        //     const Cmnts = [...comments]
+        //     Cmnts.push(obj)
+        //     comments = Cmnts
+
+        //     All_Images.forEach(IMG => {
+        //         if (IMG.id === id) {
+        //             IMG = selectedImg
+        //         }
+        //     })
+
+        //     updateDoc(docRef, {
+        //         All_Images
+        //     })
+        //     setComment(null)
+        //     commentRef.current.value = ""
+        // }
+    }
+
+
 
 
     return (
@@ -31,7 +78,7 @@ function SinglePostView() {
             <i className="bi bi-x-lg" onClick={HideIndividualPost}></i>
             <div className="individualPostContainer">
                 <div className="photoPart">
-                    <img src={bg} alt="" />
+                    <img src={url} alt="uploadedPost" />
                 </div>
 
 
@@ -40,21 +87,21 @@ function SinglePostView() {
                 <div className="commentsPart">
                     <div className="commentPartHeader">
                         <div id="img">
-                            <img src={bg} alt="" />
+                            <img src={ProfilePic} alt="userProfilePic" />
                         </div>
                         <div id="name">
-                            <strong>user_name</strong>
+                            <strong>{Username}</strong>
                         </div>
                     </div>
 
                     <div className="allCommentsArea">
-                        <div className="Comment">
+                        <div className="Comment captionHolder">
                             <div className="cmtImgCntnr">
-                                <img src={bg} alt="" />
+                                <img src={ProfilePic} alt="userProfilePic" />
                             </div>
-                            <span className="userComment">
-                                <strong>user_name </strong>
-                                Lorem ipsum dolor sit amet consectetur adipisicing elit. Cupiditate laboriosam repudiandae numquam Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusantium, optio. fugiat veritatis eius tempora quod ipsa laborum totam.
+                            <span className="userComment ">
+                                <strong>{Username} </strong>
+                                {caption}
                             </span>
                         </div>
                         <div className="Comment">
@@ -75,13 +122,13 @@ function SinglePostView() {
                             <i className="bi bi-dash-square postBottomIcons"></i>
                         </div>
                         <div className="postBottomInfoBlock">
-                            <strong id='likesCount'>xxxLikesCount</strong>
+                            <strong id='likesCount'>{like_count} Likes</strong>
                             <small id='daysAgo'>Days ago</small>
                         </div>
                         <div className="postBottomAddComment">
                             <i className="bi bi-emoji-smile emoji"></i>
-                            <input type="text" id="textArea" placeholder="Add a comment..." />
-                            <span className="postOption">Post</span>
+                            <input type="text" id="textArea" placeholder="Add a comment..." ref={commentRef} />
+                            <span className="postOption" >Post</span>
                         </div>
                     </div>
                 </div>

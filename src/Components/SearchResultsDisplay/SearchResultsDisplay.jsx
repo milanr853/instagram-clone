@@ -20,16 +20,16 @@ function SearchResultsDisplay({ usersArr }) {
 
 
     const relevantUsers = usersArr.length !== 0 && usersArr.map(user => {
-        const { login, name, picture } = user
+        const { Username, Fullname, ProfilePic } = user
 
         return (
-            <Link to={`/profile/${login.username}`} className="SearchProfileResult" key={nanoid()} >
+            <Link to={`/profile/${Username}`} className="SearchProfileResult" key={nanoid()} >
                 <div className="userAvatar">
-                    <img src={picture.thumbnail} alt="user_image" id="userAvatarImage" />
+                    <img src={ProfilePic} alt="user_image" id="userAvatarImage" />
                 </div>
                 <div className="userInfoFromSearchContainer">
-                    <strong className="userNameFromSearch">{login.username}</strong>
-                    <p className="fullNameOfUserFromSearch">{`${name.first} ${name.last}`}</p>
+                    <strong className="userNameFromSearch">{Username}</strong>
+                    <p className="fullNameOfUserFromSearch">{`${Fullname}`}</p>
                 </div>
             </Link>
         )

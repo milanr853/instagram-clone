@@ -12,7 +12,6 @@ import { useDispatch, useSelector } from 'react-redux'
 import AccountOptions from "../Accounts/AccountOptions"
 import SearchResultsDisplay from "../SearchResultsDisplay/SearchResultsDisplay"
 import { showContainer } from "../../Redux/Feature/showSearchResultsContainerSlice"
-import { getRequiredData } from "../../Redux/Feature/usersSlice"
 
 import { setInput } from "../../Redux/Feature/inputSlice"
 
@@ -35,12 +34,7 @@ function Header() {
 
     // -------------------------------
 
-    let allUsers = useSelector(store => store.userReducer.allFetched)
-
-    useEffect(() => { dispatch(getRequiredData(allUsers)) }, [allUsers])
-
-    const AllUsers = useSelector(store => store.userReducer.requiredData)
-
+    const AllUsers = useSelector(store => store.firestoreDBReducer.value)
 
     // --------------EVENTS--------------------
 
@@ -70,7 +64,7 @@ function Header() {
         setFilteredUsers(
             [...AllUsers.filter(user => {
                 if (input) {
-                    if (user.login.username.includes(input)) return user
+                    if (user.Username.includes(input)) return user
                 }
             })]
         )

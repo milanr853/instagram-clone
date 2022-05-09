@@ -12,7 +12,6 @@ import { makeOptionsDisappear } from "./Redux/Feature/accountOptionsVisibilitySl
 import CreatePost from "./Components/CreatePost/CreatePost";
 import { disappearContainer } from "./Redux/Feature/showSearchResultsContainerSlice";
 import SinglePostView from "./Components/SinglePostView/SinglePostView";
-import { fetchAll_Users } from "./Redux/Feature/usersSlice";
 
 
 
@@ -23,7 +22,6 @@ function App() {
 
   useEffect(() => {
     dispatch(fetchAll_Images())
-    dispatch(fetchAll_Users())
   }, [])
 
 
