@@ -6,27 +6,33 @@ import bg from "../../Extra/instaBg.jpg"
 
 import { useDispatch, useSelector } from "react-redux"
 import { hideIndividualPost } from "../../Redux/Feature/individualPostSlice"
-import { db } from "../../Database/firebaseConfig"
-import { doc, updateDoc } from "firebase/firestore"
+
+import { useNavigate } from "react-router-dom"
+
+
 
 
 function SinglePostView() {
     const display = useSelector(store => store.individualPostDisplayReducer.value)
 
+    const navigate = useNavigate()
+
     const { selectedImg, userData } = useSelector(store => store.individualPostDisplayReducer)
 
-    let { All_Images } = useSelector(store => store.selectedUserDataReducer.userData)
+    // let { All_Images } = useSelector(store => store.selectedUserDataReducer.userData)
 
     let { id, comments, url, caption, like_count } = selectedImg
 
     let { Username, ProfilePic } = userData
 
-    const [comment, setComment] = useState(null)
+    // const [comment, setComment] = useState(null)
 
     const commentRef = useRef()
 
     const dispatch = useDispatch()
 
+
+    //EVENTS
     const HideIndividualPost = () => {
         dispatch(hideIndividualPost())
         document.querySelector("body").style.overflowY = "scroll"
@@ -39,36 +45,36 @@ function SinglePostView() {
     }
 
     // -----------------------------------------
-    const handleCommentInput = (e) => {
-        // setComment(e.target.value)
-    }
+    // const handleCommentInput = (e) => {
+    //     // setComment(e.target.value)
+    // }
 
 
-    const handleCommentPost = () => {
-        // if (comment) {
-        //     const docRef = doc(db, 'registeredUsersCredentials', id)
-        //     const obj = {
-        //         comment: comment,
-        //         userDetails: ""
-        //     }
+    // const handleCommentPost = () => {
+    //     // if (comment) {
+    //     //     const docRef = doc(db, 'registeredUsersCredentials', id)
+    //     //     const obj = {
+    //     //         comment: comment,
+    //     //         userDetails: ""
+    //     //     }
 
-        //     const Cmnts = [...comments]
-        //     Cmnts.push(obj)
-        //     comments = Cmnts
+    //     //     const Cmnts = [...comments]
+    //     //     Cmnts.push(obj)
+    //     //     comments = Cmnts
 
-        //     All_Images.forEach(IMG => {
-        //         if (IMG.id === id) {
-        //             IMG = selectedImg
-        //         }
-        //     })
+    //     //     All_Images.forEach(IMG => {
+    //     //         if (IMG.id === id) {
+    //     //             IMG = selectedImg
+    //     //         }
+    //     //     })
 
-        //     updateDoc(docRef, {
-        //         All_Images
-        //     })
-        //     setComment(null)
-        //     commentRef.current.value = ""
-        // }
-    }
+    //     //     updateDoc(docRef, {
+    //     //         All_Images
+    //     //     })
+    //     //     setComment(null)
+    //     //     commentRef.current.value = ""
+    //     // }
+    // }
 
 
 
@@ -87,10 +93,10 @@ function SinglePostView() {
                 <div className="commentsPart">
                     <div className="commentPartHeader">
                         <div id="img">
-                            <img src={ProfilePic} alt="userProfilePic" />
+                            <img src={ProfilePic} alt="userProfilePic" style={{ cursor: "pointer" }} onClick={() => navigate(`/profile/${Username}`)} />
                         </div>
                         <div id="name">
-                            <strong>{Username}</strong>
+                            <strong style={{ cursor: "pointer" }} onClick={() => navigate(`/profile/${Username}`)}>{Username}</strong>
                         </div>
                     </div>
 

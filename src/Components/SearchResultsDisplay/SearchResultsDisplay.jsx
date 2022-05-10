@@ -5,9 +5,9 @@ import React from 'react'
 import { useSelector } from "react-redux"
 import { nanoid } from "@reduxjs/toolkit"
 
-import { Link } from "react-router-dom"
+import { useNavigate } from "react-router-dom"
 
-
+import defaultIMG from "../../Extra/default.jpg"
 
 
 
@@ -16,22 +16,29 @@ function SearchResultsDisplay({ usersArr }) {
 
     // --------------------------
 
-
+    const navigate = useNavigate()
 
 
     const relevantUsers = usersArr.length !== 0 && usersArr.map(user => {
         const { Username, Fullname, ProfilePic } = user
 
+
+
+        const takeToProfile = (e) => {
+            navigate(`/profile/${Username}`)
+        }
+
+
         return (
-            <Link to={`/profile/${Username}`} className="SearchProfileResult" key={nanoid()} >
+            <div className="SearchProfileResult" key={nanoid()} id={Username} onClick={takeToProfile}>
                 <div className="userAvatar">
-                    <img src={ProfilePic} alt="user_image" id="userAvatarImage" />
+                    <img src={ProfilePic ? ProfilePic : defaultIMG} alt="user_image" id="userAvatarImage" />
                 </div>
                 <div className="userInfoFromSearchContainer">
                     <strong className="userNameFromSearch">{Username}</strong>
                     <p className="fullNameOfUserFromSearch">{`${Fullname}`}</p>
                 </div>
-            </Link>
+            </div>
         )
     })
 

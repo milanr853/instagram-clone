@@ -2,17 +2,19 @@ import "./profile.css"
 
 import React, { useEffect, useMemo, useState } from 'react'
 
-import bg from "../../Extra/bg2.jpg"
 import { useDispatch, useSelector } from "react-redux"
 import { showIndividualPost, chooseImg } from "../../Redux/Feature/individualPostSlice"
 import { db, storage } from "../../Database/firebaseConfig"
 import { useAuth } from "../../Database/authenticate"
-import { getDownloadURL, listAll, ref, uploadBytesResumable } from "firebase/storage"
+import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage"
 import { nanoid } from "@reduxjs/toolkit"
 
 import defaultIMG from "../../Extra/default.jpg"
 import Loading from "../Loading/Loading"
 import { doc, updateDoc } from "firebase/firestore"
+import { useParams } from "react-router-dom"
+import { getSpecificUserProfile } from "../../Redux/Feature/userDataFromDbSlice"
+
 
 
 function Profile() {
@@ -26,17 +28,34 @@ function Profile() {
 
     const { Fullname, Username, All_Images, id, ProfilePic } = useSelector(store => store.selectedUserDataReducer.userData)
 
+    const selectedUser = useSelector(store => store.selectedUserDataReducer.specificProfileData)
+
+    const All_Data = useSelector(store => store.firestoreDBReducer.value)
+
     // ---------------------------------
 
     const user = useAuth()
 
+    const { param } = useParams()
+
+
     // ---------------------------------
     const ShowIndividualPost = (e) => {
+        dispatch(chooseImg({
+            clickedImg: e.target.src,
+            All_Images: selectedUser.All_Images ? selectedUser.All_Images : All_Images,
+            Username: selectedUser.Username ? selectedUser.Username : Username,
+            ProfilePic: selectedUser.ProfilePic ? selectedUser.ProfilePic : ProfilePic
+        }))
         dispatch(showIndividualPost())
-        dispatch(chooseImg({ clickedImg: e.target.src, All_Images, Username, ProfilePic }))
         document.querySelector("body").style.overflowY = "hidden"
     }
 
+
+    useEffect(() => {
+        if (param === Username) return
+        dispatch(getSpecificUserProfile({ All_Data, selectedUser: param }))
+    }, [Username])
 
 
     // Profile Picture Upload To Firebase Storage
@@ -76,12 +95,15 @@ function Profile() {
 
     // Images Url To Render
     useEffect(() => {
-        const imagesUrl = All_Images?.map(obj => {
+        const imagesUrl = selectedUser.All_Images ? selectedUser?.All_Images.map(obj => {
+            const { url } = obj
+            return url
+        }) : All_Images?.map(obj => {
             const { url } = obj
             return url
         })
         setUploadsList(imagesUrl)
-    }, [All_Images])
+    }, [All_Images, selectedUser])
 
 
     const renderImagesList = () => {
@@ -93,7 +115,9 @@ function Profile() {
         return imagesList
     }
 
-    const renderPosts = useMemo(() => renderImagesList(), [All_Images])
+
+    const renderPosts = useMemo(() => renderImagesList(), [uploadsList])
+
 
 
 
@@ -104,18 +128,25 @@ function Profile() {
                     <div className="profileImageSection">
                         <div className="profileImageContainer">
                             <input type="file" name="profile_upload" id="profile_upload" onChange={(e) => { setProfilePicture(e.target.files[0]) }} style={{ display: user ? "block" : "none" }} />
-                            <img src={ProfilePic ? ProfilePic : defaultIMG} alt="profile-image" id="profileImage" />
+
+                            {
+                                param === Username ?
+                                    <img src={ProfilePic ? ProfilePic : defaultIMG} alt="profile-image" id="profileImage" />
+                                    :
+                                    <img src={selectedUser.ProfilePic ? selectedUser.ProfilePic : defaultIMG} alt="profile-image" id="profileImage" />
+                            }
+
                             {profilePicture && progress < 100 ? <Loading /> : <></>}
                         </div>
                     </div>
                     <div className="profileInfoSection">
-                        <p id="profileName">{Username}</p>
+                        <p id="profileName">{param === Username ? Username : selectedUser?.Username}</p>
                         <p id="totalposts"><strong>{uploadsList?.length}</strong> posts</p>
-                        <strong id="fullname">{Fullname}</strong>
+                        <strong id="fullname">{param === Username ? Fullname : selectedUser?.Fullname}</strong>
                     </div>
                 </div>
                 <div className="profileInfoSectionSmaller" >
-                    <strong className="fullname_smaller" >Full Name</strong>
+                    <strong className="fullname_smaller" >{param === Username ? Fullname : selectedUser?.Fullname}</strong>
                     <p className="totalpostsCount"><strong>{uploadsList?.length}</strong> posts</p>
                 </div>
             </div>

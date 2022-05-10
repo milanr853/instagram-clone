@@ -3,9 +3,6 @@ import "./Body.css"
 
 import { Routes, Route, useLocation } from "react-router-dom"
 
-
-
-
 import AllPostsWrapper from "../AllPostsWrapper/AllPostsWrapper"
 import Inbox from '../Inbox/Inbox'
 import Favorites from "../Favorites/Favorites"
@@ -14,17 +11,28 @@ import Profile from '../Profile/Profile'
 import ExplorePage from '../ExplorePage/ExplorePage'
 
 import { setInput } from "../../Redux/Feature/inputSlice"
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
+import { clearUserData } from '../../Redux/Feature/userDataFromDbSlice'
 
 
 function Body() {
     const dispatch = useDispatch()
 
     const { pathname } = useLocation()
+
+
+    const selectedUser = useSelector(store => store.selectedUserDataReducer.specificProfileData)
+
+
     useEffect(() => {
         dispatch(setInput(""))
         document.querySelector(".search").value = ""
+
+        if (!pathname.includes(selectedUser.Username)) {
+            dispatch(clearUserData())
+        }
     }, [pathname])
+
 
 
 

@@ -52,12 +52,10 @@ function CreatePost() {
     useEffect(() => {
         const generatePreview = async () => {
             if (!file) return
-            if (file) {
-                const reader = new FileReader()
-                reader.readAsDataURL(file)
-                reader.onload = () => {
-                    setPreview(reader.result)
-                }
+            const reader = new FileReader()
+            reader.readAsDataURL(file)
+            reader.onload = () => {
+                setPreview(reader.result)
             }
         }
         generatePreview()

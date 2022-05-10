@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 
-const initialState = { userData: {} }
+const initialState = { userData: {}, specificProfileData: {} }
 
 
 const selectedUserDataSlice = createSlice({
@@ -17,10 +17,22 @@ const selectedUserDataSlice = createSlice({
                 }
             }
         },
+        getSpecificUserProfile: (state, { payload }) => {
+            const { All_Data, selectedUser } = payload
+            for (let i = 0; i < All_Data.length; i++) {
+                if (selectedUser === All_Data[i].Username) {
+                    state.specificProfileData = All_Data[i]
+                    break
+                }
+            }
+        },
+        clearUserData: (state, action) => {
+            state.specificProfileData = {}
+        }
 
     }
 })
 
 
-export const { getUserDataFromDB, getAllData } = selectedUserDataSlice.actions
+export const { getSpecificUserProfile, getAllData, clearUserData } = selectedUserDataSlice.actions
 export default selectedUserDataSlice.reducer

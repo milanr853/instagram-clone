@@ -79,6 +79,7 @@ function SignUp() {
         }
     }, [usernameLength])
 
+
     // -----------------FIREBASE-REGISTRATION------------------
     const authenticateUser = () => {
         const user_credential = {

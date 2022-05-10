@@ -1,6 +1,6 @@
 import "./explore.css"
 
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 
 import { nanoid } from "@reduxjs/toolkit"
 
@@ -11,6 +11,8 @@ import { useDispatch, useSelector } from "react-redux"
 import { showContainer } from "../../Redux/Feature/showSearchResultsContainerSlice"
 
 import { setInput } from "../../Redux/Feature/inputSlice"
+import { showIndividualPost } from "../../Redux/Feature/individualPostSlice"
+
 
 
 
@@ -23,9 +25,29 @@ function ExplorePage() {
 
     const input = useSelector(store => store.inputReducer.input)
 
-    const allImages = useSelector(store => store.imagesReducer.value)
-
     const AllUsers = useSelector(store => store.firestoreDBReducer.value)
+
+
+
+
+
+    const ImgsArrRender = () => {
+        const ImgArr = []
+        const all = [...AllUsers]
+        const IMAGES = all.map(user => user.All_Images.map(obj => obj.url))
+        IMAGES.forEach((arr) => {
+            arr.forEach(e => ImgArr.push(e))
+        })
+        return ImgArr.map(url => {
+            return (
+                <img src={url} alt="exploreImage" className="explorePageImage" key={nanoid()} />
+            )
+        })
+    }
+
+    const renderImages = useMemo(() => ImgsArrRender(), [AllUsers])
+
+
 
 
     // -------------EVENTS----------------
@@ -33,22 +55,10 @@ function ExplorePage() {
         dispatch(showContainer())
     }
 
+
     const handleChangeEvent = (e) => {
         dispatch(setInput(refr.current.value))
     }
-
-    // ---------------------------------------
-
-
-    // ----------------ARRAY------------------
-    const renderImages = allImages ?
-        allImages.map(obj => {
-            const { regular } = obj.urls
-            return (
-                <img src={regular} alt="exploreImage" className="explorePageImage" key={nanoid()} />
-            )
-        })
-        : []
 
 
     useEffect(() => {
@@ -80,4 +90,4 @@ function ExplorePage() {
     )
 }
 
-export default ExplorePage
+export default React.memo(ExplorePage)

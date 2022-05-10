@@ -11,6 +11,7 @@ import { readFirebaseDB } from './Database/firestoreDB'
 import { getFirebaseUsersData } from './Redux/Feature/firebaseUsersDatabaseSlice'
 import { getAllData } from './Redux/Feature/userDataFromDbSlice'
 import { useAuth } from './Database/authenticate'
+import { useLocation, useNavigate } from 'react-router-dom'
 
 
 
@@ -38,10 +39,11 @@ function Wrapper() {
     const All_Data = useSelector(store => store.firestoreDBReducer.value)
 
 
+
     //Dispatch Action to get the current user data from Store
     useEffect(() => {
         // console.log(All_Data)
-        dispatch(getAllData({ DB: All_Data, currentUserMail: user?.email }))
+        dispatch(getAllData({ DB: All_Data, currentUserMail: user?.email, username: "" }))
     }, [user, All_Data])
 
 

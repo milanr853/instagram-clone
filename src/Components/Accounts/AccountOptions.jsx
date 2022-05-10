@@ -17,10 +17,13 @@ function AccountOptions() {
     const { Username } = useSelector(store => store.selectedUserDataReducer.userData)
 
 
+    //EVENT
     const logoutUser = async () => {
         await signOut(auth)
         navigate("/login")
     }
+
+
 
 
     return (
