@@ -45,7 +45,8 @@ function Profile() {
             clickedImg: e.target.src,
             All_Images: selectedUser.All_Images ? selectedUser.All_Images : All_Images,
             Username: selectedUser.Username ? selectedUser.Username : Username,
-            ProfilePic: selectedUser.ProfilePic ? selectedUser.ProfilePic : ProfilePic
+            ProfilePic: selectedUser.ProfilePic ? selectedUser.ProfilePic : ProfilePic,
+            ID: selectedUser.id ? selectedUser.id : id,
         }))
         dispatch(showIndividualPost())
         document.querySelector("body").style.overflowY = "hidden"

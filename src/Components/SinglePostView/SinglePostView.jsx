@@ -8,6 +8,8 @@ import { useDispatch, useSelector } from "react-redux"
 import { hideIndividualPost } from "../../Redux/Feature/individualPostSlice"
 
 import { useNavigate } from "react-router-dom"
+import { addDoc, collection } from "firebase/firestore"
+import { db } from "../../Database/firebaseConfig"
 
 
 
@@ -23,9 +25,9 @@ function SinglePostView() {
 
     let { id, comments, url, caption, like_count } = selectedImg
 
-    let { Username, ProfilePic } = userData
+    let { Username, ProfilePic, ID } = userData
 
-    // const [comment, setComment] = useState(null)
+    const [comment, setComment] = useState(null)
 
     const commentRef = useRef()
 
@@ -45,36 +47,19 @@ function SinglePostView() {
     }
 
     // -----------------------------------------
-    // const handleCommentInput = (e) => {
-    //     // setComment(e.target.value)
-    // }
+    const handleCommentInput = (e) => {
+        setComment(e.target.value)
+    }
 
 
-    // const handleCommentPost = () => {
-    //     // if (comment) {
-    //     //     const docRef = doc(db, 'registeredUsersCredentials', id)
-    //     //     const obj = {
-    //     //         comment: comment,
-    //     //         userDetails: ""
-    //     //     }
+    const AddCommentPost = async () => {
+        const docRef = collection(db, "registeredUsersCredentials", ID, 'Comments')
 
-    //     //     const Cmnts = [...comments]
-    //     //     Cmnts.push(obj)
-    //     //     comments = Cmnts
+        // await addDoc(docRef, {
+        //     comment: comment
+        // })
 
-    //     //     All_Images.forEach(IMG => {
-    //     //         if (IMG.id === id) {
-    //     //             IMG = selectedImg
-    //     //         }
-    //     //     })
-
-    //     //     updateDoc(docRef, {
-    //     //         All_Images
-    //     //     })
-    //     //     setComment(null)
-    //     //     commentRef.current.value = ""
-    //     // }
-    // }
+    }
 
 
 
@@ -133,8 +118,8 @@ function SinglePostView() {
                         </div>
                         <div className="postBottomAddComment">
                             <i className="bi bi-emoji-smile emoji"></i>
-                            <input type="text" id="textArea" placeholder="Add a comment..." ref={commentRef} />
-                            <span className="postOption" >Post</span>
+                            <input type="text" id="textArea" placeholder="Add a comment..." ref={commentRef} onChange={handleCommentInput} />
+                            <span className="postOption" onClick={AddCommentPost}>Post</span>
                         </div>
                     </div>
                 </div>

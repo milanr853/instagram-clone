@@ -14,12 +14,12 @@ const individualPostDisplay = createSlice({
             state.value = "none"
         },
         chooseImg: (state, { payload }) => {
-            const { clickedImg, All_Images, Username, ProfilePic } = payload
+            const { clickedImg, All_Images, Username, ProfilePic, ID } = payload
             const selected = All_Images.filter(obj => {
                 if (obj.url === clickedImg) return obj
             })
             state.selectedImg = selected[0]
-            state.userData = { Username, ProfilePic }
+            state.userData = { Username, ProfilePic, ID }
         }
     }
 })
