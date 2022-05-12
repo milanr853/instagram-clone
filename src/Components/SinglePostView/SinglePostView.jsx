@@ -1,15 +1,16 @@
 import "./singlePostView.css"
 
-import React, { useRef, useState } from 'react'
+import React, { useEffect, useMemo, useRef, useState } from 'react'
 
-import bg from "../../Extra/instaBg.jpg"
+import defaultImg from "../../Extra/default.jpg"
 
 import { useDispatch, useSelector } from "react-redux"
 import { hideIndividualPost } from "../../Redux/Feature/individualPostSlice"
 
 import { useNavigate } from "react-router-dom"
-import { addDoc, collection } from "firebase/firestore"
+import { addDoc, collection, getDocs, onSnapshot, orderBy, query, serverTimestamp } from "firebase/firestore"
 import { db } from "../../Database/firebaseConfig"
+import { nanoid } from "@reduxjs/toolkit"
 
 
 
@@ -21,7 +22,7 @@ function SinglePostView() {
 
     const { selectedImg, userData } = useSelector(store => store.individualPostDisplayReducer)
 
-    // let { All_Images } = useSelector(store => store.selectedUserDataReducer.userData)
+    let authUserData = useSelector(store => store.selectedUserDataReducer.userData)
 
     let { id, comments, url, caption, like_count } = selectedImg
 
@@ -33,10 +34,14 @@ function SinglePostView() {
 
     const dispatch = useDispatch()
 
+    const [commentsArr, setCommentsArr] = useState([])
+
 
     //EVENTS
     const HideIndividualPost = () => {
         dispatch(hideIndividualPost())
+        commentRef.current.value = ''
+        setComment(null)
         document.querySelector("body").style.overflowY = "scroll"
     }
 
@@ -46,6 +51,7 @@ function SinglePostView() {
         e.target.style.color = "#ed4956"
     }
 
+
     // -----------------------------------------
     const handleCommentInput = (e) => {
         setComment(e.target.value)
@@ -53,13 +59,58 @@ function SinglePostView() {
 
 
     const AddCommentPost = async () => {
-        const docRef = collection(db, "registeredUsersCredentials", ID, 'Comments')
+        if (!comment.trim()) return
 
-        // await addDoc(docRef, {
-        //     comment: comment
-        // })
+        commentRef.current.value = ""
 
+        const docRef = collection(db, "registeredUsersCredentials", ID, `CommentsFor${id}`)
+
+
+        await addDoc(docRef, {
+            comment: comment.trim(),
+            comentedUsername: authUserData?.Username,
+            comentedProfilePic: authUserData?.ProfilePic ? authUserData?.ProfilePic : "",
+            timestamp: serverTimestamp()
+        })
+
+        setComment(null)
     }
+
+
+    useEffect(() => {
+        if (!id) return
+
+        const getAllComments = async () => {
+            const docRef = onSnapshot(query(collection(db, "registeredUsersCredentials", ID, `CommentsFor${id}`),
+                orderBy('timestamp', 'desc')), snapshot => setCommentsArr(snapshot.docs))
+        }
+        getAllComments()
+    }, [id, db])
+
+
+
+
+    const CommentsList = () => {
+        const cmntsList = commentsArr.map(obj => {
+            const { comment, comentedProfilePic, comentedUsername } = obj.data()
+            console.log("apple")
+            return (
+                <div className="Comment" key={nanoid()}>
+                    <div className="cmtImgCntnr">
+                        <img src={comentedProfilePic ? comentedProfilePic : defaultImg} alt="profilePic" />
+                    </div>
+                    <span className="userComment">
+                        <strong>{comentedUsername} </strong>
+                        {comment}
+                    </span>
+                </div>
+            )
+        })
+        return cmntsList
+    }
+
+
+    const renderComments = useMemo(() => CommentsList(), [commentsArr])
 
 
 
@@ -95,15 +146,8 @@ function SinglePostView() {
                                 {caption}
                             </span>
                         </div>
-                        <div className="Comment">
-                            <div className="cmtImgCntnr">
-                                <img src={bg} alt="" />
-                            </div>
-                            <span className="userComment">
-                                <strong>user_name </strong>
-                                Lorem ipsum dolor sit amet consectetur adipisicing elit. Cupiditate laboriosam repudiandae numquam Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusantium, optio. fugiat veritatis eius tempora quod ipsa laborum totam.
-                            </span>
-                        </div>
+                        {renderComments}
+
                     </div>
 
                     <div className="commentPartBottom">

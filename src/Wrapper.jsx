@@ -4,15 +4,11 @@ import { useDispatch, useSelector } from 'react-redux'
 import App from './App'
 
 import ToAuthenticate from './ToAuthenticate'
-import { auth } from "./Database/firebaseConfig"
 
-import { onAuthStateChanged } from "firebase/auth"
 import { readFirebaseDB } from './Database/firestoreDB'
 import { getFirebaseUsersData } from './Redux/Feature/firebaseUsersDatabaseSlice'
 import { getAllData } from './Redux/Feature/userDataFromDbSlice'
 import { useAuth } from './Database/authenticate'
-import { useLocation, useNavigate } from 'react-router-dom'
-
 
 
 function Wrapper() {

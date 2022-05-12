@@ -8,6 +8,7 @@ import individualPostDisplayReducer from "../Feature/individualPostSlice"
 import inputReducer from "../Feature/inputSlice"
 import firestoreDBReducer from "../Feature/firebaseUsersDatabaseSlice"
 import selectedUserDataReducer from "../Feature/userDataFromDbSlice"
+import authUserReducer from "../Feature/authUserSlice"
 
 
 
@@ -22,6 +23,7 @@ const store = configureStore({
         inputReducer,
         firestoreDBReducer,
         selectedUserDataReducer,
+        authUserReducer
     }
 })
 
