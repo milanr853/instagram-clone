@@ -4,7 +4,7 @@ import defaultImg from "../../Extra/default.jpg"
 import { useDispatch, useSelector } from "react-redux"
 import { hideIndividualPost } from "../../Redux/Feature/individualPostSlice"
 import { useNavigate } from "react-router-dom"
-import { addDoc, collection, onSnapshot, orderBy, query, serverTimestamp } from "firebase/firestore"
+import { addDoc, collection, deleteDoc, doc, onSnapshot, orderBy, query, serverTimestamp, setDoc } from "firebase/firestore"
 import { db } from "../../Database/firebaseConfig"
 import { nanoid } from "@reduxjs/toolkit"
 import moment from "moment"
@@ -111,13 +111,18 @@ function SinglePostView() {
 
     //Likes Part____________________
     const AddLikeData = async () => {
-        if (authUserLiked) return
-        const docRef = collection(db, "registeredUsersCredentials", ID, `LikesFor${id}`)
-        await addDoc(docRef, {
-            like_value: 1,
-            authUser: authUserData?.Username,
-            timestamp: serverTimestamp()
-        })
+        if (authUserLiked) {
+            const docRef = doc(db, "registeredUsersCredentials", ID, `LikesFor${id}`, authUserData?.Username)
+            deleteDoc(docRef)
+            setAuthUserLiked(false)
+            return
+        }
+        else {
+            const docRef = doc(db, "registeredUsersCredentials", ID, `LikesFor${id}`, authUserData?.Username)
+            await setDoc(docRef, {
+                authUser: authUserData?.Username,
+            })
+        }
     }
 
 
