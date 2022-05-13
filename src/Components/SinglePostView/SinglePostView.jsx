@@ -22,7 +22,7 @@ function SinglePostView() {
 
     let authUserData = useSelector(store => store.selectedUserDataReducer.userData)
 
-    let { id, url, caption, like_count, timestamp } = selectedImg
+    let { id, url, caption, timestamp } = selectedImg
 
     timestamp = new Date(timestamp)
 
@@ -33,6 +33,10 @@ function SinglePostView() {
     const commentRef = useRef()
 
     const [commentsArr, setCommentsArr] = useState([])
+
+    const [likesArr, setLikesArr] = useState([])
+
+    const [authUserLiked, setAuthUserLiked] = useState(false)
 
     const dispatch = useDispatch()
 
@@ -46,13 +50,8 @@ function SinglePostView() {
     }
 
 
-    const likePost = (e) => {
-        e.target.classList.replace("bi-heart", "bi-heart-fill")
-        e.target.style.color = "#ed4956"
-    }
 
-
-    // -----------------------------------------
+    //Comments Part____________________
     const handleCommentInput = (e) => {
         setComment(e.target.value)
     }
@@ -64,7 +63,6 @@ function SinglePostView() {
         commentRef.current.value = ""
 
         const docRef = collection(db, "registeredUsersCredentials", ID, `CommentsFor${id}`)
-
 
         await addDoc(docRef, {
             comment: comment.trim(),
@@ -79,9 +77,8 @@ function SinglePostView() {
 
     useEffect(() => {
         if (!id) return
-
         const getAllComments = async () => {
-            const docRef = onSnapshot(query(collection(db, "registeredUsersCredentials", ID, `CommentsFor${id}`),
+            onSnapshot(query(collection(db, "registeredUsersCredentials", ID, `CommentsFor${id}`),
                 orderBy('timestamp', 'desc')), snapshot => setCommentsArr(snapshot.docs))
         }
         getAllComments()
@@ -108,6 +105,45 @@ function SinglePostView() {
 
 
     const renderComments = useMemo(() => CommentsList(), [commentsArr])
+    // -------------------------------------
+
+
+
+    //Likes Part____________________
+    const AddLikeData = async () => {
+        if (authUserLiked) return
+        const docRef = collection(db, "registeredUsersCredentials", ID, `LikesFor${id}`)
+        await addDoc(docRef, {
+            like_value: 1,
+            authUser: authUserData?.Username,
+            timestamp: serverTimestamp()
+        })
+    }
+
+
+    useEffect(() => {
+        if (!id) return
+        const getAllLikes = async () => {
+            onSnapshot(query(collection(db, "registeredUsersCredentials", ID, `LikesFor${id}`),
+            ), snapshot => setLikesArr(snapshot.docs))
+        }
+        getAllLikes()
+    }, [id, db])
+
+
+    const likedByUsersList = useMemo(() => {
+        return likesArr.map(obj => {
+            const { authUser } = obj.data()
+            return authUser
+        })
+    }, [likesArr])
+
+
+    useEffect(() => {
+        if (likedByUsersList.includes(authUserData.Username)) setAuthUserLiked(true)
+        else setAuthUserLiked(false)
+    }, [likedByUsersList])
+    // -------------------------------------
 
 
 
@@ -149,12 +185,14 @@ function SinglePostView() {
 
                     <div className="commentPartBottom">
                         <div className="postBottomIconsBar">
-                            <i className="bi bi-heart postBottomIcons" onClick={likePost}></i>
+                            <i className={`bi ${authUserLiked ? "bi-heart-fill" : "bi-heart"} postBottomIcons`}
+                                style={{ color: authUserLiked ? "#ed4956" : "" }}
+                                onClick={AddLikeData}></i>
                             <i className="bi bi-share postBottomIcons"></i>
                             <i className="bi bi-dash-square postBottomIcons"></i>
                         </div>
                         <div className="postBottomInfoBlock">
-                            <strong id='likesCount'>{like_count} Likes</strong>
+                            <strong id='likesCount'>{likesArr.length} Likes</strong>
                             <small id='daysAgo'>{timestamp ? moment(timestamp).fromNow() : ''}</small>
                         </div>
                         <div className="postBottomAddComment">

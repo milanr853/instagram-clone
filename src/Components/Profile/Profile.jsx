@@ -141,13 +141,13 @@ function Profile() {
                     </div>
                     <div className="profileInfoSection">
                         <p id="profileName">{param === Username ? Username : selectedUser?.Username}</p>
-                        <p id="totalposts"><strong>{uploadsList?.length}</strong> posts</p>
+                        <p id="totalposts"><strong>{uploadsList?.length}</strong> {uploadsList?.length ? "posts" : ""}</p>
                         <strong id="fullname">{param === Username ? Fullname : selectedUser?.Fullname}</strong>
                     </div>
                 </div>
                 <div className="profileInfoSectionSmaller" >
                     <strong className="fullname_smaller" >{param === Username ? Fullname : selectedUser?.Fullname}</strong>
-                    <p className="totalpostsCount"><strong>{uploadsList?.length}</strong> posts</p>
+                    <p className="totalpostsCount"><strong>{uploadsList?.length}</strong> {uploadsList?.length ? "posts" : ""}</p>
                 </div>
             </div>
 
