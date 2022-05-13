@@ -52,4 +52,4 @@ function SearchResultsDisplay({ usersArr }) {
     )
 }
 
-export default SearchResultsDisplay
+export default React.memo(SearchResultsDisplay)

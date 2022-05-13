@@ -7,11 +7,13 @@ import { useNavigate } from "react-router-dom"
 import { addDoc, collection, onSnapshot, orderBy, query, serverTimestamp } from "firebase/firestore"
 import { db } from "../../Database/firebaseConfig"
 import { nanoid } from "@reduxjs/toolkit"
+import moment from "moment"
 
 
 
 
 function SinglePostView() {
+
     const navigate = useNavigate()
 
     const display = useSelector(store => store.individualPostDisplayReducer.value)
@@ -20,7 +22,9 @@ function SinglePostView() {
 
     let authUserData = useSelector(store => store.selectedUserDataReducer.userData)
 
-    let { id, url, caption, like_count } = selectedImg
+    let { id, url, caption, like_count, timestamp } = selectedImg
+
+    timestamp = new Date(timestamp)
 
     let { Username, ProfilePic, ID } = userData
 
@@ -87,7 +91,6 @@ function SinglePostView() {
     const CommentsList = () => {
         const cmntsList = commentsArr.map(obj => {
             const { comment, comentedProfilePic, comentedUsername } = obj.data()
-            console.log("apple")
             return (
                 <div className="Comment" key={nanoid()}>
                     <div className="cmtImgCntnr">
@@ -123,7 +126,7 @@ function SinglePostView() {
                 <div className="commentsPart">
                     <div className="commentPartHeader">
                         <div id="img">
-                            <img src={ProfilePic} alt="userProfilePic" style={{ cursor: "pointer" }} onClick={() => navigate(`/profile/${Username}`)} />
+                            <img src={ProfilePic ? ProfilePic : defaultImg} alt="userProfilePic" style={{ cursor: "pointer" }} onClick={() => navigate(`/profile/${Username}`)} />
                         </div>
                         <div id="name">
                             <strong style={{ cursor: "pointer" }} onClick={() => navigate(`/profile/${Username}`)}>{Username}</strong>
@@ -133,7 +136,7 @@ function SinglePostView() {
                     <div className="allCommentsArea">
                         <div className="Comment captionHolder">
                             <div className="cmtImgCntnr">
-                                <img src={ProfilePic} alt="userProfilePic" />
+                                <img src={ProfilePic ? ProfilePic : defaultImg} alt="userProfilePic" />
                             </div>
                             <span className="userComment ">
                                 <strong>{Username} </strong>
@@ -152,7 +155,7 @@ function SinglePostView() {
                         </div>
                         <div className="postBottomInfoBlock">
                             <strong id='likesCount'>{like_count} Likes</strong>
-                            <small id='daysAgo'>Days ago</small>
+                            <small id='daysAgo'>{timestamp ? moment(timestamp).fromNow() : ''}</small>
                         </div>
                         <div className="postBottomAddComment">
                             <i className="bi bi-emoji-smile emoji"></i>
@@ -167,4 +170,4 @@ function SinglePostView() {
     )
 }
 
-export default SinglePostView
+export default React.memo(SinglePostView)

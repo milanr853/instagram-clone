@@ -11,6 +11,7 @@ import { arrayUnion, doc, serverTimestamp, updateDoc } from "firebase/firestore"
 
 
 function CreatePost() {
+
     const dispatch = useDispatch()
 
     const { Username, id } = useSelector(store => store.selectedUserDataReducer.userData)
@@ -90,12 +91,14 @@ function CreatePost() {
 
     useEffect(() => {
         if (!currentPicLink) return
+        const date = new Date().toString()
+
         const imageData = {
             id: nanoid(),
             url: currentPicLink,
             like_count: 0,
-            caption: caption.trim(),
-            timestamp: serverTimestamp()
+            caption: caption,
+            timestamp: date
         }
 
         const docRef = doc(db, 'registeredUsersCredentials', id)
@@ -187,7 +190,7 @@ function CreatePost() {
                             <div id="createPostContainerCaptionArea" style={{ display: progress === 100 ? "none" : 'flex' }}>
                                 {/* Progress Bar */}
                                 <textarea name="captionArea" id="captionArea" placeholder='Add a caption'
-                                    onChange={() => setCaption(textAreaRef.current.value)} ref={textAreaRef}></textarea>
+                                    onChange={() => setCaption(textAreaRef.current.value.trim())} ref={textAreaRef}></textarea>
                                 <button className="post" onClick={uploadPost}>Post</button>
                                 <div style={{
                                     width: "100%",
@@ -220,4 +223,4 @@ function CreatePost() {
     )
 }
 
-export default CreatePost
+export default React.memo(CreatePost)

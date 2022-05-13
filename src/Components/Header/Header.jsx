@@ -1,6 +1,7 @@
 import "./Header.css"
 import React, { useEffect, useRef, useState } from 'react'
 import logo from "../../Extra/instaLogo.png"
+import logoSmall from "../../Extra/insta_logo.png"
 import { Link, useLocation, useNavigate } from "react-router-dom"
 import { makeOptionsVisible } from "../../Redux/Feature/accountOptionsVisibilitySlice"
 import { makeUploadOptionsVisible } from "../../Redux/Feature/uploadPostOptionVisibilitySlice"
@@ -68,12 +69,16 @@ function Header() {
 
 
 
+
     return (
         <>
             <div className="Header">
                 <div className="headerFlexWrapper">
                     <div className="logoHolder">
-                        <Link to="/" id="logoBox"><img className="logo" src={logo} alt="logo" /></Link>
+                        <Link to="/" id="logoBox">
+                            <img className={window.innerWidth <= 400 ? "logoSmall" : "logo"}
+                                src={window.innerWidth <= 400 ? logoSmall : logo} alt="logo" />
+                        </Link>
                     </div>
 
                     <div className="inputHolder">
