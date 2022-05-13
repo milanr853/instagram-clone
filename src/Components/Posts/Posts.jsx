@@ -1,7 +1,5 @@
 import "./Posts.css"
-
 import { useDispatch, useSelector } from 'react-redux'
-
 import React from 'react'
 import { showIndividualPost } from "../../Redux/Feature/individualPostSlice"
 
@@ -62,6 +60,8 @@ function Posts() {
                 </div>
             )
         })
+
+
 
 
     return (

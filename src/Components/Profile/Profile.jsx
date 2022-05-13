@@ -1,14 +1,11 @@
 import "./profile.css"
-
 import React, { useEffect, useMemo, useState } from 'react'
-
 import { useDispatch, useSelector } from "react-redux"
 import { showIndividualPost, chooseImg } from "../../Redux/Feature/individualPostSlice"
 import { db, storage } from "../../Database/firebaseConfig"
 import { useAuth } from "../../Database/authenticate"
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage"
 import { nanoid } from "@reduxjs/toolkit"
-
 import defaultIMG from "../../Extra/default.jpg"
 import Loading from "../Loading/Loading"
 import { doc, updateDoc } from "firebase/firestore"
@@ -17,7 +14,9 @@ import { getSpecificUserProfile } from "../../Redux/Feature/userDataFromDbSlice"
 
 
 
+
 function Profile() {
+
     const dispatch = useDispatch()
 
     const [profilePicture, setProfilePicture] = useState("")
@@ -38,8 +37,8 @@ function Profile() {
 
     const { param } = useParams()
 
-
     // ---------------------------------
+
     const ShowIndividualPost = (e) => {
         dispatch(chooseImg({
             clickedImg: e.target.src,

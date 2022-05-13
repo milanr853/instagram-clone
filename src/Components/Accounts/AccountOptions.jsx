@@ -1,9 +1,6 @@
-import React from 'react'
-
 import "./options.css"
-
+import React from 'react'
 import { useSelector } from 'react-redux'
-
 import { Link, useNavigate } from "react-router-dom"
 import { signOut } from 'firebase/auth'
 import { auth } from '../../Database/firebaseConfig'
@@ -11,9 +8,11 @@ import { auth } from '../../Database/firebaseConfig'
 
 
 function AccountOptions() {
+
     const navigate = useNavigate()
 
     const optionsVisibility = useSelector(store => store.accountOptionsVisibilityReducer.value)
+
     const { Username } = useSelector(store => store.selectedUserDataReducer.userData)
 
 

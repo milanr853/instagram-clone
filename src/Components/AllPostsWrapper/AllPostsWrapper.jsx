@@ -1,10 +1,10 @@
 import "./allpostwrapper.css"
-
 import Posts from "../Posts/Posts"
 import ReelsHolder from "../ReelsHolder/ReelsHolder"
-
-
 import React from 'react'
+
+
+
 
 function AllPostsWrapper() {
     return (

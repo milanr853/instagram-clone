@@ -1,19 +1,15 @@
 import "./Header.css"
 import React, { useEffect, useRef, useState } from 'react'
-
 import logo from "../../Extra/instaLogo.png"
-
 import { Link, useLocation, useNavigate } from "react-router-dom"
-
 import { makeOptionsVisible } from "../../Redux/Feature/accountOptionsVisibilitySlice"
 import { makeUploadOptionsVisible } from "../../Redux/Feature/uploadPostOptionVisibilitySlice"
-
 import { useDispatch, useSelector } from 'react-redux'
 import AccountOptions from "../Accounts/AccountOptions"
 import SearchResultsDisplay from "../SearchResultsDisplay/SearchResultsDisplay"
 import { showContainer } from "../../Redux/Feature/showSearchResultsContainerSlice"
-
 import { setInput } from "../../Redux/Feature/inputSlice"
+
 
 
 
@@ -28,8 +24,8 @@ function Header() {
     const dispatch = useDispatch()
 
     const navigate = useNavigate()
-    const location = useLocation()
 
+    const location = useLocation()
 
 
     // -------------------------------
@@ -47,7 +43,6 @@ function Header() {
         document.querySelector("body").style.overflowY = "hidden"
     }
 
-
     const takeToExplore = () => {
         if (location.pathname !== "/explore") navigate("/explore")
 
@@ -55,7 +50,7 @@ function Header() {
     }
 
     const handleChange = () => {
-        dispatch(setInput(ref.current.value.trim()))
+        dispatch(setInput(ref.current.value))
     }
 
 
@@ -69,7 +64,7 @@ function Header() {
             })]
         )
     }, [input])
-
+    // ------------------------------------------------
 
 
 

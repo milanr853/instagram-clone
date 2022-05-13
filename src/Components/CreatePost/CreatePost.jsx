@@ -5,7 +5,7 @@ import { makeUploadOptionsDisappear } from '../../Redux/Feature/uploadPostOption
 import { db, storage } from "../../Database/firebaseConfig"
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage"
 import { nanoid } from '@reduxjs/toolkit'
-import { arrayUnion, doc, updateDoc } from "firebase/firestore"
+import { arrayUnion, doc, serverTimestamp, updateDoc } from "firebase/firestore"
 
 
 
@@ -90,21 +90,20 @@ function CreatePost() {
 
     useEffect(() => {
         if (!currentPicLink) return
-        if (currentPicLink) {
-            const imageData = {
-                id: nanoid(),
-                url: currentPicLink,
-                like_count: 0,
-                caption: caption,
-                comments: [{ userDetails: "", comment: "" }]
-            }
-
-            const docRef = doc(db, 'registeredUsersCredentials', id)
-            updateDoc(docRef, {
-                All_Images: arrayUnion(imageData)
-            })
-            textAreaRef.current.value = ""
+        const imageData = {
+            id: nanoid(),
+            url: currentPicLink,
+            like_count: 0,
+            caption: caption.trim(),
+            timestamp: serverTimestamp()
         }
+
+        const docRef = doc(db, 'registeredUsersCredentials', id)
+        updateDoc(docRef, {
+            All_Images: arrayUnion(imageData)
+        })
+        textAreaRef.current.value = ""
+
     }, [currentPicLink])
 
 

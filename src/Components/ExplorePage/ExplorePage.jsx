@@ -1,17 +1,10 @@
 import "./explore.css"
-
-import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
-
+import React, { useEffect, useMemo, useRef, useState } from 'react'
 import { nanoid } from "@reduxjs/toolkit"
-
 import SearchResultsDisplay from "../SearchResultsDisplay/SearchResultsDisplay"
-
 import { useDispatch, useSelector } from "react-redux"
-
 import { showContainer } from "../../Redux/Feature/showSearchResultsContainerSlice"
-
 import { setInput } from "../../Redux/Feature/inputSlice"
-import { showIndividualPost } from "../../Redux/Feature/individualPostSlice"
 
 
 
@@ -28,9 +21,7 @@ function ExplorePage() {
     const AllUsers = useSelector(store => store.firestoreDBReducer.value)
 
 
-
-
-
+    // ------------------------
     const ImgsArrRender = () => {
         const ImgArr = []
         const all = [...AllUsers]
@@ -46,8 +37,6 @@ function ExplorePage() {
     }
 
     const renderImages = useMemo(() => ImgsArrRender(), [AllUsers])
-
-
 
 
     // -------------EVENTS----------------
@@ -70,7 +59,6 @@ function ExplorePage() {
             })]
         )
     }, [input])
-
 
 
 

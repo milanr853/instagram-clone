@@ -1,14 +1,10 @@
 import "./singlePostView.css"
-
 import React, { useEffect, useMemo, useRef, useState } from 'react'
-
 import defaultImg from "../../Extra/default.jpg"
-
 import { useDispatch, useSelector } from "react-redux"
 import { hideIndividualPost } from "../../Redux/Feature/individualPostSlice"
-
 import { useNavigate } from "react-router-dom"
-import { addDoc, collection, getDocs, onSnapshot, orderBy, query, serverTimestamp } from "firebase/firestore"
+import { addDoc, collection, onSnapshot, orderBy, query, serverTimestamp } from "firebase/firestore"
 import { db } from "../../Database/firebaseConfig"
 import { nanoid } from "@reduxjs/toolkit"
 
@@ -16,15 +12,15 @@ import { nanoid } from "@reduxjs/toolkit"
 
 
 function SinglePostView() {
-    const display = useSelector(store => store.individualPostDisplayReducer.value)
-
     const navigate = useNavigate()
+
+    const display = useSelector(store => store.individualPostDisplayReducer.value)
 
     const { selectedImg, userData } = useSelector(store => store.individualPostDisplayReducer)
 
     let authUserData = useSelector(store => store.selectedUserDataReducer.userData)
 
-    let { id, comments, url, caption, like_count } = selectedImg
+    let { id, url, caption, like_count } = selectedImg
 
     let { Username, ProfilePic, ID } = userData
 
@@ -32,9 +28,9 @@ function SinglePostView() {
 
     const commentRef = useRef()
 
-    const dispatch = useDispatch()
-
     const [commentsArr, setCommentsArr] = useState([])
+
+    const dispatch = useDispatch()
 
 
     //EVENTS
@@ -86,8 +82,6 @@ function SinglePostView() {
         }
         getAllComments()
     }, [id, db])
-
-
 
 
     const CommentsList = () => {

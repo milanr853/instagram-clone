@@ -11,7 +11,7 @@ const inputSlice = createSlice({
     initialState,
     reducers: {
         setInput: (state, { payload }) => {
-            state.input = payload
+            state.input = payload.trim()
         }
     }
 })

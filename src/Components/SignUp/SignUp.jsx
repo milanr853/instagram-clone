@@ -1,15 +1,11 @@
 import "./signup.css"
-
 import React, { useEffect, useRef, useState } from 'react'
-
 import logo from "../../Extra/instaLogo.png"
 import { Link, useNavigate } from "react-router-dom"
 import { useSelector } from "react-redux"
-
 import { createUserWithEmailAndPassword } from "firebase/auth"
 import { auth, db } from "../../Database/firebaseConfig"
 import { addDoc, collection } from "firebase/firestore"
-
 
 
 
@@ -18,7 +14,7 @@ function SignUp() {
 
     const [allUsersData, setAllUsersData] = useState([])
 
-    const [enableSignupBtn, setEnableSignupBtn] = useState("block")
+    const [disableBtn, setDisableBtn] = useState(true)
 
     const [errorMsg, setErrorMsg] = useState('')
 
@@ -63,9 +59,9 @@ function SignUp() {
 
     useEffect(() => {
         if (passwordLength.length >= 6 && usernameLength && fullnameLength && mailLength) {
-            setEnableSignupBtn("none")
+            setDisableBtn(false)
         }
-        else setEnableSignupBtn("block")
+        else setDisableBtn(true)
     }, [passwordLength, usernameLength, fullnameLength, mailLength])
 
 
@@ -75,17 +71,18 @@ function SignUp() {
     useEffect(() => {
         const strArr = usernameLength.split(" ")
         if (strArr.length > 1) {
-            setEnableSignupBtn("block")
+            setDisableBtn(true)
         }
     }, [usernameLength])
 
 
     // -----------------FIREBASE-REGISTRATION------------------
     const authenticateUser = () => {
+        setDisableBtn(true)
         const user_credential = {
             Email: mail.current.value.trim(),
             Fullname: fullname.current.value.toLowerCase().trim(),
-            Username: name.current.value.trim(),
+            Username: name.current.value.toLowerCase().trim(),
             PassWord: pass.current.value.trim(),
             All_Images: []
         }
@@ -117,7 +114,6 @@ function SignUp() {
             }
         }
         // if (allUsersData.length == 0) register()
-
     }
 
 
@@ -134,8 +130,12 @@ function SignUp() {
                     <input type="text" className="passwordInput" placeholder="Password" ref={pass} onChange={setPassword} />
                 </div>
                 <div className="signupBtnHolder">
-                    <button className="signupBtn" onClick={authenticateUser}>Sign up</button>
-                    <button className="signupBtn overTheSignupBtn" style={{ display: enableSignupBtn }}></button>
+                    <button className="signupBtn" disabled={disableBtn}
+                        style={{
+                            cursor: disableBtn ? "default" : "pointer",
+                            opacity: disableBtn ? "0.7" : "1"
+                        }}
+                        onClick={authenticateUser}>Sign up</button>
                 </div>
                 <div className="errorMessage">{errorMsg}</div>
             </div>
