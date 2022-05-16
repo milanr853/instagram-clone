@@ -11,9 +11,13 @@ function AccountOptions() {
 
     const navigate = useNavigate()
 
-    const optionsVisibility = useSelector(store => store.accountOptionsVisibilityReducer.value)
+    const optionsVisibility =
+        useSelector(store =>
+            store.accountOptionsVisibilityReducer.value)
 
-    const { Username } = useSelector(store => store.selectedUserDataReducer.userData)
+    const { Username } =
+        useSelector(store =>
+            store.selectedUserDataReducer.userData)
 
 
     //EVENT
@@ -27,11 +31,19 @@ function AccountOptions() {
 
     return (
         <>
-            <div className="AccountOptionsHolder" style={{ display: optionsVisibility }}>
+            <div className="AccountOptionsHolder"
+                style={{ display: optionsVisibility }}>
                 <ul>
-                    <Link to={Username ? `/profile/${Username}` : "/profile"} className='accountOption'><i className="bi bi-person"></i> Profile</Link>
-                    <li className='accountOption'><i className="bi bi-gear"></i> Settings</li>
-                    <li className='accountOption' onClick={logoutUser}><i className="bi bi-box-arrow-right"></i> Logout</li>
+                    <Link to={Username ? `/profile/${Username}` : "/profile"}
+                        className='accountOption'>
+                        <i className="bi bi-person"></i> Profile
+                    </Link>
+                    <li className='accountOption'>
+                        <i className="bi bi-gear"></i>Settings
+                    </li>
+                    <li className='accountOption' onClick={logoutUser}>
+                        <i className="bi bi-box-arrow-right"></i>Logout
+                    </li>
                 </ul>
             </div>
         </>

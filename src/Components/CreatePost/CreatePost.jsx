@@ -5,7 +5,7 @@ import { makeUploadOptionsDisappear } from '../../Redux/Feature/uploadPostOption
 import { db, storage } from "../../Database/firebaseConfig"
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage"
 import { nanoid } from '@reduxjs/toolkit'
-import { arrayUnion, doc, serverTimestamp, updateDoc } from "firebase/firestore"
+import { setDoc, arrayUnion, doc, serverTimestamp, updateDoc } from "firebase/firestore"
 
 
 
@@ -14,25 +14,27 @@ function CreatePost() {
 
     const dispatch = useDispatch()
 
-    const { Username, id } = useSelector(store => store.selectedUserDataReducer.userData)
-
     const textAreaRef = useRef()
 
     const [file, setFile] = useState(null)
+
+    const [preview, setPreview] = useState(null)
+
+    const [caption, setCaption] = useState(null)
 
     const [progress, setProgress] = useState(null)
 
     const [currentPicLink, setCurrentPicLink] = useState(null)
 
-    const [captionAreaVisibility, setCaptionAreaVisibility] = useState(false)
-
-    const [caption, setCaption] = useState(null)
-
-    const [preview, setPreview] = useState(null)
-
     const [progressDisplay, setProgressDisplay] = useState(false)
 
-    const uploadOption = useSelector(store => store.uploadPostOptionVisibilityReducer)
+    const [captionAreaVisibility, setCaptionAreaVisibility] = useState(false)
+
+    const { Username, id, ProfilePic, All_Images } =
+        useSelector(store => store.selectedUserDataReducer.userData)
+
+    const uploadOption =
+        useSelector(store => store.uploadPostOptionVisibilityReducer)
 
 
     //Set States To Default
@@ -92,21 +94,46 @@ function CreatePost() {
     useEffect(() => {
         if (!currentPicLink) return
         const date = new Date().toString()
+        const img_id = nanoid()
 
         const imageData = {
-            id: nanoid(),
+            id: img_id,
             url: currentPicLink,
-            like_count: 0,
             caption: caption,
             timestamp: date
         }
 
+        //Firestore
         const docRef = doc(db, 'registeredUsersCredentials', id)
         updateDoc(docRef, {
             All_Images: arrayUnion(imageData)
         })
-        textAreaRef.current.value = ""
 
+        //Firestore database
+        try {
+            const mainDisplayPostsRef = doc(db, "mainDisplayPosts", img_id)
+            setDoc(mainDisplayPostsRef, {
+                user_username: Username,
+                user_ID: id,
+                user_proPic: ProfilePic ? ProfilePic : "",
+                postImage_id: img_id,
+                postImage_url: currentPicLink,
+                postImage_caption: caption,
+                postImage_publishTime: date,
+                authUserClicked: false,
+                postImage_comment_count: 0,
+                postImage_like_count: 0,
+                timestamp: serverTimestamp(),
+                PostsCount: All_Images.length,
+                All_ImagesPreview: All_Images.slice(0, 3)
+            })
+        }
+        catch (error) {
+            console.log(error)
+        }
+
+
+        textAreaRef.current.value = ""
     }, [currentPicLink])
 
 

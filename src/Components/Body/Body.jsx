@@ -19,7 +19,9 @@ function Body() {
 
     const { pathname } = useLocation()
 
-    const selectedUser = useSelector(store => store.selectedUserDataReducer.specificProfileData)
+    const selectedUser =
+        useSelector(store =>
+            store.selectedUserDataReducer.specificProfileData)
 
 
     // ---------------------------

@@ -16,9 +16,6 @@ import { setInput } from "../../Redux/Feature/inputSlice"
 
 function Header() {
     // -------------HOOKS----------------
-    const input = useSelector(store => store.inputReducer.input)
-
-    const [filteredUsers, setFilteredUsers] = useState([])
 
     const ref = useRef()
 
@@ -28,6 +25,9 @@ function Header() {
 
     const location = useLocation()
 
+    const [filteredUsers, setFilteredUsers] = useState([])
+
+    const input = useSelector(store => store.inputReducer.input)
 
     // -------------------------------
 

@@ -12,10 +12,9 @@
 }
 
 .individualPostContainer {
-    width: 68vmax;
+    width: clamp(800px, 100%, 70vmax);
     background-color: white;
-    height: 45vmax;
-
+    height: clamp(550px, 100%, 45vmax);
     display: flex;
 }
 

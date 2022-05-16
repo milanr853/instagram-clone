@@ -12,29 +12,29 @@ import { addDoc, collection } from "firebase/firestore"
 
 function SignUp() {
 
-    const [allUsersData, setAllUsersData] = useState([])
-
-    const [disableBtn, setDisableBtn] = useState(true)
-
-    const [errorMsg, setErrorMsg] = useState('')
-
-    const navigate = useNavigate()
-
-    const mail = useRef()
-
-    const name = useRef()
-
-    const fullname = useRef()
-
-    const pass = useRef()
-
     const [passwordLength, setPasswordLength] = useState("")
 
     const [usernameLength, setUsernameLength] = useState("")
 
     const [fullnameLength, setFullnameLength] = useState("")
 
+    const [allUsersData, setAllUsersData] = useState([])
+
+    const [disableBtn, setDisableBtn] = useState(true)
+
     const [mailLength, setMailLength] = useState("")
+
+    const [errorMsg, setErrorMsg] = useState('')
+
+    const navigate = useNavigate()
+
+    const fullname = useRef()
+
+    const mail = useRef()
+
+    const name = useRef()
+
+    const pass = useRef()
 
     const All_Data = useSelector(store => store.firestoreDBReducer.value)
 

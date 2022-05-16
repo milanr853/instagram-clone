@@ -4,10 +4,20 @@ import defaultImg from "../../Extra/default.jpg"
 import { useDispatch, useSelector } from "react-redux"
 import { hideIndividualPost } from "../../Redux/Feature/individualPostSlice"
 import { useNavigate } from "react-router-dom"
-import { addDoc, collection, deleteDoc, doc, onSnapshot, orderBy, query, serverTimestamp, setDoc } from "firebase/firestore"
+import {
+    addDoc, collection,
+    deleteDoc, doc,
+    onSnapshot, orderBy,
+    query, serverTimestamp,
+    setDoc, updateDoc
+} from "firebase/firestore"
 import { db } from "../../Database/firebaseConfig"
 import { nanoid } from "@reduxjs/toolkit"
 import moment from "moment"
+import { removeIDs } from "../../Redux/Feature/likePostSlice"
+import {
+    WhatsappShareButton
+} from "react-share";
 
 
 
@@ -15,6 +25,8 @@ import moment from "moment"
 function SinglePostView() {
 
     const navigate = useNavigate()
+
+    const likeData = useSelector(store => store.likePostReducer)
 
     const display = useSelector(store => store.individualPostDisplayReducer.value)
 
@@ -40,6 +52,8 @@ function SinglePostView() {
 
     const dispatch = useDispatch()
 
+    const CommentTrim = comment?.trim()
+
 
     //EVENTS
     const HideIndividualPost = () => {
@@ -47,8 +61,8 @@ function SinglePostView() {
         commentRef.current.value = ''
         setComment(null)
         document.querySelector("body").style.overflowY = "scroll"
+        dispatch(removeIDs())
     }
-
 
 
     //Comments Part____________________
@@ -108,7 +122,6 @@ function SinglePostView() {
     // -------------------------------------
 
 
-
     //Likes Part____________________
     const AddLikeData = async () => {
         if (authUserLiked) {
@@ -127,13 +140,14 @@ function SinglePostView() {
 
 
     useEffect(() => {
-        if (!id) return
+        if (!id && !likeData.ImageID) return
         const getAllLikes = async () => {
-            onSnapshot(query(collection(db, "registeredUsersCredentials", ID, `LikesFor${id}`),
+            onSnapshot(query(collection(db,
+                "registeredUsersCredentials", likeData.UserID ? likeData.UserID : ID, `LikesFor${likeData.ImageID ? likeData.ImageID : id}`),
             ), snapshot => setLikesArr(snapshot.docs))
         }
         getAllLikes()
-    }, [id, db])
+    }, [id, db, likeData])
 
 
     const likedByUsersList = useMemo(() => {
@@ -148,7 +162,38 @@ function SinglePostView() {
         if (likedByUsersList.includes(authUserData.Username)) setAuthUserLiked(true)
         else setAuthUserLiked(false)
     }, [likedByUsersList])
+
+
     // -------------------------------------
+    useEffect(() => {
+        if (!id && !likeData.ImageID) return
+        const Doc = doc(db, "mainDisplayPosts", likeData.ImageID ? likeData.ImageID : id)
+        updateDoc(Doc, {
+            postImage_like_count: likesArr.length,
+            postImage_comment_count: commentsArr.length,
+            authUserClicked: authUserLiked
+        })
+    }, [likesArr, commentsArr, authUserLiked])
+
+
+    useEffect(() => {
+        if (!likeData.UserID) return
+        if (likeData.authLike) {
+            const docRef = doc(db, "registeredUsersCredentials",
+                likeData.UserID, `LikesFor${likeData.ImageID}`, authUserData?.Username)
+            deleteDoc(docRef)
+            setAuthUserLiked(false)
+            return
+        }
+        else {
+            const docRef = doc(db, "registeredUsersCredentials",
+                likeData?.UserID, `LikesFor${likeData?.ImageID}`, authUserData?.Username)
+            setDoc(docRef, {
+                authUser: authUserData?.Username,
+            })
+        }
+
+    }, [likeData,])
 
 
 
@@ -190,11 +235,13 @@ function SinglePostView() {
 
                     <div className="commentPartBottom">
                         <div className="postBottomIconsBar">
-                            <i className={`bi ${authUserLiked ? "bi-heart-fill" : "bi-heart"} postBottomIcons`}
+                            <i className={`bi ${authUserLiked ? "bi-heart-fill" : "bi-heart"} `}
                                 style={{ color: authUserLiked ? "#ed4956" : "" }}
                                 onClick={AddLikeData}></i>
-                            <i className="bi bi-share postBottomIcons"></i>
-                            <i className="bi bi-dash-square postBottomIcons"></i>
+                            <WhatsappShareButton url={"https://www.instagram.com/"}>
+                                <i className="bi bi-share "></i>
+                            </WhatsappShareButton>
+                            <i className="bi bi-bookmark "></i>
                         </div>
                         <div className="postBottomInfoBlock">
                             <strong id='likesCount'>{likesArr.length} Likes</strong>
@@ -203,7 +250,11 @@ function SinglePostView() {
                         <div className="postBottomAddComment">
                             <i className="bi bi-emoji-smile emoji"></i>
                             <input type="text" id="textArea" placeholder="Add a comment..." ref={commentRef} onChange={handleCommentInput} />
-                            <span className="postOption" onClick={AddCommentPost}>Post</span>
+                            <span className="postOption"
+                                style={{
+                                    opacity: CommentTrim ? "1" : '0.6'
+                                }}
+                                onClick={AddCommentPost}>Post</span>
                         </div>
                     </div>
                 </div>

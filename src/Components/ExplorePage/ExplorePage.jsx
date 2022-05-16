@@ -13,9 +13,9 @@ function ExplorePage() {
 
     const refr = useRef()
 
-    const [filteredUsers, setFilteredUsers] = useState([])
-
     const dispatch = useDispatch()
+
+    const [filteredUsers, setFilteredUsers] = useState([])
 
     const input = useSelector(store => store.inputReducer.input)
 

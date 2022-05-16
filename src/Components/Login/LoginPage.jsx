@@ -9,13 +9,14 @@ import { auth } from "../../Database/firebaseConfig"
 
 
 function LoginPage() {
-    const [errorMsgVisibility, setErrorMsgVisibility] = useState("none")
 
-    const [disableBtn, setDisableBtn] = useState(true)
+    const [errorMsgVisibility, setErrorMsgVisibility] = useState("none")
 
     const [passwordLength, setPasswordLength] = useState("")
 
     const [emailLength, setEmailLength] = useState("")
+
+    const [disableBtn, setDisableBtn] = useState(true)
 
     const emailRef = useRef()
 
@@ -24,6 +25,8 @@ function LoginPage() {
     const navigate = useNavigate()
 
     // ------------Updating States---------------
+
+
     const setPassword = () => {
         setPasswordLength(passRef.current.value)
     }
@@ -44,6 +47,7 @@ function LoginPage() {
 
 
     // -------FIREBASE-AUTHENTICATION--------
+
     const authenticateUser = () => {
         setDisableBtn(true)
         const user_credential = {
@@ -65,6 +69,7 @@ function LoginPage() {
         login()
     }
     // --------------------------------------------
+
 
 
 

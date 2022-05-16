@@ -19,17 +19,17 @@ function Profile() {
 
     const dispatch = useDispatch()
 
-    const [profilePicture, setProfilePicture] = useState("")
-
     const [progress, setProgress] = useState("")
 
     const [uploadsList, setUploadsList] = useState([])
 
-    const { Fullname, Username, All_Images, id, ProfilePic } = useSelector(store => store.selectedUserDataReducer.userData)
+    const [profilePicture, setProfilePicture] = useState("")
+
+    const All_Data = useSelector(store => store.firestoreDBReducer.value)
 
     const selectedUser = useSelector(store => store.selectedUserDataReducer.specificProfileData)
 
-    const All_Data = useSelector(store => store.firestoreDBReducer.value)
+    const { Fullname, Username, All_Images, id, ProfilePic } = useSelector(store => store.selectedUserDataReducer.userData)
 
     // ---------------------------------
 
@@ -112,7 +112,7 @@ function Profile() {
                 <img src={url} alt="profile_image" className="profilePost" onClick={ShowIndividualPost} key={nanoid()} />
             )
         })
-        return imagesList
+        return imagesList?.reverse()
     }
 
 
