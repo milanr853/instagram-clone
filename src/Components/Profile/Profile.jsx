@@ -1,5 +1,5 @@
 import "./profile.css"
-import React, { useEffect, useMemo, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from "react-redux"
 import { selectImgObjAsync, showIndividualPost } from "../../Redux/Feature/individualPostSlice"
 import { db, storage } from "../../Database/firebaseConfig"
@@ -11,6 +11,7 @@ import Loading from "../Loading/Loading"
 import { doc, updateDoc } from "firebase/firestore"
 import { useParams } from "react-router-dom"
 import { getSpecificUserProfile } from "../../Redux/Feature/selectedUserDataSlice"
+import { LazyLoadImage } from 'react-lazy-load-image-component';
 
 
 
@@ -22,6 +23,8 @@ function Profile() {
     const [progress, setProgress] = useState("")
 
     const [uploadsList, setUploadsList] = useState([])
+
+    const [renderPosts, setRenderPosts] = useState("")
 
     const [profilePicture, setProfilePicture] = useState("")
 
@@ -100,17 +103,29 @@ function Profile() {
     }, [All_Images, selectedUser])
 
 
-    const renderImagesList = () => {
+    //Render Images
+    useEffect(() => {
         const imagesList = uploadsList?.map((url) => {
             return (
-                <img src={url} alt="profile_image" className="profilePost" onClick={ShowIndividualPost} key={nanoid()} />
+                <LazyLoadImage src={url} className="profilePost" onClick={ShowIndividualPost} key={nanoid()} />
             )
-        })
-        return imagesList?.reverse()
-    }
+        }).reverse()
+        setRenderPosts(imagesList)
+    }, [uploadsList])
 
 
-    const renderPosts = useMemo(() => renderImagesList(), [uploadsList])
+    // const renderImagesList = () => {
+    //     const imagesList = uploadsList?.map((url) => {
+    //         console.log("apple")
+    //         return (
+    //             <img src={url} alt="profile_image" className="profilePost" onClick={ShowIndividualPost} key={nanoid()} />
+    //         )
+    //     })
+    //     return imagesList?.reverse()
+    // }
+
+
+    // const renderPosts = useMemo(() => renderImagesList(), [uploadsList])
 
 
 

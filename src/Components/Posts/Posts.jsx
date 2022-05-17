@@ -3,6 +3,7 @@ import { useDispatch } from 'react-redux'
 import React, { useEffect, useState } from 'react'
 import { selectImgObjAsync, showIndividualPost } from "../../Redux/Feature/individualPostSlice"
 import defaultImg from "../../Extra/default.jpg"
+import loadingScreen from "../../Extra/grayLogo.png"
 import { addDoc, collection, onSnapshot, orderBy, query, serverTimestamp } from "firebase/firestore"
 import { db } from "../../Database/firebaseConfig"
 import moment from "moment"
@@ -14,6 +15,9 @@ import {
 import Preview from "../Preview/Preview"
 import { setTimelinePosts } from "../../Redux/Feature/timelinePostsSlice"
 import { nanoid } from "@reduxjs/toolkit"
+import { LazyLoadImage } from 'react-lazy-load-image-component';
+import 'react-lazy-load-image-component/src/effects/blur.css';
+import ReelsHolder from "../ReelsHolder/ReelsHolder"
 
 
 
@@ -24,9 +28,11 @@ function Posts() {
 
     const dispatch = useDispatch()
 
-    const [postsArr, setPostsArr] = useState()
+    const [postsArr, setPostsArr] = useState([])
 
     const [comment, setComment] = useState(null)
+
+    const [renderPosts_Images, setRenderPosts_Images] = useState(null)
 
     // -----------------------------
     useEffect(() => {
@@ -43,8 +49,8 @@ function Posts() {
 
 
 
-    const renderPosts_Images =
-        postsArr?.map((elem) => {
+    useEffect(() => {
+        const arr = postsArr?.map((elem) => {
             const { user_username, user_ID,
                 user_proPic, postImage_comment_count,
                 postImage_id, postImage_url,
@@ -98,22 +104,24 @@ function Posts() {
 
             return (
                 <div className="PostContainer" key={postImage_id}>
-                    <div className="postHeader">
+                    <div className="postHeader" onMouseLeave={hidePreview}>
                         <div className="userImageContainer">
                             <img src={user_proPic ? user_proPic : defaultImg} alt="userImage" className="userImage"
                             />
                         </div>
                         <h4 className="postUserName" onClick={takeToProfile}
                             onMouseEnter={showPreview}
-                            onMouseLeave={hidePreview}
                         >{user_username}</h4>
                         {/* -------------------- */}
-                        <Preview user_ID={user_ID} uid={postImage_id} />
+                        <Preview user_ID={user_ID} uid={postImage_id} hidePreview={hidePreview} />
                         {/* -------------------- */}
                     </div>
-                    <img className="postImage" id={postImage_id} src={postImage_url} alt="postImage"
+
+                    <LazyLoadImage effect="blur" width="100%"
+                        className="postImage" id={postImage_id} src={postImage_url} alt="postImage"
                         style={{ cursor: "pointer" }}
                         onClick={ShowIndividualPost} />
+
                     <div className="postBottom">
                         <div className="postBottomIconsBar">
                             <i className={`bi ${authUserClicked ? "bi-heart-fill" : "bi-heart"} `}
@@ -143,14 +151,32 @@ function Posts() {
                 </div>
             )
         })
+        setRenderPosts_Images(arr)
+    }, [postsArr])
 
 
 
 
     return (
-        <>
-            {renderPosts_Images}
-        </>
+        postsArr.length !== 0 ?
+            <>
+                <ReelsHolder />
+                {renderPosts_Images}
+            </>
+            : <div className="PostContainer" style={{
+                width: "600px",
+                height: "calc(100vh - 150px)",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                border: "none",
+                background: "transparent",
+            }}>
+                <img style={{
+                    objectFit: "cover",
+                    width: "10%",
+                }} src={loadingScreen} alt="loadingScreen" />
+            </div>
     )
 }
 

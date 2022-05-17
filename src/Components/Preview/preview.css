@@ -1,0 +1,21 @@
+.previewHolder {
+    height: 350px;
+    width: 400px;
+}
+
+.previewImagesHolder {
+    grid-template-columns: repeat(3, 1fr);
+}
+
+@media screen and (max-width:470px) {
+    .previewHolder {
+        width: 250px;
+    }
+
+    .previewImagesHolder {
+        display: grid;
+        grid-template-columns: repeat(3, 140px);
+        padding-left: 170px;
+        overflow-x: scroll;
+    }
+}

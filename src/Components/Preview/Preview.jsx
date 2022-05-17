@@ -1,9 +1,9 @@
+import "./preview.css"
 import React, { useEffect, useState } from 'react'
 import defaultImg from "../../Extra/default.jpg"
 import { nanoid } from '@reduxjs/toolkit'
 import { doc, getDoc } from 'firebase/firestore'
 import { db } from '../../Database/firebaseConfig'
-
 import noPosts from "../../Extra/noposts.png"
 
 
@@ -11,9 +11,13 @@ import noPosts from "../../Extra/noposts.png"
 
 function Preview({ uid,
     user_ID,
+    hidePreview
 }) {
 
     const [data, setData] = useState({})
+
+    const [All_ImagesPreview, setAll_ImagesPreview] = useState([])
+
 
     useEffect(() => {
         const getUserData = async () => {
@@ -24,7 +28,13 @@ function Preview({ uid,
         getUserData()
     }, [user_ID])
 
-    const All_ImagesPreview = data.All_Images?.map(obj => obj.url)?.reverse()?.slice(0, 3)
+
+    useEffect(() => {
+        const Arr = data.All_Images?.map(obj => {
+            return obj.url
+        }).reverse()?.slice(0, 3)
+        setAll_ImagesPreview(Arr)
+    }, [data])
 
 
 
@@ -32,19 +42,19 @@ function Preview({ uid,
     return (
         <>
             <div
+                onMouseLeave={hidePreview}
+                className="previewHolder"
                 id={`PreviewOf${uid}`}
                 style={{
                     position: "absolute",
                     top: "50px",
                     left: "65px",
                     display: "none",
-                    height: "350px",
-                    width: "400px",
                     background: "white",
                     borderRadius: "8px",
                     boxShadow: "rgba(14, 30, 37, 0.12) 0px 2px 4px 0px, rgba(14, 30, 37, 0.32) 0px 2px 16px 0px",
                     flexDirection: "column",
-                    zIndex: "200"
+                    zIndex: "200",
                 }}>
                 <div className="previewHeader"
                     style={{
@@ -82,7 +92,6 @@ function Preview({ uid,
                         flexGrow: "1",
                         borderBottom: "1px solid lightgray",
                         display: All_ImagesPreview && All_ImagesPreview?.length !== 0 ? "grid" : "flex",
-                        gridTemplateColumns: "repeat(3,1fr)",
                         justifyContent: "center",
                         alignItems: "center"
                     }}>
@@ -111,4 +120,4 @@ function Preview({ uid,
     )
 }
 
-export default Preview
+export default React.memo(Preview)

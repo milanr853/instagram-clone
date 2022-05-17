@@ -129,6 +129,7 @@ function SinglePostView() {
 
 
     const renderComments = useMemo(() => CommentsList(), [commentsArr])
+
     // -------------------------------------
 
 

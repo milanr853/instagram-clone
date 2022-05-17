@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 
-const initialState = { timelinePosts: {} }
+const initialState = { timelinePosts: null }
 
 
 const timelinePostsSlice = createSlice({
