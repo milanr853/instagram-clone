@@ -45,8 +45,7 @@
 
 
 
-.postUserName,
-.userImageContainer {
+.postUserName {
     cursor: pointer;
 }
 

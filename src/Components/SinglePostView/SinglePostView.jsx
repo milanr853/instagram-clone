@@ -24,15 +24,17 @@ import {
 
 function SinglePostView() {
 
+    const dispatch = useDispatch()
+
     const navigate = useNavigate()
 
     const likeData = useSelector(store => store.likePostReducer)
 
     const display = useSelector(store => store.individualPostDisplayReducer.value)
 
-    const { selectedImg, userData } = useSelector(store => store.individualPostDisplayReducer)
+    let authUserData = useSelector(store => store.selectedUserDataReducer.authUserData)
 
-    let authUserData = useSelector(store => store.selectedUserDataReducer.userData)
+    const { selectedImg, userData } = useSelector(store => store.individualPostDisplayReducer)
 
     let { id, url, caption, timestamp } = selectedImg
 
@@ -49,8 +51,6 @@ function SinglePostView() {
     const [likesArr, setLikesArr] = useState([])
 
     const [authUserLiked, setAuthUserLiked] = useState(false)
-
-    const dispatch = useDispatch()
 
     const CommentTrim = comment?.trim()
 
@@ -82,6 +82,7 @@ function SinglePostView() {
             comment: comment.trim(),
             comentedUsername: authUserData?.Username,
             comentedProfilePic: authUserData?.ProfilePic ? authUserData?.ProfilePic : "",
+            commentedUserId: authUserData?.id,
             timestamp: serverTimestamp()
         })
 
@@ -102,14 +103,23 @@ function SinglePostView() {
     const CommentsList = () => {
         const cmntsList = commentsArr.map(obj => {
             const { comment, comentedProfilePic, comentedUsername } = obj.data()
+            const uid = nanoid()
+
+
             return (
-                <div className="Comment" key={nanoid()}>
+                <div className="Comment" key={uid}  >
                     <div className="cmtImgCntnr">
                         <img src={comentedProfilePic ? comentedProfilePic : defaultImg} alt="profilePic" />
                     </div>
                     <span className="userComment">
-                        <strong>{comentedUsername} </strong>
-                        {comment}
+                        <strong className="SinglePostViewProfileUserName"
+                            onClick={
+                                () => {
+                                    HideIndividualPost()
+                                    navigate(`/profile/${comentedUsername}`)
+                                }}
+                        >{comentedUsername}</strong>
+                        {" " + comment}
                     </span>
                 </div>
             )
@@ -209,13 +219,18 @@ function SinglePostView() {
 
 
 
-                <div className="commentsPart">
+                <div className="commentsPart" >
                     <div className="commentPartHeader">
                         <div id="img">
-                            <img src={ProfilePic ? ProfilePic : defaultImg} alt="userProfilePic" style={{ cursor: "pointer" }} onClick={() => navigate(`/profile/${Username}`)} />
+                            <img src={ProfilePic ? ProfilePic : defaultImg} alt="userProfilePic" />
                         </div>
                         <div id="name">
-                            <strong style={{ cursor: "pointer" }} onClick={() => navigate(`/profile/${Username}`)}>{Username}</strong>
+                            <strong className="SinglePostViewProfileUserName"
+                                style={{ cursor: "pointer" }}
+                                onClick={() => {
+                                    HideIndividualPost()
+                                    navigate(`/profile/${Username}`)
+                                }}>{Username ? Username : ""}</strong>
                         </div>
                     </div>
 
@@ -224,12 +239,19 @@ function SinglePostView() {
                             <div className="cmtImgCntnr">
                                 <img src={ProfilePic ? ProfilePic : defaultImg} alt="userProfilePic" />
                             </div>
-                            <span className="userComment ">
-                                <strong>{Username} </strong>
-                                {caption}
+                            <span className="userComment"
+                                onClick={() => {
+                                    HideIndividualPost()
+                                    navigate(`/profile/${Username}`)
+                                }}>
+                                <strong className="SinglePostViewProfileUserName">{Username}</strong>
+                                {caption ? " " + caption : ""}
                             </span>
                         </div>
+
+                        {/* ------------------------- */}
                         {renderComments}
+                        {/* ------------------------- */}
 
                     </div>
 

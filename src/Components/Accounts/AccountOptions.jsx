@@ -17,7 +17,7 @@ function AccountOptions() {
 
     const { Username } =
         useSelector(store =>
-            store.selectedUserDataReducer.userData)
+            store.selectedUserDataReducer.authUserData)
 
 
     //EVENT

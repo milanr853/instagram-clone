@@ -9,7 +9,7 @@ import Profile from '../Profile/Profile'
 import ExplorePage from '../ExplorePage/ExplorePage'
 import { setInput } from "../../Redux/Feature/inputSlice"
 import { useDispatch, useSelector } from 'react-redux'
-import { clearUserData } from '../../Redux/Feature/userDataFromDbSlice'
+import { clearUserData } from '../../Redux/Feature/selectedUserDataSlice'
 
 
 

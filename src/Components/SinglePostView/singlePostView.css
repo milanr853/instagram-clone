@@ -126,6 +126,12 @@
 }
 
 
+.SinglePostViewProfileUserName:hover {
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+
 @media screen and (max-width:640px) {
     .commentsPart {
         width: 100%;

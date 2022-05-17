@@ -5,9 +5,9 @@ import showSearchResultsContainer from "../Feature/showSearchResultsContainerSli
 import individualPostDisplayReducer from "../Feature/individualPostSlice"
 import inputReducer from "../Feature/inputSlice"
 import firestoreDBReducer from "../Feature/firebaseUsersDatabaseSlice"
-import selectedUserDataReducer from "../Feature/userDataFromDbSlice"
-import authUserReducer from "../Feature/authUserSlice"
+import selectedUserDataReducer from "../Feature/selectedUserDataSlice"
 import likePostReducer from "../Feature/likePostSlice"
+import timelinePostsReducer from "../Feature/timelinePostsSlice"
 
 
 const store = configureStore({
@@ -20,8 +20,8 @@ const store = configureStore({
         inputReducer,
         firestoreDBReducer,
         selectedUserDataReducer,
-        authUserReducer,
-        likePostReducer
+        likePostReducer,
+        timelinePostsReducer
     }
 })
 

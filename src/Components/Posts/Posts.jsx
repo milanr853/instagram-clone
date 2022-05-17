@@ -1,7 +1,7 @@
 import "./Posts.css"
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import React, { useEffect, useState } from 'react'
-import { chooseImg, showIndividualPost } from "../../Redux/Feature/individualPostSlice"
+import { selectImgObjAsync, showIndividualPost } from "../../Redux/Feature/individualPostSlice"
 import defaultImg from "../../Extra/default.jpg"
 import { addDoc, collection, onSnapshot, orderBy, query, serverTimestamp } from "firebase/firestore"
 import { db } from "../../Database/firebaseConfig"
@@ -11,6 +11,9 @@ import { useNavigate } from "react-router-dom"
 import {
     WhatsappShareButton
 } from "react-share";
+import Preview from "../Preview/Preview"
+import { setTimelinePosts } from "../../Redux/Feature/timelinePostsSlice"
+import { nanoid } from "@reduxjs/toolkit"
 
 
 
@@ -25,14 +28,14 @@ function Posts() {
 
     const [comment, setComment] = useState(null)
 
-    const { All_Images } = useSelector(store => store.selectedUserDataReducer.userData)
-
-
     // -----------------------------
     useEffect(() => {
         const getAllLikes = async () => {
             onSnapshot(query(collection(db, "mainDisplayPosts"),
-                orderBy('timestamp', 'desc')), snapshot => setPostsArr(snapshot.docs))
+                orderBy('timestamp', 'desc')), snapshot => {
+                    setPostsArr(snapshot.docs)
+                    dispatch(setTimelinePosts(nanoid()))
+                })
         }
         getAllLikes()
     }, [db])
@@ -47,19 +50,12 @@ function Posts() {
                 postImage_id, postImage_url,
                 postImage_caption,
                 postImage_publishTime,
-                authUserClicked, postImage_like_count,
-                PostsCount, All_ImagesPreview } = elem.data()
+                authUserClicked, postImage_like_count } = elem.data()
 
             const publishTime = new Date(postImage_publishTime)
 
             const ShowIndividualPost = () => {
-                dispatch(chooseImg({
-                    clickedImg: postImage_url,
-                    All_Images: All_Images,
-                    Username: user_username,
-                    ProfilePic: user_proPic,
-                    ID: user_ID,
-                }))
+                dispatch(selectImgObjAsync({ user_ID, clickedImg: postImage_url }))
                 dispatch(showIndividualPost())
                 document.querySelector("body").style.overflowY = "hidden"
             }
@@ -83,6 +79,7 @@ function Posts() {
                     comment: comment,
                     comentedUsername: user_username,
                     comentedProfilePic: user_proPic ? user_proPic : "",
+                    commentedUserId: user_ID,
                     timestamp: serverTimestamp()
                 })
                 setComment(null)
@@ -103,7 +100,7 @@ function Posts() {
                 <div className="PostContainer" key={postImage_id}>
                     <div className="postHeader">
                         <div className="userImageContainer">
-                            <img src={user_proPic ? user_proPic : defaultImg} alt="userImage" className="userImage" onClick={takeToProfile}
+                            <img src={user_proPic ? user_proPic : defaultImg} alt="userImage" className="userImage"
                             />
                         </div>
                         <h4 className="postUserName" onClick={takeToProfile}
@@ -111,76 +108,7 @@ function Posts() {
                             onMouseLeave={hidePreview}
                         >{user_username}</h4>
                         {/* -------------------- */}
-                        <div
-                            id={`PreviewOf${postImage_id}`}
-                            style={{
-                                position: "absolute",
-                                top: "50px",
-                                left: "65px",
-                                display: "none",
-                                height: "350px",
-                                width: "400px",
-                                background: "white",
-                                borderRadius: "8px",
-                                boxShadow: "rgba(14, 30, 37, 0.12) 0px 2px 4px 0px, rgba(14, 30, 37, 0.32) 0px 2px 16px 0px",
-                                // display: "flex",
-                                flexDirection: "column"
-                            }}>
-                            <div className="previewHeader"
-                                style={{
-                                    width: "100%",
-                                    height: "100px",
-                                    borderBottom: "1px solid lightgray",
-                                    display: "flex",
-                                    alignItems: "center"
-                                }}>
-                                <div className="userImagePreview"
-                                    style={{
-                                        width: "50px",
-                                        height: "50px",
-                                        borderRadius: "50%",
-                                        backgroundImage: `url(${user_proPic ? user_proPic : defaultImg})`,
-                                        backgroundPosition: "center",
-                                        backgroundSize: "cover",
-                                        margin: "0 20px"
-                                    }}></div>
-                                <strong>{user_username}</strong>
-                            </div>
-                            <div className="previewBottom"
-                                style={{
-                                    width: "100%",
-                                    height: "75px",
-                                    display: "flex",
-                                    justifyContent: "center",
-                                    alignItems: "center",
-                                    borderBottom: "1px solid lightgray"
-                                }}>
-                                {PostsCount} posts
-                            </div>
-                            <div className="previewImagesHolder"
-                                style={{
-                                    flexGrow: "1",
-                                    borderBottom: "1px solid lightgray",
-                                    display: All_ImagesPreview && All_ImagesPreview.length !== 0 ? "grid" : "flex",
-                                    gridTemplateColumns: "repeat(3,1fr)",
-                                    justifyContent: "center",
-                                    alignItems: "center"
-                                }}>
-                                {
-                                    All_ImagesPreview && All_ImagesPreview.length !== 0 ? All_ImagesPreview?.map(obj => {
-                                        return (
-                                            <img src={obj.url} alt="previewPost"
-                                                style={{
-                                                    width: "100%",
-                                                    height: "75%",
-                                                    objectFit: "cover"
-                                                }}
-                                            />
-                                        )
-                                    }) : <p style={{ color: "gray" }}>No Posts Yet</p>
-                                }
-                            </div>
-                        </div>
+                        <Preview user_ID={user_ID} uid={postImage_id} />
                         {/* -------------------- */}
                     </div>
                     <img className="postImage" id={postImage_id} src={postImage_url} alt="postImage"

@@ -1,7 +1,7 @@
 import "./profile.css"
 import React, { useEffect, useMemo, useState } from 'react'
 import { useDispatch, useSelector } from "react-redux"
-import { showIndividualPost, chooseImg } from "../../Redux/Feature/individualPostSlice"
+import { selectImgObjAsync, showIndividualPost } from "../../Redux/Feature/individualPostSlice"
 import { db, storage } from "../../Database/firebaseConfig"
 import { useAuth } from "../../Database/authenticate"
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage"
@@ -10,7 +10,7 @@ import defaultIMG from "../../Extra/default.jpg"
 import Loading from "../Loading/Loading"
 import { doc, updateDoc } from "firebase/firestore"
 import { useParams } from "react-router-dom"
-import { getSpecificUserProfile } from "../../Redux/Feature/userDataFromDbSlice"
+import { getSpecificUserProfile } from "../../Redux/Feature/selectedUserDataSlice"
 
 
 
@@ -29,7 +29,7 @@ function Profile() {
 
     const selectedUser = useSelector(store => store.selectedUserDataReducer.specificProfileData)
 
-    const { Fullname, Username, All_Images, id, ProfilePic } = useSelector(store => store.selectedUserDataReducer.userData)
+    const { Fullname, Username, All_Images, id, ProfilePic } = useSelector(store => store.selectedUserDataReducer.authUserData)
 
     // ---------------------------------
 
@@ -40,13 +40,7 @@ function Profile() {
     // ---------------------------------
 
     const ShowIndividualPost = (e) => {
-        dispatch(chooseImg({
-            clickedImg: e.target.src,
-            All_Images: selectedUser.All_Images ? selectedUser.All_Images : All_Images,
-            Username: selectedUser.Username ? selectedUser.Username : Username,
-            ProfilePic: selectedUser.ProfilePic ? selectedUser.ProfilePic : ProfilePic,
-            ID: selectedUser.id ? selectedUser.id : id,
-        }))
+        dispatch(selectImgObjAsync({ user_ID: selectedUser.id ? selectedUser.id : id, clickedImg: e.target.src }))
         dispatch(showIndividualPost())
         document.querySelector("body").style.overflowY = "hidden"
     }

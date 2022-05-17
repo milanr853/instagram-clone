@@ -1,7 +1,23 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { doc, getDoc } from "firebase/firestore";
+import { db } from "../../Database/firebaseConfig";
 
 
 const initialState = { value: "none", selectedImg: "", userData: "" }
+
+export const selectImgObjAsync = createAsyncThunk(
+    "individualPost/selectImgObjAsync",
+    async ({ user_ID, clickedImg }) => {
+        try {
+            const docRef = doc(db, "registeredUsersCredentials", user_ID)
+            const response = await getDoc(docRef)
+            return { ...response.data(), clickedImg, ID: user_ID }
+        } catch (error) {
+            console.log(error)
+        }
+    }
+)
+
 
 const individualPostDisplay = createSlice({
     name: "individualPostDisplay",
@@ -12,19 +28,29 @@ const individualPostDisplay = createSlice({
         },
         hideIndividualPost: (state, action) => {
             state.value = "none"
+            state.selectedImg = ""
+            state.userData = ""
         },
-        chooseImg: (state, { payload }) => {
-            const { clickedImg, All_Images, Username, ProfilePic, ID } = payload
+    },
+    //Gather Particular Image Details
+    extraReducers: {
+        [selectImgObjAsync.fulfilled]: (state, { payload }) => {
+            const { Username, ProfilePic, clickedImg, All_Images, ID } = payload
             const selected = All_Images.filter(obj => {
                 if (obj.url === clickedImg) return obj
             })
-            state.selectedImg = selected[0]
-            state.userData = { Username, ProfilePic, ID }
+            return {
+                ...state,
+                //Specific Image || Clicked Image
+                selectedImg: selected[0],
+                //Linked User Data (to the image)
+                userData: { Username, ProfilePic, ID }
+            }
         }
     }
 })
 
 
-export const { showIndividualPost, hideIndividualPost, chooseImg } = individualPostDisplay.actions
+export const { showIndividualPost, hideIndividualPost } = individualPostDisplay.actions
 
 export default individualPostDisplay.reducer

@@ -30,13 +30,14 @@ function CreatePost() {
 
     const [captionAreaVisibility, setCaptionAreaVisibility] = useState(false)
 
-    const { Username, id, ProfilePic, All_Images } =
-        useSelector(store => store.selectedUserDataReducer.userData)
+    const { Username, id, ProfilePic } =
+        useSelector(store => store.selectedUserDataReducer.authUserData)
 
     const uploadOption =
         useSelector(store => store.uploadPostOptionVisibilityReducer)
 
 
+    // --------------------------------
     //Set States To Default
     const hideUploadOptions = () => {
         dispatch(makeUploadOptionsDisappear())
@@ -103,6 +104,7 @@ function CreatePost() {
             timestamp: date
         }
 
+
         //Firestore
         const docRef = doc(db, 'registeredUsersCredentials', id)
         updateDoc(docRef, {
@@ -124,8 +126,6 @@ function CreatePost() {
                 postImage_comment_count: 0,
                 postImage_like_count: 0,
                 timestamp: serverTimestamp(),
-                PostsCount: All_Images.length,
-                All_ImagesPreview: All_Images.slice(0, 3)
             })
         }
         catch (error) {
@@ -224,6 +224,7 @@ function CreatePost() {
                                     height: "100%",
                                     background: "white",
                                     position: "absolute",
+                                    borderRadius: "4px",
                                     opacity: "0.4",
                                     display: progressDisplay ? "block" : "none"
                                 }}>
