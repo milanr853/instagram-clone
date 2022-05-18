@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { useSelector } from "react-redux"
 import { nanoid } from "@reduxjs/toolkit"
 import { useNavigate } from "react-router-dom"
-import defaultIMG from "../../Extra/default.jpg"
+import defaultImage from "../../Constant/defaultImage"
 
 
 
@@ -28,7 +28,7 @@ function SearchResultsDisplay({ usersArr }) {
             return (
                 <div className="SearchProfileResult" key={nanoid()} id={Username} onClick={takeToProfile}>
                     <div className="userAvatar">
-                        <img src={ProfilePic ? ProfilePic : defaultIMG} alt="user_image" id="userAvatarImage" />
+                        <img src={ProfilePic ? ProfilePic : defaultImage} alt="user_image" id="userAvatarImage" />
                     </div>
                     <div className="userInfoFromSearchContainer">
                         <strong className="userNameFromSearch">{Username}</strong>
@@ -50,7 +50,7 @@ function SearchResultsDisplay({ usersArr }) {
     //     return (
     //         <div className="SearchProfileResult" key={nanoid()} id={Username} onClick={takeToProfile}>
     //             <div className="userAvatar">
-    //                 <img src={ProfilePic ? ProfilePic : defaultIMG} alt="user_image" id="userAvatarImage" />
+    //                 <img src={ProfilePic ? ProfilePic : defaultImage} alt="user_image" id="userAvatarImage" />
     //             </div>
     //             <div className="userInfoFromSearchContainer">
     //                 <strong className="userNameFromSearch">{Username}</strong>

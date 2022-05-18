@@ -6,6 +6,7 @@ import { db, storage } from "../../Database/firebaseConfig"
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage"
 import { nanoid } from '@reduxjs/toolkit'
 import { setDoc, arrayUnion, doc, serverTimestamp, updateDoc } from "firebase/firestore"
+import futureTime from "../../Constant/setTime"
 
 
 
@@ -93,47 +94,71 @@ function CreatePost() {
 
 
     useEffect(() => {
-        if (!currentPicLink) return
-        const date = new Date().toString()
-        const img_id = nanoid()
-
-        const imageData = {
-            id: img_id,
-            url: currentPicLink,
-            caption: caption,
-            timestamp: date
-        }
+        const databaseOperations = async () => {
+            if (!currentPicLink) return
+            const date = new Date().toString()
 
 
-        //Firestore
-        const docRef = doc(db, 'registeredUsersCredentials', id)
-        updateDoc(docRef, {
-            All_Images: arrayUnion(imageData)
-        })
+            const img_id = nanoid()
 
-        //Firestore database
-        try {
-            const mainDisplayPostsRef = doc(db, "mainDisplayPosts", img_id)
-            setDoc(mainDisplayPostsRef, {
-                user_username: Username,
-                user_ID: id,
-                user_proPic: ProfilePic ? ProfilePic : "",
-                postImage_id: img_id,
-                postImage_url: currentPicLink,
-                postImage_caption: caption,
-                postImage_publishTime: date,
-                authUserClicked: false,
-                postImage_comment_count: 0,
-                postImage_like_count: 0,
-                timestamp: serverTimestamp(),
+            const imageData = {
+                id: img_id,
+                url: currentPicLink,
+                caption: caption,
+                timestamp: date
+            }
+
+            textAreaRef.current.value = ""
+
+
+            //Firestore Update User Document in registeredUsersCredentials collection
+            const docRef = doc(db, 'registeredUsersCredentials', id)
+            updateDoc(docRef, {
+                All_Images: arrayUnion(imageData)
             })
-        }
-        catch (error) {
-            console.log(error)
-        }
 
 
-        textAreaRef.current.value = ""
+            //Firestore Create Document in mainDisplayPosts collection
+            try {
+                const mainDisplayPostsRef = doc(db, "mainDisplayPosts", img_id)
+                setDoc(mainDisplayPostsRef, {
+                    user_username: Username,
+                    user_ID: id,
+                    user_proPic: ProfilePic ? ProfilePic : "",
+                    postImage_id: img_id,
+                    postImage_url: currentPicLink,
+                    postImage_caption: caption,
+                    postImage_publishTime: date,
+                    authUserClicked: false,
+                    postImage_comment_count: 0,
+                    postImage_like_count: 0,
+                    timestamp: serverTimestamp(),
+                })
+            }
+            catch (error) {
+                console.log(error)
+            }
+
+
+            // Firestore Create Document in reels collection
+            try {
+                const reelRef = doc(db, "reels", Username)
+                setDoc(reelRef, {
+                    user_username: Username,
+                    user_ID: id,
+                    user_proPic: ProfilePic ? ProfilePic : "",
+                    postImage_id: img_id,
+                    postImage_url: currentPicLink,
+                    timestamp: serverTimestamp(),
+                    postImage_publishTime: date,
+                    futureTime: futureTime(date)
+                })
+            }
+            catch (error) {
+                console.log(error)
+            }
+        }
+        databaseOperations()
     }, [currentPicLink])
 
 

@@ -27,7 +27,7 @@ function Body() {
     // ---------------------------
     useEffect(() => {
         dispatch(setInput(""))
-        document.querySelector(".search").value = ""
+
 
         if (!pathname.includes(selectedUser.Username)) {
             dispatch(clearUserData())

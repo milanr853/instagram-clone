@@ -5,6 +5,7 @@ import SearchResultsDisplay from "../SearchResultsDisplay/SearchResultsDisplay"
 import { useDispatch, useSelector } from "react-redux"
 import { showContainer } from "../../Redux/Feature/showSearchResultsContainerSlice"
 import { setInput } from "../../Redux/Feature/inputSlice"
+import InitialLoading from "../InitialLoading/InitialLoading"
 
 
 
@@ -21,6 +22,7 @@ function ExplorePage() {
 
     const AllUsers = useSelector(store => store.firestoreDBReducer.value)
 
+    const navVisibility = useSelector(store => store.navbarVisibility.value)
 
     // ------------------------
     const ImgsArrRender = () => {
@@ -65,17 +67,19 @@ function ExplorePage() {
 
 
     return (
-        <>
-            <div className="explorePageHeader">
-                <input type="text" className="searchUsersInput" placeholder="Search" onClick={SearchResultsContainer} onChange={handleChangeEvent} ref={refr} />
+        navVisibility
+            ? <>
+                <div className="explorePageHeader">
+                    <input type="text" className="searchUsersInput" placeholder="Search" onClick={SearchResultsContainer} onChange={handleChangeEvent} ref={refr} />
 
-                <SearchResultsDisplay input={input} usersArr={filteredUsers} />
-            </div>
+                    <SearchResultsDisplay input={input} usersArr={filteredUsers} />
+                </div>
 
-            <div className="Explore">
-                {renderImages.length !== 0 && renderImages}
-            </div>
-        </>
+                <div className="Explore">
+                    {renderImages.length !== 0 && renderImages}
+                </div>
+            </>
+            : <InitialLoading />
     )
 }
 

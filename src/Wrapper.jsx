@@ -6,6 +6,7 @@ import { readFirebaseDB } from './Database/firestoreDB'
 import { getFirebaseUsersData } from './Redux/Feature/firebaseUsersDatabaseSlice'
 import { getAllDataAndAuthUserMail } from './Redux/Feature/selectedUserDataSlice'
 import { useAuth } from './Database/authenticate'
+import { setNavVisibility } from './Redux/Feature/navbarVisibility'
 
 
 
@@ -42,6 +43,9 @@ function Wrapper() {
     }, [user, All_Data])
 
 
+    useEffect(() => {
+        dispatch(setNavVisibility(All_Data.length))
+    }, [All_Data])
 
 
     // ------------------------------------------

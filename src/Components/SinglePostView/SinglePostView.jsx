@@ -1,6 +1,5 @@
 import "./singlePostView.css"
 import React, { useEffect, useMemo, useRef, useState } from 'react'
-import defaultImg from "../../Extra/default.jpg"
 import { useDispatch, useSelector } from "react-redux"
 import { hideIndividualPost } from "../../Redux/Feature/individualPostSlice"
 import { useNavigate } from "react-router-dom"
@@ -18,6 +17,7 @@ import { removeIDs } from "../../Redux/Feature/likePostSlice"
 import {
     WhatsappShareButton
 } from "react-share";
+import defaultImage from "../../Constant/defaultImage"
 
 
 
@@ -109,7 +109,7 @@ function SinglePostView() {
             return (
                 <div className="Comment" key={uid}  >
                     <div className="cmtImgCntnr">
-                        <img src={comentedProfilePic ? comentedProfilePic : defaultImg} alt="profilePic" />
+                        <img src={comentedProfilePic ? comentedProfilePic : defaultImage} alt="profilePic" />
                     </div>
                     <span className="userComment">
                         <strong className="SinglePostViewProfileUserName"
@@ -223,7 +223,7 @@ function SinglePostView() {
                 <div className="commentsPart" >
                     <div className="commentPartHeader">
                         <div id="img">
-                            <img src={ProfilePic ? ProfilePic : defaultImg} alt="userProfilePic" />
+                            <img src={ProfilePic ? ProfilePic : defaultImage} alt="userProfilePic" />
                         </div>
                         <div id="name">
                             <strong className="SinglePostViewProfileUserName"
@@ -238,7 +238,7 @@ function SinglePostView() {
                     <div className="allCommentsArea">
                         <div className="Comment captionHolder">
                             <div className="cmtImgCntnr">
-                                <img src={ProfilePic ? ProfilePic : defaultImg} alt="userProfilePic" />
+                                <img src={ProfilePic ? ProfilePic : defaultImage} alt="userProfilePic" />
                             </div>
                             <span className="userComment"
                                 onClick={() => {

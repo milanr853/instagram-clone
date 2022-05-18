@@ -33,6 +33,8 @@ function Header() {
 
     const AllUsers = useSelector(store => store.firestoreDBReducer.value)
 
+    const navVisibility = useSelector(store => store.navbarVisibility.value)
+
     // --------------EVENTS--------------------
 
     const showAccountOptions = () => {
@@ -57,6 +59,12 @@ function Header() {
 
     // ------------------------------------------------
     useEffect(() => {
+        if (!ref.current) return
+        ref.current.value = ""
+    }, [location.pathname])
+
+
+    useEffect(() => {
         setFilteredUsers(
             [...AllUsers.filter(user => {
                 if (input) {
@@ -71,7 +79,7 @@ function Header() {
 
 
     return (
-        <>
+        navVisibility ?
             <div className="Header">
                 <div className="headerFlexWrapper">
                     <div className="logoHolder">
@@ -104,7 +112,8 @@ function Header() {
                     </div>
                 </div>
             </div>
-        </>
+            : <></>
+
     )
 }
 

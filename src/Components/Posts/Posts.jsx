@@ -1,9 +1,8 @@
 import "./Posts.css"
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import React, { useEffect, useState } from 'react'
 import { selectImgObjAsync, showIndividualPost } from "../../Redux/Feature/individualPostSlice"
-import defaultImg from "../../Extra/default.jpg"
-import loadingScreen from "../../Extra/grayLogo.png"
+import defaultImage from "../../Constant/defaultImage"
 import { addDoc, collection, onSnapshot, orderBy, query, serverTimestamp } from "firebase/firestore"
 import { db } from "../../Database/firebaseConfig"
 import moment from "moment"
@@ -18,6 +17,7 @@ import { nanoid } from "@reduxjs/toolkit"
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 import 'react-lazy-load-image-component/src/effects/blur.css';
 import ReelsHolder from "../ReelsHolder/ReelsHolder"
+import InitialLoading from "../InitialLoading/InitialLoading"
 
 
 
@@ -34,7 +34,12 @@ function Posts() {
 
     const [renderPosts_Images, setRenderPosts_Images] = useState(null)
 
+    const navVisibility = useSelector(store => store.navbarVisibility.value)
+
     // -----------------------------
+
+
+
     useEffect(() => {
         const getAllLikes = async () => {
             onSnapshot(query(collection(db, "mainDisplayPosts"),
@@ -101,12 +106,16 @@ function Posts() {
                 userPreview.style.display = "flex"
             }
 
+            const handleCommentInput = (e) => setComment(e.target.value.trim())
+
+
+
 
             return (
                 <div className="PostContainer" key={postImage_id}>
                     <div className="postHeader" onMouseLeave={hidePreview}>
                         <div className="userImageContainer">
-                            <img src={user_proPic ? user_proPic : defaultImg} alt="userImage" className="userImage"
+                            <img src={user_proPic ? user_proPic : defaultImage} alt="userImage" className="userImage"
                             />
                         </div>
                         <h4 className="postUserName" onClick={takeToProfile}
@@ -124,7 +133,7 @@ function Posts() {
 
                     <div className="postBottom">
                         <div className="postBottomIconsBar">
-                            <i className={`bi ${authUserClicked ? "bi-heart-fill" : "bi-heart"} `}
+                            <i className={`bi ${authUserClicked ? "bi-heart-fill" : "bi-heart Heart"} `}
                                 style={{ color: authUserClicked ? "#ed4956" : "" }}
                                 onClick={AddLikeData}
                             ></i>
@@ -142,7 +151,7 @@ function Posts() {
                         <div className="postBottomAddComment">
                             <i className="bi bi-emoji-smile emoji"></i>
                             <input type="text" id="textArea" placeholder="Add a comment..."
-                                onChange={(e) => { setComment(e.target.value.trim()) }} />
+                                onChange={handleCommentInput} />
                             <span className="postOption" onClick={AddCommentPost}
                                 style={{ opacity: comment ? "1" : "0.6" }}
                             >Post</span>
@@ -152,31 +161,18 @@ function Posts() {
             )
         })
         setRenderPosts_Images(arr)
-    }, [postsArr])
+    }, [postsArr, comment])
 
 
 
 
     return (
-        postsArr.length !== 0 ?
+        navVisibility ?
             <>
                 <ReelsHolder />
                 {renderPosts_Images}
             </>
-            : <div className="PostContainer" style={{
-                width: "600px",
-                height: "calc(100vh - 150px)",
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                border: "none",
-                background: "transparent",
-            }}>
-                <img style={{
-                    objectFit: "cover",
-                    width: "10%",
-                }} src={loadingScreen} alt="loadingScreen" />
-            </div>
+            : <InitialLoading />
     )
 }
 

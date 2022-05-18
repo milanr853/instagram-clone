@@ -1,10 +1,10 @@
 import "./preview.css"
 import React, { useEffect, useState } from 'react'
-import defaultImg from "../../Extra/default.jpg"
 import { nanoid } from '@reduxjs/toolkit'
 import { doc, getDoc } from 'firebase/firestore'
 import { db } from '../../Database/firebaseConfig'
 import noPosts from "../../Extra/noposts.png"
+import defaultImage from "../../Constant/defaultImage"
 
 
 
@@ -69,7 +69,7 @@ function Preview({ uid,
                             width: "50px",
                             height: "50px",
                             borderRadius: "50%",
-                            backgroundImage: `url(${data.ProfilePic ? data.ProfilePic : defaultImg})`,
+                            backgroundImage: `url(${data.ProfilePic ? data.ProfilePic : defaultImage})`,
                             backgroundPosition: "center",
                             backgroundSize: "cover",
                             margin: "0 20px"

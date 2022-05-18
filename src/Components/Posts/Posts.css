@@ -138,7 +138,7 @@ i {
 
 
 
-.bi-heart:hover,
+/* .bi-heart:hover, */
 .bi-bookmark:hover,
 .bi-share:hover {
     color: rgb(170, 170, 170);
@@ -146,6 +146,10 @@ i {
 
 .bi-share {
     margin: 0 20px;
+}
+
+.Heart:hover {
+    color: rgb(170, 170, 170);
 }
 
 @media screen and (max-width:640px) {

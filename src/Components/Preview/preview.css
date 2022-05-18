@@ -5,7 +5,13 @@
 
 .previewImagesHolder {
     grid-template-columns: repeat(3, 1fr);
+
 }
+
+::-web-kit-scrollbar {
+    height: 3px;
+}
+
 
 @media screen and (max-width:470px) {
     .previewHolder {
