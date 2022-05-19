@@ -9,6 +9,7 @@ import selectedUserDataReducer from "../Feature/selectedUserDataSlice"
 import likePostReducer from "../Feature/likePostSlice"
 import timelinePostsReducer from "../Feature/timelinePostsSlice"
 import navbarVisibility from "../Feature/navbarVisibility"
+import deletePostSlice from "../Feature/deleteOptionVisibility"
 
 
 const store = configureStore({
@@ -23,7 +24,8 @@ const store = configureStore({
         selectedUserDataReducer,
         likePostReducer,
         timelinePostsReducer,
-        navbarVisibility
+        navbarVisibility,
+        deletePostSlice
     }
 })
 

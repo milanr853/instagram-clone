@@ -45,7 +45,7 @@ function Posts() {
             onSnapshot(query(collection(db, "mainDisplayPosts"),
                 orderBy('timestamp', 'desc')), snapshot => {
                     setPostsArr(snapshot.docs)
-                    dispatch(setTimelinePosts(nanoid()))
+                    // dispatch(setTimelinePosts(nanoid()))
                 })
         }
         getAllLikes()
@@ -58,7 +58,8 @@ function Posts() {
         const arr = postsArr?.map((elem) => {
             const { user_username, user_ID,
                 user_proPic, postImage_comment_count,
-                postImage_id, postImage_url,
+                postImage_id,
+                postImage_url,
                 postImage_caption,
                 postImage_publishTime,
                 authUserClicked, postImage_like_count } = elem.data()

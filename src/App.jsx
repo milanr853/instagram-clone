@@ -7,6 +7,7 @@ import { makeOptionsDisappear } from "./Redux/Feature/accountOptionsVisibilitySl
 import CreatePost from "./Components/CreatePost/CreatePost";
 import { disappearContainer } from "./Redux/Feature/showSearchResultsContainerSlice";
 import SinglePostView from "./Components/SinglePostView/SinglePostView";
+import DeletePostOption from "./Components/DeletePost/DeletePostOption";
 
 
 
@@ -35,6 +36,7 @@ function App() {
   return (
     <div className="App" onClick={DisappearFeatures}>
       <Router>
+        <DeletePostOption />
         <SinglePostView />
         <CreatePost />
         <Header />

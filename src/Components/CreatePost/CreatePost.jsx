@@ -1,5 +1,5 @@
 import "./CreatePost.css"
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from "react-redux"
 import { makeUploadOptionsDisappear } from '../../Redux/Feature/uploadPostOptionVisibilitySlice'
 import { db, storage } from "../../Database/firebaseConfig"
@@ -14,8 +14,6 @@ import futureTime from "../../Constant/setTime"
 function CreatePost() {
 
     const dispatch = useDispatch()
-
-    const textAreaRef = useRef()
 
     const [file, setFile] = useState(null)
 
@@ -101,14 +99,14 @@ function CreatePost() {
 
             const img_id = nanoid()
 
+            const Caption = () => caption.trim()
+
             const imageData = {
                 id: img_id,
                 url: currentPicLink,
-                caption: caption,
+                caption: Caption(),
                 timestamp: date
             }
-
-            textAreaRef.current.value = ""
 
 
             //Firestore Update User Document in registeredUsersCredentials collection
@@ -127,7 +125,7 @@ function CreatePost() {
                     user_proPic: ProfilePic ? ProfilePic : "",
                     postImage_id: img_id,
                     postImage_url: currentPicLink,
-                    postImage_caption: caption,
+                    postImage_caption: Caption(),
                     postImage_publishTime: date,
                     authUserClicked: false,
                     postImage_comment_count: 0,
@@ -242,7 +240,7 @@ function CreatePost() {
                             <div id="createPostContainerCaptionArea" style={{ display: progress === 100 ? "none" : 'flex' }}>
                                 {/* Progress Bar */}
                                 <textarea name="captionArea" id="captionArea" placeholder='Add a caption'
-                                    onChange={() => setCaption(textAreaRef.current.value.trim())} ref={textAreaRef}></textarea>
+                                    onChange={(e) => setCaption(e.target.value)} ></textarea>
                                 <button className="post" onClick={uploadPost}>Post</button>
                                 <div style={{
                                     width: "100%",

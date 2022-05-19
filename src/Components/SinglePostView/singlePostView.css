@@ -65,6 +65,7 @@
     align-items: center;
     box-sizing: border-box;
     padding: 0 15px;
+    position: relative;
 }
 
 #img {
@@ -130,6 +131,14 @@
     text-decoration: underline;
     cursor: pointer;
 }
+
+
+.selectDots {
+    position: absolute;
+    right: 15px;
+    top: 15px;
+}
+
 
 
 @media screen and (max-width:640px) {

@@ -56,6 +56,11 @@ function Header() {
         dispatch(setInput(ref.current.value))
     }
 
+    const SearchResultsContainer = () => {
+        dispatch(showContainer())
+    }
+
+
 
     // ------------------------------------------------
     useEffect(() => {
@@ -90,9 +95,12 @@ function Header() {
                     </div>
 
                     <div className="inputHolder">
-                        <input type="text" className="search" placeholder="Search" onClick={takeToExplore} onChange={handleChange} ref={ref} />
+                        <input type="text" className="search" placeholder="Search"
+                            onChange={handleChange}
+                            onClick={SearchResultsContainer}
+                            ref={ref} />
 
-                        <SearchResultsDisplay usersArr={filteredUsers} />
+                        <SearchResultsDisplay input={input} usersArr={filteredUsers} />
                     </div>
 
                     <div className="iconsHolder">

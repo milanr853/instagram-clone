@@ -1,7 +1,13 @@
 .ALL_POSTS_WRAPPER {
-    max-width: 600px;
+    /* width: 600px; */
     min-height: 600px;
     display: flex;
     flex-direction: column;
     /* margin-top: 60px; */
 }
+
+/* @media screen and (max-width:601px) {
+    .ALL_POSTS_WRAPPER {
+        max-width: 600px;
+    }
+} */

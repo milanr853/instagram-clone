@@ -18,6 +18,7 @@ import {
     WhatsappShareButton
 } from "react-share";
 import defaultImage from "../../Constant/defaultImage"
+import { collectImageAndUserInfoToDeletePost, setShowDeleteOption } from "../../Redux/Feature/deleteOptionVisibility"
 
 
 
@@ -56,11 +57,22 @@ function SinglePostView() {
 
 
     //EVENTS
+    const showDeleteOption = () => {
+        document.querySelector("body").style.overflowY = "hidden"
+        dispatch(collectImageAndUserInfoToDeletePost({
+            Username: Username,
+            Image_ID: id,
+            User_ID: ID
+        }))
+        dispatch(setShowDeleteOption())
+    }
+
+
     const HideIndividualPost = () => {
+        document.querySelector("body").style.overflowY = "scroll"
         dispatch(hideIndividualPost())
         commentRef.current.value = ''
         setComment(null)
-        document.querySelector("body").style.overflowY = "scroll"
         dispatch(removeIDs())
     }
 
@@ -233,6 +245,11 @@ function SinglePostView() {
                                     navigate(`/profile/${Username}`)
                                 }}>{Username ? Username : ""}</strong>
                         </div>
+
+                        <i className="bi bi-three-dots selectDots" style={{
+                            display: authUserData?.Username === Username ? "block" : "none"
+                        }} onClick={showDeleteOption}></i>
+
                     </div>
 
                     <div className="allCommentsArea">

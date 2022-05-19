@@ -86,11 +86,11 @@ function ReelsHolder() {
 
 
     return (
-        reelsArr.length !== 0 ?
-            <div className="reelsHolder">
-                {renderReels}
-            </div>
-            : <></>
+        <div className="reelsHolder" style={{
+            display: reelsArr.length !== 0 ? "grid" : "none"
+        }}>
+            {renderReels}
+        </div>
     )
 }
 

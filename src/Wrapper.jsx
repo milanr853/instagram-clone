@@ -2,11 +2,13 @@ import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import App from './App'
 import ToAuthenticate from './ToAuthenticate'
-import { readFirebaseDB } from './Database/firestoreDB'
 import { getFirebaseUsersData } from './Redux/Feature/firebaseUsersDatabaseSlice'
 import { getAllDataAndAuthUserMail } from './Redux/Feature/selectedUserDataSlice'
 import { useAuth } from './Database/authenticate'
 import { setNavVisibility } from './Redux/Feature/navbarVisibility'
+import { collection, onSnapshot } from 'firebase/firestore'
+import { db } from './Database/firebaseConfig'
+import { query } from 'firebase/database'
 
 
 
@@ -25,11 +27,18 @@ function Wrapper() {
     //Save data from Firebase data into Store
     useEffect(() => {
         const getData = async () => {
-            const allUsersData = await readFirebaseDB()
-            dispatch(getFirebaseUsersData(allUsersData))
+            onSnapshot(query(collection(db, "registeredUsersCredentials")), snapshot => {
+                const Users = snapshot.docs.map(doc => {
+                    const obj = { ...doc.data() }
+                    obj.id = doc.id
+                    return obj
+                })
+                dispatch(getFirebaseUsersData(Users))
+            }
+            )
         }
         getData()
-    }, [user, timelinePosts])
+    }, [user, timelinePosts, db])
 
 
     //Get All Users Data from Store
