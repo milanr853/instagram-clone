@@ -7,7 +7,6 @@ import inputReducer from "../Feature/inputSlice"
 import firestoreDBReducer from "../Feature/firebaseUsersDatabaseSlice"
 import selectedUserDataReducer from "../Feature/selectedUserDataSlice"
 import likePostReducer from "../Feature/likePostSlice"
-import timelinePostsReducer from "../Feature/timelinePostsSlice"
 import navbarVisibility from "../Feature/navbarVisibility"
 import deletePostSlice from "../Feature/deleteOptionVisibility"
 
@@ -23,7 +22,6 @@ const store = configureStore({
         firestoreDBReducer,
         selectedUserDataReducer,
         likePostReducer,
-        timelinePostsReducer,
         navbarVisibility,
         deletePostSlice
     }

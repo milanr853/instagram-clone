@@ -2,49 +2,48 @@ import "./profile.css"
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from "react-redux"
 import { selectImgObjAsync, showIndividualPost } from "../../Redux/Feature/individualPostSlice"
+import { db, storage } from "../../Database/firebaseConfig"
+import { useAuth } from "../../Database/authenticate"
+import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage"
 import { nanoid } from "@reduxjs/toolkit"
 import defaultImage from "../../Constant/defaultImage"
-import { useParams, useNavigate } from "react-router-dom"
-import { getSpecificUserProfile } from "../../Redux/Feature/selectedUserDataSlice"
+import Loading from "../Loading/Loading"
+import { doc, updateDoc } from "firebase/firestore"
+import { useParams } from "react-router-dom"
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 import InitialLoading from "../InitialLoading/InitialLoading"
 
 
 
 
-function Profile() {
+function AuthProfile() {
 
     const dispatch = useDispatch()
+
+    const [progress, setProgress] = useState("")
 
     const [uploadsList, setUploadsList] = useState([])
 
     const [renderPosts, setRenderPosts] = useState("")
 
-    const All_Data = useSelector(store => store.firestoreDBReducer.value)
+    const [profilePicture, setProfilePicture] = useState("")
 
     const navVisibility = useSelector(store => store.navbarVisibility.value)
 
-    const selectedUser = useSelector(store => store.selectedUserDataReducer.specificProfileData)
-
-    const { Username } = useSelector(store => store.selectedUserDataReducer.authUserData)
+    //Auth User [Data]
+    const { Fullname, Username, All_Images, id, ProfilePic } = useSelector(store => store.selectedUserDataReducer.authUserData)
 
     // ---------------------------------
 
+    const user = useAuth()
+
     const { param } = useParams()
-
-    const navigate = useNavigate()
-
-    //Redirect To Auth Profile
-    useEffect(() => {
-        if (param !== Username) return
-        navigate(`/profile/${Username}/auth-user`)
-    }, [param])
 
     // ---------------------------------
 
     const ShowIndividualPost = (e) => {
         dispatch(selectImgObjAsync({
-            user_ID: selectedUser.id && selectedUser.id
+            user_ID: id
             , clickedImg: e.target.src
         }))
         dispatch(showIndividualPost())
@@ -52,21 +51,52 @@ function Profile() {
     }
 
 
+    // Profile Picture Upload To Firebase Storage
     useEffect(() => {
-        dispatch(getSpecificUserProfile({ All_Data, selectedUser: param }))
-    }, [All_Data, param])
+        const uploadPost = async () => {
+            if (!profilePicture) return
+            if (profilePicture) {
+                try {
+                    const imageRef = ref(storage, `${Username}/profile/${profilePicture.name + nanoid()}`)
+                    const uploadTask = uploadBytesResumable(imageRef, profilePicture);
+
+                    uploadTask.on('state_changed',
+                        (snapshot) => {
+                            const prog = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                            setProgress(prog)
+                        },
+                        (error) => {
+                            // Handle unsuccessful uploads
+                        },
+                        () => {
+                            getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+                                const ProfilePic = { ProfilePic: downloadURL }
+                                const docRef = doc(db, 'registeredUsersCredentials', id)
+                                updateDoc(docRef,
+                                    ProfilePic
+                                )
+                            });
+                        }
+                    );
+                }
+                catch (err) { console.log(err.message) }
+            }
+        }
+        uploadPost()
+    }, [profilePicture])
 
 
     // Images Url To Render
     useEffect(() => {
-        if (!selectedUser) return
+        if (!All_Images) return
         const imagesUrl =
-            selectedUser.All_Images?.map(obj => {
+            All_Images?.map(obj => {
                 const { url } = obj
                 return url
             })
+
         setUploadsList(imagesUrl)
-    }, [selectedUser, param])
+    }, [All_Images, param])
 
 
     //Render Images
@@ -89,20 +119,33 @@ function Profile() {
                     <div className="profileHeader">
                         <div className="profileImageSection">
                             <div className="profileImageContainer">
-                                <img src={selectedUser.ProfilePic ? selectedUser?.ProfilePic : defaultImage} alt="profile-image" id="profileImage" />
+                                <input type="file" name="profile_upload" id="profile_upload"
+                                    onChange={(e) => { setProfilePicture(e.target.files[0]) }}
+                                    style={{ display: user ? "block" : "none" }} />
+
+                                <img src={ProfilePic ? ProfilePic : defaultImage} alt="profile-image" id="profileImage" />
+
+                                {profilePicture && progress < 100 ? <Loading /> : <></>}
                             </div>
                         </div>
                         <div className="profileInfoSection">
                             <p id="profileName">{
-                                selectedUser?.Username}</p>
+                                Username
+                            }</p>
+
                             <p id="totalposts"><strong>{uploadsList?.length}</strong> {uploadsList?.length ? "posts" : ""}</p>
+
                             <strong id="fullname">{
-                                selectedUser?.Fullname}</strong>
+                                Fullname
+                            }</strong>
                         </div>
                     </div>
                     <div className="profileInfoSectionSmaller" >
+
                         <strong className="fullname_smaller" >{
-                            selectedUser?.Fullname}</strong>
+                            Fullname
+                        }</strong>
+
                         <p className="totalpostsCount"><strong>{uploadsList?.length}</strong> {uploadsList?.length ? "posts" : ""}</p>
                     </div>
                 </div>
@@ -129,4 +172,4 @@ function Profile() {
     )
 }
 
-export default React.memo(Profile)
+export default React.memo(AuthProfile)

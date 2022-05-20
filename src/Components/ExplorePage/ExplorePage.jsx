@@ -54,6 +54,7 @@ function ExplorePage() {
 
 
     useEffect(() => {
+        if (!input) return
         setFilteredUsers(
             [...AllUsers.filter(user => {
                 if (input) {
@@ -70,9 +71,10 @@ function ExplorePage() {
         navVisibility
             ? <>
                 <div className="explorePageHeader">
-                    <input type="text" className="searchUsersInput" placeholder="Search" onClick={SearchResultsContainer} onChange={handleChangeEvent} ref={refr} />
+                    <input type="text" className="searchUsersInput" placeholder="Search"
+                        onClick={SearchResultsContainer} onChange={handleChangeEvent} ref={refr} />
 
-                    <SearchResultsDisplay input={input} usersArr={filteredUsers} />
+                    <SearchResultsDisplay usersArr={filteredUsers} />
                 </div>
 
                 <div className="Explore">

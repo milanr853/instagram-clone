@@ -58,7 +58,7 @@
 
 @media screen and (max-width:900px) {
     .Explore {
-        width: 100%;
+        width: 100vw;
         grid-auto-rows: 28vmin;
     }
 }

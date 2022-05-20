@@ -25,6 +25,7 @@ function SearchResultsDisplay({ usersArr }) {
             const takeToProfile = (e) => {
                 navigate(`/profile/${Username}`)
             }
+
             return (
                 <div className="SearchProfileResult" key={nanoid()} id={Username} onClick={takeToProfile}>
                     <div className="userAvatar">
@@ -39,27 +40,6 @@ function SearchResultsDisplay({ usersArr }) {
         })
         setRelevantUsers(arr)
     }, [usersArr])
-
-
-    // const relevantUsers = usersArr.length !== 0 && usersArr.map(user => {
-    //     const { Username, Fullname, ProfilePic } = user
-    //     const takeToProfile = (e) => {
-    //         navigate(`/profile/${Username}`)
-    //     }
-    //     console.log("äpple")
-    //     return (
-    //         <div className="SearchProfileResult" key={nanoid()} id={Username} onClick={takeToProfile}>
-    //             <div className="userAvatar">
-    //                 <img src={ProfilePic ? ProfilePic : defaultImage} alt="user_image" id="userAvatarImage" />
-    //             </div>
-    //             <div className="userInfoFromSearchContainer">
-    //                 <strong className="userNameFromSearch">{Username}</strong>
-    //                 <p className="fullNameOfUserFromSearch">{`${Fullname}`}</p>
-    //             </div>
-    //         </div>
-    //     )
-    // })
-
 
 
 

@@ -24,11 +24,10 @@ function ReelsHolder() {
             onSnapshot(query(collection(db, "reels"),
                 orderBy('timestamp', 'desc')), snapshot => {
                     setReelsArr(snapshot.docs)
-                    // dispatch(setTimelinePosts(nanoid()))
                 })
         }
         getReelsData()
-    }, [db])
+    }, [])
 
 
     useEffect(() => {

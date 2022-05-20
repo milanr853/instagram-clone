@@ -17,8 +17,6 @@ function Wrapper() {
 
     const dispatch = useDispatch()
 
-    const { timelinePosts } = useSelector(store => store.timelinePostsReducer)
-
 
     //Get current user || Session Continuity
     const user = useAuth()
@@ -38,7 +36,7 @@ function Wrapper() {
             )
         }
         getData()
-    }, [user, timelinePosts, db])
+    }, [user, db])
 
 
     //Get All Users Data from Store

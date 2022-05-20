@@ -9,7 +9,7 @@ import Profile from '../Profile/Profile'
 import ExplorePage from '../ExplorePage/ExplorePage'
 import { setInput } from "../../Redux/Feature/inputSlice"
 import { useDispatch, useSelector } from 'react-redux'
-import { clearUserData } from '../../Redux/Feature/selectedUserDataSlice'
+import AuthProfile from "../Profile/AuthProfile"
 
 
 
@@ -19,19 +19,11 @@ function Body() {
 
     const { pathname } = useLocation()
 
-    const selectedUser =
-        useSelector(store =>
-            store.selectedUserDataReducer.specificProfileData)
 
 
     // ---------------------------
     useEffect(() => {
         dispatch(setInput(""))
-
-
-        if (!pathname.includes(selectedUser.Username)) {
-            dispatch(clearUserData())
-        }
     }, [pathname])
 
 
@@ -45,6 +37,7 @@ function Body() {
                     <Route path='/inbox' element={<Inbox />} />
                     <Route path='/favorites' element={<Favorites />} />
                     <Route path={`/profile/:param`} element={<Profile />} />
+                    <Route path={`/profile/:param/auth-user`} element={<AuthProfile />} />
                     <Route path='/explore' element={<ExplorePage />} />
                     <Route path='*' element={<NotFound />} />
                 </Routes>

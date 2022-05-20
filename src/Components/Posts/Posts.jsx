@@ -12,8 +12,6 @@ import {
     WhatsappShareButton
 } from "react-share";
 import Preview from "../Preview/Preview"
-import { setTimelinePosts } from "../../Redux/Feature/timelinePostsSlice"
-import { nanoid } from "@reduxjs/toolkit"
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 import 'react-lazy-load-image-component/src/effects/blur.css';
 import ReelsHolder from "../ReelsHolder/ReelsHolder"
@@ -45,7 +43,6 @@ function Posts() {
             onSnapshot(query(collection(db, "mainDisplayPosts"),
                 orderBy('timestamp', 'desc')), snapshot => {
                     setPostsArr(snapshot.docs)
-                    // dispatch(setTimelinePosts(nanoid()))
                 })
         }
         getAllLikes()

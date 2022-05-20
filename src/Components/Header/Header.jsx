@@ -100,7 +100,7 @@ function Header() {
                             onClick={SearchResultsContainer}
                             ref={ref} />
 
-                        <SearchResultsDisplay input={input} usersArr={filteredUsers} />
+                        <SearchResultsDisplay usersArr={filteredUsers} />
                     </div>
 
                     <div className="iconsHolder">

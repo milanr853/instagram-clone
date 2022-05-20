@@ -28,9 +28,9 @@ const selectedUserDataSlice = createSlice({
                 }
             }
         },
-        clearUserData: (state, action) => {
-            state.specificProfileData = {}
-        }
+        // clearUserData: (state, action) => {
+        //     state.specificProfileData = {}
+        // }
     }
 })
 

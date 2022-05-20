@@ -143,13 +143,13 @@
 
 @media screen and (max-width:640px) {
     .commentsPart {
-        width: 100%;
+        width: 100vw;
         height: 55%;
     }
 
 
     .photoPart {
-        width: 100%;
+        width: 100vw;
         height: 45%;
     }
 

@@ -1,7 +1,6 @@
 import "./allpostwrapper.css"
 import Posts from "../Posts/Posts"
 import React from 'react'
-import ReelsHolder from "../ReelsHolder/ReelsHolder"
 
 
 

@@ -34,7 +34,7 @@ function AccountOptions() {
             <div className="AccountOptionsHolder"
                 style={{ display: optionsVisibility }}>
                 <ul>
-                    <Link to={Username ? `/profile/${Username}` : "/profile"}
+                    <Link to={Username ? `/profile/${Username}/auth-user` : "/profile"}
                         className='accountOption'>
                         <i className="bi bi-person"></i> Profile
                     </Link>
