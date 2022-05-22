@@ -8,6 +8,8 @@ import { useParams, useNavigate } from "react-router-dom"
 import { getSpecificUserProfile } from "../../Redux/Feature/selectedUserDataSlice"
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 import InitialLoading from "../InitialLoading/InitialLoading"
+import { db } from "../../Database/firebaseConfig"
+import { doc, getDoc, setDoc } from "firebase/firestore"
 
 
 
@@ -26,7 +28,7 @@ function Profile() {
 
     const selectedUser = useSelector(store => store.selectedUserDataReducer.specificProfileData)
 
-    const { Username } = useSelector(store => store.selectedUserDataReducer.authUserData)
+    const { Username, ProfilePic } = useSelector(store => store.selectedUserDataReducer.authUserData)
 
     // ---------------------------------
 
@@ -80,12 +82,50 @@ function Profile() {
     }, [uploadsList])
 
 
+    // ----------------------------
+    const setMessageUser = () => {
+        const sortNames = [Username, selectedUser.Username].sort()
+
+        const sendMessageFunctionality = async () => {
+            const messageData = {
+                message: `hi!!`,
+                sender: Username,
+                receiver: selectedUser.Username,
+            }
+            const msgDocRef = doc(db, "chats", `${sortNames[0]}-${sortNames[1]}Chat`)
+            const response = await getDoc(msgDocRef)
+            //User is present
+            if (response.data()) {
+                navigate("/inbox")
+            }
+            //User not present
+            else {
+                console.log(selectedUser.ProfilePic, ProfilePic)
+                //User is not present || Create It"
+                const ReceiverPic = () => selectedUser.ProfilePic ? selectedUser.ProfilePic : ""
+                const SenderPic = () => ProfilePic ? ProfilePic : ""
+                setDoc(msgDocRef, {
+                    allMessages: [messageData],
+                    Receiver: selectedUser.Username,
+                    ReceiverPic: ReceiverPic(),
+                    Sender: Username,
+                    SenderPic: SenderPic()
+                })
+                navigate("/inbox")
+            }
+        }
+        sendMessageFunctionality()
+    }
+    // ----------------------------
+
+
 
 
     return (
         navVisibility ?
             <>
                 <div className="ProfileContainer">
+
                     <div className="profileHeader">
                         <div className="profileImageSection">
                             <div className="profileImageContainer">
@@ -93,18 +133,25 @@ function Profile() {
                             </div>
                         </div>
                         <div className="profileInfoSection">
-                            <p id="profileName">{
-                                selectedUser?.Username}</p>
-                            <p id="totalposts"><strong>{uploadsList?.length}</strong> {uploadsList?.length ? "posts" : ""}</p>
-                            <strong id="fullname">{
-                                selectedUser?.Fullname}</strong>
+                            <div >
+                                <p id="profileName">{selectedUser?.Username}</p>
+
+                                {uploadsList ? <p id="totalposts"><strong>{uploadsList?.length}
+                                </strong> {" " + "posts"}
+                                </p> : <></>}
+
+                                <strong id="fullname">{selectedUser?.Fullname}</strong>
+                            </div>
+                            <button className="toMessage" onClick={setMessageUser}>Message</button>
                         </div>
                     </div>
+                    {/* -------- */}
                     <div className="profileInfoSectionSmaller" >
                         <strong className="fullname_smaller" >{
                             selectedUser?.Fullname}</strong>
-                        <p className="totalpostsCount"><strong>{uploadsList?.length}</strong> {uploadsList?.length ? "posts" : ""}</p>
+                        {uploadsList ? <p className="totalpostsCount"><strong>{uploadsList?.length}</strong>{" " + 'posts'}</p> : <></>}
                     </div>
+
                 </div>
 
                 <div className="profileAllPostsSection">
@@ -112,7 +159,7 @@ function Profile() {
                         <i className="bi bi-grid"></i>
                         <p>POSTS</p>
                     </div>
-                    {uploadsList?.length !== 0 ?
+                    {uploadsList && uploadsList?.length !== 0 ?
                         <div className="profilePostsGrid">
                             {renderPosts}
                         </div>

@@ -23,7 +23,7 @@ const store = configureStore({
         selectedUserDataReducer,
         likePostReducer,
         navbarVisibility,
-        deletePostSlice
+        deletePostSlice,
     }
 })
 

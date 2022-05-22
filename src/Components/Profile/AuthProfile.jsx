@@ -116,37 +116,33 @@ function AuthProfile() {
         navVisibility ?
             <>
                 <div className="ProfileContainer">
+
+
                     <div className="profileHeader">
                         <div className="profileImageSection">
                             <div className="profileImageContainer">
                                 <input type="file" name="profile_upload" id="profile_upload"
                                     onChange={(e) => { setProfilePicture(e.target.files[0]) }}
                                     style={{ display: user ? "block" : "none" }} />
-
                                 <img src={ProfilePic ? ProfilePic : defaultImage} alt="profile-image" id="profileImage" />
-
                                 {profilePicture && progress < 100 ? <Loading /> : <></>}
                             </div>
                         </div>
                         <div className="profileInfoSection">
-                            <p id="profileName">{
-                                Username
-                            }</p>
-
-                            <p id="totalposts"><strong>{uploadsList?.length}</strong> {uploadsList?.length ? "posts" : ""}</p>
-
-                            <strong id="fullname">{
-                                Fullname
-                            }</strong>
+                            <div>
+                                <p id="profileName">{Username}</p>
+                                <p id="totalposts"><strong>{uploadsList?.length}</strong> {"posts"}</p>
+                                <strong id="fullname">{Fullname}</strong>
+                            </div>
                         </div>
                     </div>
-                    <div className="profileInfoSectionSmaller" >
 
+
+                    <div className="profileInfoSectionSmaller" >
                         <strong className="fullname_smaller" >{
                             Fullname
                         }</strong>
-
-                        <p className="totalpostsCount"><strong>{uploadsList?.length}</strong> {uploadsList?.length ? "posts" : ""}</p>
+                        <p className="totalpostsCount"><strong>{uploadsList?.length}</strong> {"posts"}</p>
                     </div>
                 </div>
 
