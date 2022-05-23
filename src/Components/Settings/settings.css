@@ -4,11 +4,14 @@
     background-color: white;
     border: 1px solid lightgray;
     position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
 }
 
+/* ------------------------ */
 #bio {
-    width: 300px;
-    height: 70px;
+    width: 320px;
     resize: none;
     outline: none;
     border: 1px solid lightgray;
@@ -24,16 +27,42 @@
 
 .addUserBio {
     width: 100%;
-    height: 50%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
 }
 
-.bioSubmit {
-    margin-top: 40px;
-    padding: 7px 40px;
+
+/* ---------------------- */
+
+
+
+
+.updateEmail,
+.changePassword,
+.addUserBio,
+.deleteAcc {
+    height: 100%;
+    border-bottom: 1px solid lightgray;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+
+
+#emailUpdate,
+#passwordChange {
+    width: 320px;
+    height: 40px;
+    outline: none;
+    box-sizing: border-box;
+    padding-left: 10px;
+}
+
+
+.bioSubmit,
+#emailUpdateBtn,
+#passwordChangeBtn {
+    height: 30px;
+    width: 125px;
     border: none;
     background-color: dodgerblue;
     color: white;
@@ -41,35 +70,37 @@
     cursor: pointer;
 }
 
-.bioSubmit:active {
+.bioSubmit:active,
+#passwordChangeBtn:active,
+#emailUpdateBtn:active {
     background-color: rgb(32, 103, 174);
-}
-
-.deleteAcc {
-    width: 100%;
-    height: 50%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
 }
 
 
 #deleteAccountButton {
-    padding: 12px 100px;
     background-color: #eb5353;
     border-radius: 5px;
     cursor: pointer;
     color: white;
+    width: 320px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 #deleteAccountButton:active {
     background-color: rgb(216, 79, 79);
 }
 
-.settings {
-    display: flex;
-    align-items: center;
-    justify-content: space-around;
+/* ------------------------------------ */
+
+.settingsObjective div {
+    justify-content: flex-end;
+}
+
+.settingsObjective div strong {
+    width: 90%;
 }
 
 /* ------------------------- */
@@ -80,21 +111,12 @@
 }
 
 #yes {
-    background-color: #6bcb77;
+    background-color: lightgray;
 }
 
 #yes:active {
-    background-color: #92d296;
+    background-color: rgb(245, 245, 245);
 }
-
-#no {
-    background-color: #f54b4b;
-}
-
-#no:active {
-    background-color: #e66a6a;
-}
-
 
 
 @media screen and (max-width:900px) {
@@ -104,12 +126,26 @@
 }
 
 
-@media screen and (max-width:500px) {
-    #bio {
-        width: 180px
+@media screen and (max-width:750px) {
+
+    .updateEmail,
+    .changePassword,
+    .addUserBio,
+    .deleteAcc {
+        flex-direction: column;
+    }
+
+    #emailUpdate,
+    #passwordChange,
+    #bio,
+    #deleteAccountButton,
+    .bioSubmit,
+    #emailUpdateBtn,
+    #passwordChangeBtn {
+        width: 90%;
     }
 
     #deleteAccountButton {
-        padding: 8px 40px;
+        height: 30px;
     }
 }
