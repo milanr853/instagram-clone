@@ -130,6 +130,7 @@ function CreatePost() {
                     authUserClicked: false,
                     postImage_comment_count: 0,
                     postImage_like_count: 0,
+                    bookmark: false,
                     timestamp: serverTimestamp(),
                 })
             }
@@ -240,7 +241,7 @@ function CreatePost() {
                             <div id="createPostContainerCaptionArea" style={{ display: progress === 100 ? "none" : 'flex' }}>
                                 {/* Progress Bar */}
                                 <textarea name="captionArea" id="captionArea" placeholder='Add a caption'
-                                    onChange={(e) => setCaption(e.target.value)} ></textarea>
+                                    onChange={(e) => setCaption(e.target.value)} maxLength={500}></textarea>
                                 <button className="post" onClick={uploadPost}>Post</button>
                                 <div style={{
                                     width: "100%",

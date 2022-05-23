@@ -165,24 +165,36 @@ function Inbox() {
                 </div>
 
 
-                <div className="messagesBox" >
-                    <div className="messageBoxHeader" >
-                        <p className="currentMessengerName">{selectUser.Username}</p>
-                    </div>
+                {currentChat.length !== 0 ?
+                    <div className="messagesBox" >
+                        <div className="messageBoxHeader" >
+                            <p className="currentMessengerName">{selectUser.Username}</p>
+                        </div>
 
-                    <div className="messageBoxMessageArea" >
-                        {/* --------------------- */}
-                        {currentChat.length !== 0 && renderChat}
-                        {/* --------------------- */}
-                    </div>
+                        <div className="messageBoxMessageArea" >
+                            {/* --------------------- */}
+                            {currentChat.length !== 0 && renderChat}
+                            {/* --------------------- */}
+                        </div>
 
-                    <div className="messageBoxInput" style={{
-                        display: !selectUser.Username ? "none" : "block"
-                    }}>
-                        <input type="text" placeholder="Message..." className="messageTypeArea"
-                            onChange={(e) => setMessage(e.target.value.trim())} ref={messageAreaRef} />
+                        <div className="messageBoxInput" style={{
+                            display: !selectUser.Username ? "none" : "block"
+                        }}>
+                            <input type="text" placeholder="Message..." className="messageTypeArea"
+                                onChange={(e) => setMessage(e.target.value.trim())} ref={messageAreaRef} />
+                        </div>
                     </div>
-                </div>
+                    :
+                    <>
+                        <div className="no_message">
+                            <i className="bi bi-send" style={{
+                                fontSize: "60px",
+                                color: "lightgray",
+                                marginBottom: "20px"
+                            }}></i>
+                            <p style={{ color: "lightgray" }}>Your messages</p>
+                        </div>
+                    </>}
             </div>
             : <InitialLoading />
     )

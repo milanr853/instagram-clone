@@ -34,6 +34,10 @@ function Posts() {
 
     const navVisibility = useSelector(store => store.navbarVisibility.value)
 
+    const { Username, ProfilePic, id } =
+        useSelector(store =>
+            store.selectedUserDataReducer.authUserData)
+
     // -----------------------------
 
 
@@ -76,7 +80,7 @@ function Posts() {
             const takeToProfile = () => {
                 navigate(`/profile/${user_username}`)
             }
-
+            // --------------------------
             const AddCommentPost = async (e) => {
                 if (!comment) return
 
@@ -86,14 +90,14 @@ function Posts() {
 
                 await addDoc(docRef, {
                     comment: comment,
-                    comentedUsername: user_username,
-                    comentedProfilePic: user_proPic ? user_proPic : "",
-                    commentedUserId: user_ID,
+                    comentedUsername: Username,
+                    comentedUserProfilePic: ProfilePic ? ProfilePic : "",
+                    commentedUserId: id,
                     timestamp: serverTimestamp()
                 })
                 setComment(null)
             }
-
+            // --------------------------
             const hidePreview = (e) => {
                 const userPreview = document.querySelector(`#PreviewOf${postImage_id}`)
                 userPreview.style.display = "none"
@@ -149,7 +153,7 @@ function Posts() {
                         <div className="postBottomAddComment">
                             <i className="bi bi-emoji-smile emoji"></i>
                             <input type="text" id="textArea" placeholder="Add a comment..."
-                                onChange={handleCommentInput} />
+                                onChange={handleCommentInput} maxLength={500} />
                             <span className="postOption" onClick={AddCommentPost}
                                 style={{ opacity: comment ? "1" : "0.6" }}
                             >Post</span>

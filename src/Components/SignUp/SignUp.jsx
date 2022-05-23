@@ -104,16 +104,19 @@ function SignUp() {
             }
         }
 
-        for (let i = 0; i < allUsersData.length; i++) {
-            if (allUsersData[i].Username === Username) {
-                setErrorMsg("Username already exists")
-                break
-            }
-            else if (i === allUsersData.length - 1) {
-                register()
+        if (allUsersData.length === 0) register()
+        else {
+            for (let i = 0; i < allUsersData.length; i++) {
+                if (allUsersData[i].Username === Username) {
+                    setErrorMsg("Username already exists")
+                    break
+                }
+                else if (i === allUsersData.length - 1) {
+                    register()
+                }
             }
         }
-        // if (allUsersData.length == 0) register()
+
     }
 
 
@@ -125,9 +128,9 @@ function SignUp() {
                 <img src={logo} alt="logo" className="logo_signup" />
                 <div className="credentialsWrapper">
                     <input type="text" className="mailInput" placeholder="Email" ref={mail} onChange={setMail} />
-                    <input type="text" className="fullNameInput" placeholder="Full Name" ref={fullname} onChange={setFullname} />
-                    <input type="text" className="userNameInput" placeholder="Username" ref={name} onChange={setUser} />
-                    <input type="text" className="passwordInput" placeholder="Password" ref={pass} onChange={setPassword} />
+                    <input type="text" className="fullNameInput" placeholder="Full Name" ref={fullname} onChange={setFullname} maxLength={50} />
+                    <input type="text" className="userNameInput" placeholder="Username" ref={name} onChange={setUser} maxLength={50} />
+                    <input type="text" className="passwordInput" placeholder="Password" ref={pass} onChange={setPassword} maxLength={20} />
                 </div>
                 <div className="signupBtnHolder">
                     <button className="signupBtn" disabled={disableBtn}

@@ -8,10 +8,11 @@ import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage"
 import { nanoid } from "@reduxjs/toolkit"
 import defaultImage from "../../Constant/defaultImage"
 import Loading from "../Loading/Loading"
-import { doc, updateDoc } from "firebase/firestore"
+import { collection, doc, getDoc, getDocs, updateDoc } from "firebase/firestore"
 import { useParams } from "react-router-dom"
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 import InitialLoading from "../InitialLoading/InitialLoading"
+import { updateProfile } from "firebase/auth"
 
 
 
@@ -31,7 +32,7 @@ function AuthProfile() {
     const navVisibility = useSelector(store => store.navbarVisibility.value)
 
     //Auth User [Data]
-    const { Fullname, Username, All_Images, id, ProfilePic } = useSelector(store => store.selectedUserDataReducer.authUserData)
+    const { Fullname, Username, All_Images, id, ProfilePic, Bio } = useSelector(store => store.selectedUserDataReducer.authUserData)
 
     // ---------------------------------
 
@@ -75,6 +76,25 @@ function AuthProfile() {
                                 updateDoc(docRef,
                                     ProfilePic
                                 )
+                                // -------------------
+                                const reelRef = doc(db, "reels", Username)
+                                getDoc(reelRef).then(reel_res =>
+                                    reel_res.data()
+                                        ?
+                                        updateDoc(reelRef, { user_proPic: downloadURL })
+                                        :
+                                        null
+                                )
+                                // -------------------
+                                const postsRef = collection(db, "mainDisplayPosts")
+                                getDocs(postsRef).then(DocsRef =>
+                                    DocsRef.docs.forEach(
+                                        document =>
+                                            document.data().user_username === Username ?
+                                                updateDoc(doc(db, "mainDisplayPosts", document.id), { user_proPic: downloadURL })
+                                                :
+                                                null)
+                                )
                             });
                         }
                     );
@@ -117,7 +137,6 @@ function AuthProfile() {
             <>
                 <div className="ProfileContainer">
 
-
                     <div className="profileHeader">
                         <div className="profileImageSection">
                             <div className="profileImageContainer">
@@ -128,15 +147,15 @@ function AuthProfile() {
                                 {profilePicture && progress < 100 ? <Loading /> : <></>}
                             </div>
                         </div>
-                        <div className="profileInfoSection">
+                        <div className="profileInfoSection profileInfoSectionAuth">
                             <div>
                                 <p id="profileName">{Username}</p>
                                 <p id="totalposts"><strong>{uploadsList?.length}</strong> {"posts"}</p>
                                 <strong id="fullname">{Fullname}</strong>
+                                {Bio ? <p className="user_bio">{Bio}</p> : <></>}
                             </div>
                         </div>
                     </div>
-
 
                     <div className="profileInfoSectionSmaller" >
                         <strong className="fullname_smaller" >{
@@ -145,6 +164,10 @@ function AuthProfile() {
                         <p className="totalpostsCount"><strong>{uploadsList?.length}</strong> {"posts"}</p>
                     </div>
                 </div>
+
+
+
+
 
                 <div className="profileAllPostsSection">
                     <div className="section">

@@ -8,8 +8,9 @@ import NotFound from "../NotFound/NotFound"
 import Profile from '../Profile/Profile'
 import ExplorePage from '../ExplorePage/ExplorePage'
 import { setInput } from "../../Redux/Feature/inputSlice"
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import AuthProfile from "../Profile/AuthProfile"
+import Settings from "../Settings/Settings"
 
 
 
@@ -39,6 +40,7 @@ function Body() {
                     <Route path={`/profile/:param`} element={<Profile />} />
                     <Route path={`/profile/:param/auth-user`} element={<AuthProfile />} />
                     <Route path='/explore' element={<ExplorePage />} />
+                    <Route path='/settings' element={<Settings />} />
                     <Route path='*' element={<NotFound />} />
                 </Routes>
             </div>

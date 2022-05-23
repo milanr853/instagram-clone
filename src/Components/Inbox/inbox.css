@@ -11,12 +11,14 @@
 .messengersBox {
     width: 40%;
     height: 100%;
+    border-right: 1px solid lightgray;
 }
 
 .gapbox {
     height: 59.5px;
     width: 100%;
     border-bottom: 1px solid lightgray;
+    border-right: 1px solid lightgray;
 }
 
 .messengersGrid {
@@ -54,7 +56,16 @@
 .messagesBox {
     width: 60%;
     height: 100%;
-    border-left: 1px solid lightgray;
+    /* border-left: 1px solid lightgray; */
+}
+
+.no_message {
+    width: 60%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
 }
 
 .messageBoxHeader {

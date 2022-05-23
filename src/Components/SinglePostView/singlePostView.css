@@ -107,6 +107,7 @@
     padding: 15px;
     display: flex;
     justify-content: space-between;
+    align-items: center;
 }
 
 .cmtImgCntnr {
@@ -141,7 +142,7 @@
 
 
 
-@media screen and (max-width:640px) {
+@media screen and (max-width:600px) {
     .commentsPart {
         width: 100vw;
         height: 55%;

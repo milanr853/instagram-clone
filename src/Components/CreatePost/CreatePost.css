@@ -68,6 +68,10 @@
     color: white;
 }
 
+.post:active {
+    background-color: rgb(32, 103, 174);
+}
+
 .bi-image {
     /* margin-top: 10px; */
     font-size: 70px;
@@ -92,6 +96,10 @@
     border: none;
     color: white;
     border-radius: 4px;
+}
+
+#uploadBtn:active {
+    background-color: rgb(32, 103, 174);
 }
 
 .someAdditionalWrapper {
@@ -119,10 +127,10 @@
     cursor: pointer;
 }
 
-@media screen and (max-width:640px) {
+@media screen and (max-width:600px) {
     .createPostContainer {
         width: 400px;
-        height: 500px;
+        height: 450px;
         margin: 0 10px;
     }
 }

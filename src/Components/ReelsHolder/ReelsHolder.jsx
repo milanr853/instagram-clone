@@ -4,6 +4,7 @@ import { collection, deleteDoc, doc, onSnapshot, orderBy, query } from "firebase
 import { db } from "../../Database/firebaseConfig"
 import { useDispatch } from "react-redux"
 import { selectImgObjAsync, showIndividualPost } from "../../Redux/Feature/individualPostSlice"
+import defaultImage from "../../Constant/defaultImage"
 
 
 
@@ -74,7 +75,7 @@ function ReelsHolder() {
                         backgroundSize: "cover",
                         backgroundImage: `url(https://bityl.co/CFyc)`,
                     }}>
-                    <img className="reelProfileImage" src={`${user_proPic}`} onClick={reelView} />
+                    <img className="reelProfileImage" src={`${user_proPic ? user_proPic : defaultImage}`} onClick={reelView} />
                 </div>
             )
         })

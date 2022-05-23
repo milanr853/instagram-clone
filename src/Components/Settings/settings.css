@@ -1,0 +1,115 @@
+.settings {
+    width: 900px;
+    height: calc(100vh - 125px);
+    background-color: white;
+    border: 1px solid lightgray;
+    position: relative;
+}
+
+#bio {
+    width: 300px;
+    height: 70px;
+    resize: none;
+    outline: none;
+    border: 1px solid lightgray;
+    box-sizing: border-box;
+    padding: 10px;
+}
+
+.bioUpperFeatures {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.addUserBio {
+    width: 100%;
+    height: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.bioSubmit {
+    margin-top: 40px;
+    padding: 7px 40px;
+    border: none;
+    background-color: dodgerblue;
+    color: white;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.bioSubmit:active {
+    background-color: rgb(32, 103, 174);
+}
+
+.deleteAcc {
+    width: 100%;
+    height: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+#deleteAccountButton {
+    padding: 12px 100px;
+    background-color: #eb5353;
+    border-radius: 5px;
+    cursor: pointer;
+    color: white;
+}
+
+#deleteAccountButton:active {
+    background-color: rgb(216, 79, 79);
+}
+
+.settings {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
+/* ------------------------- */
+.confirmBox {
+    width: 450px;
+    background-color: white;
+    border-radius: 5px;
+}
+
+#yes {
+    background-color: #6bcb77;
+}
+
+#yes:active {
+    background-color: #92d296;
+}
+
+#no {
+    background-color: #f54b4b;
+}
+
+#no:active {
+    background-color: #e66a6a;
+}
+
+
+
+@media screen and (max-width:900px) {
+    .settings {
+        width: 100vw
+    }
+}
+
+
+@media screen and (max-width:500px) {
+    #bio {
+        width: 180px
+    }
+
+    #deleteAccountButton {
+        padding: 8px 40px;
+    }
+}

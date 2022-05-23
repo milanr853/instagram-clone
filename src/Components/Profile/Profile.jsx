@@ -28,7 +28,7 @@ function Profile() {
 
     const selectedUser = useSelector(store => store.selectedUserDataReducer.specificProfileData)
 
-    const { Username, ProfilePic } = useSelector(store => store.selectedUserDataReducer.authUserData)
+    const { Username, ProfilePic, Bio } = useSelector(store => store.selectedUserDataReducer.authUserData)
 
     // ---------------------------------
 
@@ -125,7 +125,6 @@ function Profile() {
         navVisibility ?
             <>
                 <div className="ProfileContainer">
-
                     <div className="profileHeader">
                         <div className="profileImageSection">
                             <div className="profileImageContainer">
@@ -133,7 +132,7 @@ function Profile() {
                             </div>
                         </div>
                         <div className="profileInfoSection">
-                            <div >
+                            <div style={{ width: "70%" }}>
                                 <p id="profileName">{selectedUser?.Username}</p>
 
                                 {uploadsList ? <p id="totalposts"><strong>{uploadsList?.length}
@@ -141,6 +140,7 @@ function Profile() {
                                 </p> : <></>}
 
                                 <strong id="fullname">{selectedUser?.Fullname}</strong>
+                                {selectedUser.Bio ? <p className="user_bio">{selectedUser.Bio}</p> : <></>}
                             </div>
                             <button className="toMessage" onClick={setMessageUser}>Message</button>
                         </div>
@@ -151,8 +151,10 @@ function Profile() {
                             selectedUser?.Fullname}</strong>
                         {uploadsList ? <p className="totalpostsCount"><strong>{uploadsList?.length}</strong>{" " + 'posts'}</p> : <></>}
                     </div>
-
                 </div>
+
+
+
 
                 <div className="profileAllPostsSection">
                     <div className="section">

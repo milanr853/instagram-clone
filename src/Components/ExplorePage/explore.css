@@ -33,7 +33,7 @@
 
 .explorePageHeader {
     width: 100%;
-    display: flex;
+    display: none;
     justify-content: center;
     align-items: center;
     margin-bottom: 30px;
@@ -63,16 +63,16 @@
     }
 }
 
-@media screen and (max-width:640px) {
+@media screen and (max-width:600px) {
+    .explorePageHeader {
+        display: flex;
+    }
+}
+
+@media screen and (max-width:600px) {
     .Explore {
         padding: 0;
         grid-auto-rows: 31vmin;
         grid-gap: 4px;
-    }
-}
-
-@media screen and (min-width:641px) {
-    .explorePageHeader {
-        display: none;
     }
 }

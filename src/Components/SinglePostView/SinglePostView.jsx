@@ -77,12 +77,13 @@ function SinglePostView() {
     }
 
 
-    //Comments Part____________________
+    //COMMENTS PART____________________
     const handleCommentInput = (e) => {
         setComment(e.target.value)
     }
 
 
+    //Add Comment
     const AddCommentPost = async () => {
         if (!comment.trim()) return
 
@@ -102,6 +103,7 @@ function SinglePostView() {
     }
 
 
+    //Get Comments from Firebase
     useEffect(() => {
         if (!id) return
         const getAllComments = async () => {
@@ -112,6 +114,7 @@ function SinglePostView() {
     }, [id, db])
 
 
+    //Render Comments List
     const CommentsList = () => {
         const cmntsList = commentsArr.map(obj => {
             const { comment, comentedProfilePic, comentedUsername } = obj.data()
@@ -124,13 +127,13 @@ function SinglePostView() {
                         <img src={comentedProfilePic ? comentedProfilePic : defaultImage} alt="profilePic" />
                     </div>
                     <span className="userComment">
-                        <strong className="SinglePostViewProfileUserName"
-                            onClick={
-                                () => {
-                                    HideIndividualPost()
-                                    navigate(`/profile/${comentedUsername}`)
-                                }}
-                        >{comentedUsername}</strong>
+
+                        <strong className="SinglePostViewProfileUserName" onClick={() => {
+                            HideIndividualPost()
+                            navigate(`/profile/${comentedUsername}`)
+                        }}>{comentedUsername}
+                        </strong>
+
                         {" " + comment}
                     </span>
                 </div>
@@ -145,7 +148,7 @@ function SinglePostView() {
     // -------------------------------------
 
 
-    //Likes Part____________________
+    //LIKES PART____________________
     const AddLikeData = async () => {
         if (authUserLiked) {
             const docRef = doc(db, "registeredUsersCredentials", ID, `LikesFor${id}`, authUserData?.Username)
@@ -289,7 +292,7 @@ function SinglePostView() {
                         </div>
                         <div className="postBottomAddComment">
                             <i className="bi bi-emoji-smile emoji"></i>
-                            <input type="text" id="textArea" placeholder="Add a comment..." ref={commentRef} onChange={handleCommentInput} />
+                            <input type="text" id="textArea" placeholder="Add a comment..." ref={commentRef} onChange={handleCommentInput} maxLength={500} />
                             <span className="postOption"
                                 style={{
                                     opacity: CommentTrim ? "1" : '0.6'

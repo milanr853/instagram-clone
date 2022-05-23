@@ -38,9 +38,9 @@ function AccountOptions() {
                         className='accountOption'>
                         <i className="bi bi-person"></i> Profile
                     </Link>
-                    <li className='accountOption'>
+                    <Link to="/settings" className='accountOption'>
                         <i className="bi bi-gear"></i>Settings
-                    </li>
+                    </Link>
                     <li className='accountOption' onClick={logoutUser}>
                         <i className="bi bi-box-arrow-right"></i>Logout
                     </li>
