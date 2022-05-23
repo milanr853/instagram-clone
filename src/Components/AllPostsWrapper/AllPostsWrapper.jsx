@@ -9,7 +9,7 @@ function AllPostsWrapper() {
     return (
         <div className="ALL_POSTS_WRAPPER">
             {/* <ReelsHolder /> */}
-            <Posts />
+            {/* <Posts /> */}
         </div>
     )
 }

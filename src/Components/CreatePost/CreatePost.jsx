@@ -99,7 +99,7 @@ function CreatePost() {
 
             const img_id = nanoid()
 
-            const Caption = () => caption.trim()
+            const Caption = () => caption ? caption.trim() : ''
 
             const imageData = {
                 id: img_id,

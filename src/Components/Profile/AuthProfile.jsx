@@ -12,7 +12,6 @@ import { collection, doc, getDoc, getDocs, updateDoc } from "firebase/firestore"
 import { useParams } from "react-router-dom"
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 import InitialLoading from "../InitialLoading/InitialLoading"
-import { updateProfile } from "firebase/auth"
 
 
 
