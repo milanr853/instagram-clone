@@ -126,4 +126,9 @@
         background-color: #fafafa;
         border: none;
     }
+
+    .signup_Box,
+    .logInoption {
+        width: 100vw;
+    }
 }

@@ -5,7 +5,7 @@ import { Link, useNavigate } from "react-router-dom"
 import { useSelector } from "react-redux"
 import { createUserWithEmailAndPassword } from "firebase/auth"
 import { auth, db } from "../../Database/firebaseConfig"
-import { addDoc, collection, setDoc } from "firebase/firestore"
+import { addDoc, collection, doc, setDoc } from "firebase/firestore"
 
 
 
@@ -94,7 +94,7 @@ function SignUp() {
                 //Create User in Firebase Authentication
                 await createUserWithEmailAndPassword(auth, Email, PassWord)
                 //Create User in Firestore DB
-                const userCollectionRef = collection(db, "registeredUsersCredentials", Username)
+                const userCollectionRef = doc(db, "registeredUsersCredentials", Username)
                 setDoc(userCollectionRef, user_credential)
                 navigate("/")
             }

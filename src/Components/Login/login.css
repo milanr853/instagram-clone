@@ -1,7 +1,6 @@
 .Login {
     background-color: #fafafa;
     width: 100vw;
-    /* height: calc(100vh - 125px); */
     height: 100vh;
 
     display: flex;
@@ -119,5 +118,10 @@
     .signUpoption {
         background-color: #fafafa;
         border: none;
+    }
+
+    .login_Box,
+    .signUpoption {
+        width: 100vw;
     }
 }

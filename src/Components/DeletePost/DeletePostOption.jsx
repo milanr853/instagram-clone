@@ -24,24 +24,35 @@ function DeletePostOption() {
         //for reels collection
         const reel_DocRef = doc(db, "reels", del_Username)
         const reelResponse = await getDoc(reel_DocRef)
-        const currentReel_Id = reelResponse.data().postImage_id
+        const currentReel_Id = reelResponse.data()
+        if (currentReel_Id) {
+            if (currentReel_Id.postImage_id === del_Image_ID)
+                await deleteDoc(reel_DocRef)
+        }
 
-        if (currentReel_Id === del_Image_ID) await deleteDoc(reel_DocRef)
-
-        //for posts collection
-        const posts_DocRef = doc(db, "mainDisplayPosts", del_Image_ID)
-        await deleteDoc(posts_DocRef)
         //for likes sub-collection || doc-username
-        const register_DocRef_lks = doc(db, "registeredUsersCredentials", del_User_ID, `LikesFor${del_Image_ID}`, del_Username)
-        await deleteDoc(register_DocRef_lks)
+        const register_DocRef_lks = doc(db, "registeredUsersCredentials",
+            del_User_ID, `LikesFor${del_Image_ID}`, del_Username)
+        const likeRes = await getDoc(register_DocRef_lks)
+        if (likeRes.data()) await deleteDoc(register_DocRef_lks)
 
         //for comments sub-collection
-        const register_CollRef_cmts = collection(db, "registeredUsersCredentials", del_User_ID, `CommentsFor${del_Image_ID}`)
+        const register_CollRef_cmts = collection(db, "registeredUsersCredentials",
+            del_User_ID, `CommentsFor${del_Image_ID}`)
         const cmt_response = await getDocs(register_CollRef_cmts)
-        cmt_response.docs.map(async (obj) => {
-            const register_DocRef_cmts = doc(db, "registeredUsersCredentials", del_User_ID, `CommentsFor${del_Image_ID}`, obj.id)
-            await deleteDoc(register_DocRef_cmts)
-        })
+        if (cmt_response.docs.length !== 0)
+            cmt_response.docs.map(async (obj) => {
+                const register_DocRef_cmts = doc(db, "registeredUsersCredentials",
+                    del_User_ID, `CommentsFor${del_Image_ID}`, obj.id)
+                const cmntRes = await getDoc(register_DocRef_cmts)
+                if (cmntRes.data()) await deleteDoc(register_DocRef_cmts)
+            })
+
+        // for posts collection
+        const posts_DocRef = doc(db, "mainDisplayPosts", del_Image_ID)
+        const postRef = await getDoc(posts_DocRef)
+        if (postRef.data()) await deleteDoc(posts_DocRef)
+
 
         //for the main image
         const userDataCollection = doc(db, "registeredUsersCredentials", del_User_ID)
@@ -53,6 +64,7 @@ function DeletePostOption() {
             })
         updateDoc(userDataCollection, { All_Images: All_Images })
 
+        // -----------------------------
         dispatch(removeDeleteOption())
         dispatch(hideIndividualPost())
 
