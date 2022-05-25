@@ -127,10 +127,7 @@ function CreatePost() {
                     postImage_url: currentPicLink,
                     postImage_caption: Caption(),
                     postImage_publishTime: date,
-                    authUserClicked: false,
                     postImage_comment_count: 0,
-                    postImage_like_count: 0,
-                    bookmark: false,
                     timestamp: serverTimestamp(),
                 })
             }

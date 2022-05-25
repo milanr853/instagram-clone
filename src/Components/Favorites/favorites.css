@@ -4,7 +4,43 @@
     min-height: calc(100vh - 125px);
     border: 1px solid rgb(215, 215, 215);
 
+    /* display: flex; */
+    /* justify-content: center; */
+    /* align-items: center; */
+}
+
+.bookmarkedInfo {
+    width: 100%;
+    border-bottom: 1px solid lightgray;
+    height: 125px;
     display: flex;
-    justify-content: center;
     align-items: center;
+    justify-content: space-between;
+    box-sizing: border-box;
+    padding: 20px 50px;
+}
+
+
+.bookmark_img_section {
+    width: 80px;
+    height: 80px;
+}
+
+
+.bookmark_img_section img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+@media screen and (max-width:900px) {
+    .Favorites {
+        width: 100vw;
+    }
+}
+
+@media screen and (max-width:400px) {
+    .bookmarkedInfo {
+        padding: 20px;
+    }
 }

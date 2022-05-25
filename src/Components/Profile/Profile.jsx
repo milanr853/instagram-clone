@@ -28,7 +28,7 @@ function Profile() {
 
     const selectedUser = useSelector(store => store.selectedUserDataReducer.specificProfileData)
 
-    const { Username, ProfilePic, Bio } = useSelector(store => store.selectedUserDataReducer.authUserData)
+    const { Username, ProfilePic } = useSelector(store => store.selectedUserDataReducer.authUserData)
 
     // ---------------------------------
 

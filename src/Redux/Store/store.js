@@ -6,24 +6,22 @@ import individualPostDisplayReducer from "../Feature/individualPostSlice"
 import inputReducer from "../Feature/inputSlice"
 import firestoreDBReducer from "../Feature/firebaseUsersDatabaseSlice"
 import selectedUserDataReducer from "../Feature/selectedUserDataSlice"
-import likePostReducer from "../Feature/likePostSlice"
 import navbarVisibility from "../Feature/navbarVisibility"
 import deletePostSlice from "../Feature/deleteOptionVisibility"
 
 
 const store = configureStore({
     reducer: {
-        accountOptionsVisibilityReducer,
         uploadPostOptionVisibilityReducer,
-        showSearchResultsContainer,
+        accountOptionsVisibilityReducer,
         individualPostDisplayReducer,
+        showSearchResultsContainer,
+        navbarVisibility,
 
         inputReducer,
+        deletePostSlice,
         firestoreDBReducer,
         selectedUserDataReducer,
-        likePostReducer,
-        navbarVisibility,
-        deletePostSlice,
     }
 })
 
