@@ -37,7 +37,7 @@ function AuthProfile() {
 
     const user = useAuth()
 
-    const { param } = useParams()
+    // const { param } = useParams()
 
     // ---------------------------------
 
@@ -53,6 +53,7 @@ function AuthProfile() {
 
     // Profile Picture Upload To Firebase Storage
     useEffect(() => {
+        if (!profilePicture) return
         const uploadPost = async () => {
             if (!profilePicture) return
             if (profilePicture) {
@@ -115,11 +116,12 @@ function AuthProfile() {
             })
 
         setUploadsList(imagesUrl)
-    }, [All_Images, param])
+    }, [All_Images])
 
 
     //Render Images
     useEffect(() => {
+        if (uploadsList.length === 0) return
         const imagesList = uploadsList?.map((url) => {
             return (
                 <LazyLoadImage src={url} className="profilePost" onClick={ShowIndividualPost} key={nanoid()} />

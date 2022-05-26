@@ -20,6 +20,7 @@ function Preview({ uid,
 
 
     useEffect(() => {
+        if (!user_ID) return
         const getUserData = async () => {
             const docRef = doc(db, "registeredUsersCredentials", user_ID)
             const response = await getDoc(docRef)
@@ -30,6 +31,7 @@ function Preview({ uid,
 
 
     useEffect(() => {
+        if (!data.All_Images) return
         const Arr = data.All_Images?.map(obj => {
             return obj.url
         }).reverse()?.slice(0, 3)

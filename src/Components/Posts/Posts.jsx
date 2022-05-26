@@ -15,7 +15,6 @@ import { LazyLoadImage } from 'react-lazy-load-image-component';
 import 'react-lazy-load-image-component/src/effects/blur.css';
 import ReelsHolder from "../ReelsHolder/ReelsHolder"
 import InitialLoading from "../InitialLoading/InitialLoading"
-import { nanoid } from "@reduxjs/toolkit"
 
 
 
@@ -30,7 +29,7 @@ function Posts() {
 
     const [comment, setComment] = useState(null)
 
-    const [demo, setDemo] = useState(0)
+    const [fetched_bookmarkArr, setFetchedBookmarkArr] = useState([])
 
     const [renderPosts_Images, setRenderPosts_Images] = useState(null)
 
@@ -42,6 +41,7 @@ function Posts() {
     // -----------------------------
 
 
+    //Gettting all posts from __mainDisplayPosts__ collection || LikesCount, CommentCount, LikedUsers
     useEffect(() => {
         const getPostData = async () => {
             onSnapshot(query(collection(db, "mainDisplayPosts"),
@@ -51,6 +51,20 @@ function Posts() {
         }
         getPostData()
     }, [db])
+
+
+    //Gettting specific bookmark document (w.r.t auth-Username) from __bookmarks__ collection 
+    useEffect(() => {
+        if (!Username) return
+        const getBookmarkData = async () => {
+            onSnapshot(query(doc(db, 'bookmarks', Username)), snapshot => {
+                if (!snapshot.data()) return
+                setFetchedBookmarkArr(snapshot.data().bookmarkArr.map(obj => obj.postImage_id))
+            })
+        }
+        getBookmarkData()
+    }, [db, Username])
+
 
 
 
@@ -73,17 +87,48 @@ function Posts() {
             }
 
             // --------------------------
+            //Updating or Creating specific bookmark document (w.r.t auth-Username)
             const BookmarkThePost = async () => {
                 const bookmarkInfo = { user_username, user_ID, postImage_url, postImage_id }
-                const bookmarkRef = doc(db, 'bookmarks', user_username)
-                const BookDoc = await getDoc(bookmarkRef)
-                if (!BookDoc.data()) await setDoc(bookmarkRef, {
-                    bookmarkArr: [bookmarkInfo]
-                })
-                else await updateDoc(bookmarkRef, { bookmarkArr: arrayUnion(bookmarkInfo) })
+                const bookmarkRef = doc(db, 'bookmarks', Username)
+                const bookmarkResponse = await getDoc(bookmarkRef)
+                //Create new bookmark document
+                if (!bookmarkResponse.data()) {
+                    await setDoc(bookmarkRef, {
+                        bookmarkArr: [bookmarkInfo]
+                    })
+                }
+                else {
+                    const imagesArr = bookmarkResponse.data().bookmarkArr.map(obj => obj.postImage_id)
+                    //'remove the bookmarked post' || delete-data
+                    if (imagesArr.includes(postImage_id)) {
+                        await updateDoc(bookmarkRef, {
+                            bookmarkArr: [...bookmarkResponse.data().bookmarkArr.filter(obj => {
+                                if (obj.postImage_id !== postImage_id) return obj
+                            })]
+                        })
+                    }
+                    //'array union || update || bookmark the image'
+                    else {
+                        await updateDoc(bookmarkRef, { bookmarkArr: arrayUnion(bookmarkInfo) })
+                    }
+                }
+                // const unsub = () => onSnapshot(query(bookmarkRef), async (snapshot) => {
+                //     //set new bookmark
+                //     if (!snapshot.data()) {
+                //         await setDoc(bookmarkRef, {
+                //             bookmarkArr: [bookmarkInfo]
+                //         })
+                //     }
+                //     else {
+                //         await updateDoc(bookmarkRef, { bookmarkArr: arrayUnion(bookmarkInfo) })
+                //     }
+                // })
+                // unsub()
             }
 
             // --------------------------
+            //Creating a Like document if not Liked or Deleting the it as Liked before in __registeredUsersCredentials__ coll
             const AddLikeData = async () => {
                 const docRef = doc(db, "registeredUsersCredentials", user_ID, `LikesFor${postImage_id}`, Username)
                 const collRef = collection(db, "registeredUsersCredentials", user_ID, `LikesFor${postImage_id}`)
@@ -93,14 +138,14 @@ function Posts() {
                     authUser: Username
                 })
 
-                // sending a copy of image data to 'mainDisplayPosts' db
+                // sending a copy of image data to __mainDisplayPosts__ collection || like-data || Updating
                 onSnapshot(query(collRef), snapshot => {
                     const likedByUsersList = snapshot.docs.map(document => document.id)
                     const post_ref = doc(db, "mainDisplayPosts", postImage_id)
                     updateDoc(post_ref, { likedByUsersList })
                 })
 
-                setDemo(nanoid())
+                // setDemo(nanoid())
             }
 
             // --------------------------
@@ -109,6 +154,7 @@ function Posts() {
             }
 
             // --------------------------
+            //Creating Comment document in __registeredUsersCredentials__ coll
             const AddCommentPost = async (e) => {
                 if (!comment) return
 
@@ -123,7 +169,7 @@ function Posts() {
                 })
                 setComment(null)
 
-                // sending a copy of image data to 'mainDisplayPosts' db
+                // sending a copy of image data to 'mainDisplayPosts' || Updating comment data
                 onSnapshot(query(docRef), snapshot => {
                     const count = snapshot.docs.length
                     const post_ref = doc(db, "mainDisplayPosts", postImage_id)
@@ -177,7 +223,9 @@ function Posts() {
                             <WhatsappShareButton url={"https://www.instagram.com/"}>
                                 <i className="bi bi-share "></i>
                             </WhatsappShareButton>
-                            <i className="bi bi-bookmark " onClick={BookmarkThePost}></i>
+                            <i className={`bi ${fetched_bookmarkArr.includes(postImage_id) ? "bi-bookmark-fill" : "bi-bookmark"}`} onClick={BookmarkThePost} style={{
+                                color: fetched_bookmarkArr.includes(postImage_id) ? "#3A3845" : ""
+                            }}></i>
                         </div>
                         {/* ----------------------- */}
 
@@ -201,7 +249,7 @@ function Posts() {
             )
         })
         setRenderPosts_Images(arr)
-    }, [postsArr, comment, demo])
+    }, [postsArr, comment, fetched_bookmarkArr])
 
 
 

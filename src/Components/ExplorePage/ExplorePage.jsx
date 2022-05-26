@@ -54,6 +54,10 @@ function ExplorePage() {
 
 
     useEffect(() => {
+        if (!input) {
+            setFilteredUsers([])
+            return
+        }
         if (!input) return
         setFilteredUsers(
             [...AllUsers.filter(user => {

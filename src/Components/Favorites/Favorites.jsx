@@ -33,7 +33,8 @@ function Favorites() {
 
 
     useEffect(() => {
-        setRenderBookmarks(BookmarkArr && BookmarkArr.length > 0 ?
+        if (BookmarkArr.length === 0) return
+        setRenderBookmarks(
             BookmarkArr?.map(elem => {
                 const { user_username, user_ID, postImage_url, postImage_id } = elem
 
@@ -59,8 +60,7 @@ function Favorites() {
                         </div>
                     </div>
                 )
-            })
-            : [])
+            }))
     }, [BookmarkArr])
 
 

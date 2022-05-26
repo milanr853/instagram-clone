@@ -72,6 +72,7 @@ function Inbox() {
     // ----------------------------------
     //Getting Receivers/Senders list from firebase
     useEffect(() => {
+        if (!Username) return
         onSnapshot(collection(db, "chats"), snapshot => {
             const chatUsers_arr = snapshot.docs.filter(obj => {
                 if (obj.id.includes(Username)) return obj
@@ -83,7 +84,8 @@ function Inbox() {
 
     //Render Chat-Conversation
     useEffect(() => {
-        const curr_chat = currentChat.length !== 0 ? currentChat.map(data => {
+        if (currentChat.length === 0) return
+        const curr_chat = currentChat.map(data => {
             return (
                 <div className="user_message" key={nanoid()}
                     style={{
@@ -93,13 +95,14 @@ function Inbox() {
                         id="USER__MESSAGE">{data.message}</p>
                 </div>
             )
-        }) : []
+        })
         setRenderChat(curr_chat.reverse())
     }, [currentChat])
 
 
     //Render Chat-Users List
     useEffect(() => {
+        if (chatUsersArr.length === 0) return
         const chat_user_Arr = chatUsersArr.map(obj => {
             const { Receiver, ReceiverPic, Sender, SenderPic } = obj.data()
 

@@ -52,12 +52,12 @@ function Header() {
         dispatch(showContainer())
     }
 
-    const handleChange = () => {
-        dispatch(setInput(ref.current.value))
-    }
-
     const SearchResultsContainer = () => {
         dispatch(showContainer())
+    }
+
+    const handleChange = () => {
+        dispatch(setInput(ref.current.value))
     }
 
 
@@ -66,10 +66,15 @@ function Header() {
     useEffect(() => {
         if (!ref.current) return
         ref.current.value = ""
+        dispatch(setInput(""))
     }, [location.pathname])
 
 
     useEffect(() => {
+        if (!input) {
+            setFilteredUsers([])
+            return
+        }
         setFilteredUsers(
             [...AllUsers.filter(user => {
                 if (input) {

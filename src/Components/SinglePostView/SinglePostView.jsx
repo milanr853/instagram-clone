@@ -4,8 +4,9 @@ import { useDispatch, useSelector } from "react-redux"
 import { hideIndividualPost } from "../../Redux/Feature/individualPostSlice"
 import { useNavigate } from "react-router-dom"
 import {
-    addDoc, collection,
+    addDoc, arrayUnion, collection,
     deleteDoc, doc,
+    getDoc,
     onSnapshot, orderBy,
     query, serverTimestamp,
     setDoc, updateDoc
@@ -46,6 +47,8 @@ function SinglePostView() {
 
     const [commentsArr, setCommentsArr] = useState([])
 
+    const [bookmarkArray, setBookmarksArr] = useState([])
+
     const [likesArr, setLikesArr] = useState([])
 
     const [authUserLiked, setAuthUserLiked] = useState(false)
@@ -79,7 +82,7 @@ function SinglePostView() {
     }
 
 
-    //Add Comment
+    //Add Comment || Creating comment
     const AddCommentPost = async () => {
         if (!comment.trim()) return
 
@@ -98,7 +101,7 @@ function SinglePostView() {
 
 
 
-    //Get Comments from Firebase
+    //Get Comments-data from Firebase __registeredUsersCredentials__ coll
     useEffect(() => {
         if (!id) return
         const getAllComments = async () => {
@@ -144,7 +147,7 @@ function SinglePostView() {
 
 
     //LIKES PART____________________
-    //getting the likes data of particular image from Firebase (collection:registeredUsersCredentials)
+    //Getting the likes data of particular image from Firebase __registeredUsersCredentials__
     useEffect(() => {
         if (!id) return
         const getAllLikes = async () => {
@@ -173,7 +176,7 @@ function SinglePostView() {
     }, [likedByUsersList])
 
 
-    //Add Like
+    //Creating or Deleting Like
     const AddLikeData = async () => {
         if (authUserLiked) {
             const docRef = doc(db, "registeredUsersCredentials", ID, `LikesFor${id}`, authUserData?.Username)
@@ -190,6 +193,46 @@ function SinglePostView() {
     }
 
 
+    // ----------Bookmark Function------------
+    const BookmarkThePost = async () => {
+        const bookmarkInfo = { user_username: Username, user_ID: ID, postImage_url: url, postImage_id: id }
+        const bookmarkRef = doc(db, 'bookmarks', authUserData.Username)
+        const bookmarkResponse = await getDoc(bookmarkRef)
+        if (!bookmarkResponse.data()) {
+            await setDoc(bookmarkRef, {
+                bookmarkArr: [bookmarkInfo]
+            })
+        }
+        else {
+            const imagesArr = bookmarkResponse.data().bookmarkArr.map(obj => obj.postImage_id)
+            //'remove the bookmarked post' || delete-data
+            if (imagesArr.includes(id)) {
+                await updateDoc(bookmarkRef, {
+                    bookmarkArr: [...bookmarkResponse.data().bookmarkArr.filter(obj => {
+                        if (obj.postImage_id !== id) return obj
+                    })]
+                })
+            }
+            //'array union || update || bookmark the image'
+            else {
+                await updateDoc(bookmarkRef, { bookmarkArr: arrayUnion(bookmarkInfo) })
+            }
+        }
+        // const unsub = () => onSnapshot(query(bookmarkRef), async (snapshot) => {
+        //     //set new bookmark
+        //     if (!snapshot.data()) {
+        //         await setDoc(bookmarkRef, {
+        //             bookmarkArr: [bookmarkInfo]
+        //         })
+        //     }
+        //     else {
+        //         await updateDoc(bookmarkRef, { bookmarkArr: arrayUnion(bookmarkInfo) })
+        //     }
+        // })
+        // unsub()
+    }
+
+
     // -------------------------------------
     // sending a copy of image data to 'mainDisplayPosts' db
     useEffect(() => {
@@ -200,6 +243,17 @@ function SinglePostView() {
             likedByUsersList
         })
     }, [likesArr, commentsArr, authUserLiked])
+
+
+    //Getting bookmarks data of auth user
+    useEffect(() => {
+        if (!authUserData.Username) return
+        onSnapshot(query(doc(db, "bookmarks", authUserData.Username)), snapshot => {
+            if (!snapshot.data()) return
+            const arr = snapshot.data().bookmarkArr
+            setBookmarksArr(arr.map(obj => obj.postImage_id))
+        })
+    }, [db, authUserData.Username])
 
 
 
@@ -273,7 +327,9 @@ function SinglePostView() {
                                 <WhatsappShareButton url={"https://www.instagram.com/"}>
                                     <i className="bi bi-share "></i>
                                 </WhatsappShareButton>
-                                <i className="bi bi-bookmark "></i>
+                                <i className={`bi ${bookmarkArray.includes(id) ? "bi-bookmark-fill" : "bi-bookmark"}`}
+                                    onClick={BookmarkThePost}
+                                    style={{ color: bookmarkArray.includes(id) ? "#3A3845" : "" }}></i>
                             </div>
                             <div className="postBottomInfoBlock">
                                 <strong id='likesCount'>{likesArr.length} Likes</strong>

@@ -18,7 +18,6 @@
     width: 70%;
     display: flex;
     align-items: center;
-    /* justify-content: center; */
     box-sizing: border-box;
     padding: 10px 0;
 }
@@ -256,5 +255,12 @@
 
     .profilePostsGrid {
         grid-auto-rows: 33vmin;
+    }
+}
+
+
+@media screen and (max-width:400px) {
+    #profileName {
+        font-size: 22px;
     }
 }

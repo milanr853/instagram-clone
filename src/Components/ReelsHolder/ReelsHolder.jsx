@@ -32,6 +32,7 @@ function ReelsHolder() {
 
 
     useEffect(() => {
+        if (reelsArr.length === 0) return
         const arr = reelsArr.map(obj => {
             const {
                 futureTime,

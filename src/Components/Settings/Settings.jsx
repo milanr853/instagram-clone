@@ -36,8 +36,6 @@ function Settings() {
 
     const navVisibility = useSelector(store => store.navbarVisibility.value)
 
-    // console.log(error)
-    // console.log(success)
 
     const addBioOfUser = async () => {
         if (!bio) return

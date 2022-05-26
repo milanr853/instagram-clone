@@ -19,7 +19,8 @@ function SearchResultsDisplay({ usersArr }) {
 
 
     useEffect(() => {
-        const arr = usersArr.length !== 0 && usersArr.map(user => {
+        if (usersArr.length === 0) return
+        const arr = usersArr.map(user => {
             const { Username, Fullname, ProfilePic } = user
 
             const takeToProfile = (e) => {

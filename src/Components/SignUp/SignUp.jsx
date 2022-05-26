@@ -5,7 +5,7 @@ import { Link, useNavigate } from "react-router-dom"
 import { useSelector } from "react-redux"
 import { createUserWithEmailAndPassword } from "firebase/auth"
 import { auth, db } from "../../Database/firebaseConfig"
-import { addDoc, collection, doc, setDoc } from "firebase/firestore"
+import { doc, setDoc } from "firebase/firestore"
 
 
 

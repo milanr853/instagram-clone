@@ -73,6 +73,7 @@ function Profile() {
 
     //Render Images
     useEffect(() => {
+        if (uploadsList.length === 0) return
         const imagesList = uploadsList?.map((url) => {
             return (
                 <LazyLoadImage src={url} className="profilePost" onClick={ShowIndividualPost} key={nanoid()} />
@@ -100,7 +101,6 @@ function Profile() {
             }
             //User not present
             else {
-                console.log(selectedUser.ProfilePic, ProfilePic)
                 //User is not present || Create It"
                 const ReceiverPic = () => selectedUser.ProfilePic ? selectedUser.ProfilePic : ""
                 const SenderPic = () => ProfilePic ? ProfilePic : ""

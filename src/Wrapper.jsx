@@ -32,8 +32,7 @@ function Wrapper() {
                     return obj
                 })
                 dispatch(getFirebaseUsersData(Users))
-            }
-            )
+            })
         }
         getData()
     }, [user, db])
@@ -46,11 +45,13 @@ function Wrapper() {
 
     //Dispatch Action to get the current user data from Store
     useEffect(() => {
+        if (All_Data.length === 0) return
         dispatch(getAllDataAndAuthUserMail({ DB: All_Data, currentUserMail: user?.email, username: "" }))
     }, [user, All_Data])
 
 
     useEffect(() => {
+        if (All_Data.length === 0) return
         dispatch(setNavVisibility(All_Data.length))
     }, [All_Data])
 

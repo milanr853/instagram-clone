@@ -53,8 +53,8 @@ function CreatePost() {
 
     //Image Preview Feature
     useEffect(() => {
+        if (!file) return
         const generatePreview = async () => {
-            if (!file) return
             const reader = new FileReader()
             reader.readAsDataURL(file)
             reader.onload = () => {
@@ -92,8 +92,8 @@ function CreatePost() {
 
 
     useEffect(() => {
+        if (!currentPicLink) return
         const databaseOperations = async () => {
-            if (!currentPicLink) return
             const date = new Date().toString()
 
 
@@ -212,7 +212,7 @@ function CreatePost() {
                                         }
                                     </div>
 
-                                    <small style={{ display: preview ? "none" : "block" }}>Upload your photos and videos here</small>
+                                    <small style={{ display: preview ? "none" : "block", fontSize: '16px' }}>Upload your photos and videos here</small>
 
                                     <div style={{
                                         position: 'relative',

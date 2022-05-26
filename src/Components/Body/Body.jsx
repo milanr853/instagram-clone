@@ -23,9 +23,9 @@ function Body() {
 
 
     // ---------------------------
-    useEffect(() => {
-        dispatch(setInput(""))
-    }, [pathname])
+    // useEffect(() => {
+    //     dispatch(setInput(""))
+    // }, [pathname])
 
 
 
