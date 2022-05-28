@@ -115,7 +115,6 @@ function CreatePost() {
                 All_Images: arrayUnion(imageData)
             })
 
-
             //Firestore Create Document in mainDisplayPosts collection
             try {
                 const mainDisplayPostsRef = doc(db, "mainDisplayPosts", img_id)
@@ -129,6 +128,7 @@ function CreatePost() {
                     postImage_publishTime: date,
                     postImage_comment_count: 0,
                     timestamp: serverTimestamp(),
+                    likedByUsersList: []
                 })
             }
             catch (error) {

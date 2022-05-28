@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 import InitialLoading from "../InitialLoading/InitialLoading"
 import { useDispatch, useSelector } from "react-redux"
 import { db } from "../../Database/firebaseConfig"
-import { collection, doc, onSnapshot, query } from "firebase/firestore"
+import { doc, onSnapshot, query } from "firebase/firestore"
 import { selectImgObjAsync, showIndividualPost } from "../../Redux/Feature/individualPostSlice"
 
 
@@ -26,6 +26,7 @@ function Favorites() {
     useEffect(() => {
         if (!Username) return
         onSnapshot(query(doc(db, 'bookmarks', Username)), snapshot => {
+            if (!snapshot.data()) return
             const { bookmarkArr } = snapshot.data()
             setBookmarkArr(bookmarkArr)
         })
