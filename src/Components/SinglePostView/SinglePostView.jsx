@@ -277,14 +277,8 @@ function SinglePostView() {
                 <i className="bi bi-x-lg cancel" onClick={HideIndividualPost}></i>
             </div>
             {/* ------------------ */}
-            {!selectedImg ? <p style={{
-                color: "white",
-                fontSize: "22px",
-                padding: "20px 30px",
-                background: "gray",
-                borderRadius: "5px",
-                textAlign: "center"
-            }}>Post is no longer available</p>
+            {!selectedImg ?
+                <></>
                 :
                 <div className="individualPostContainer">
                     <div className="photoPart">
