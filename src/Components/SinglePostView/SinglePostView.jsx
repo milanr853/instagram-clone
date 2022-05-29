@@ -73,7 +73,7 @@ function SinglePostView() {
     const HideIndividualPost = () => {
         document.querySelector("body").style.overflowY = "scroll"
         dispatch(hideIndividualPost())
-        commentRef.current.value = ''
+        if (commentRef.current) commentRef.current.value = ''
         setComment(null)
     }
 
