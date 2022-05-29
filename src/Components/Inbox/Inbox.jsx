@@ -79,7 +79,7 @@ function Inbox() {
             })
             setChatUsersArr(chatUsers_arr)
         })
-    }, [db, Username])
+    }, [Username])
 
 
     //Render Chat-Conversation

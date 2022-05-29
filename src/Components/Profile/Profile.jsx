@@ -38,9 +38,10 @@ function Profile() {
 
     //Redirect To Auth Profile
     useEffect(() => {
+        if (!Username) return
         if (param !== Username) return
         navigate(`/profile/${Username}/auth-user`)
-    }, [param])
+    }, [param, Username])
 
     // ---------------------------------
 
@@ -73,6 +74,7 @@ function Profile() {
 
     //Render Images
     useEffect(() => {
+        if (!uploadsList) return
         if (uploadsList.length === 0) return
         const imagesList = uploadsList?.map((url) => {
             return (
@@ -128,7 +130,8 @@ function Profile() {
                     <div className="profileHeader">
                         <div className="profileImageSection">
                             <div className="profileImageContainer">
-                                <img src={selectedUser.ProfilePic ? selectedUser?.ProfilePic : defaultImage} alt="profile-image" id="profileImage" />
+                                <img src={selectedUser.ProfilePic ? selectedUser?.ProfilePic : defaultImage}
+                                    alt="profile" id="profileImage" />
                             </div>
                         </div>
                         <div className="profileInfoSection">
@@ -136,7 +139,7 @@ function Profile() {
                                 <p id="profileName">{selectedUser?.Username}</p>
 
                                 {uploadsList ? <p id="totalposts"><strong>{uploadsList?.length}
-                                </strong> {" " + "posts"}
+                                </strong> {" posts"}
                                 </p> : <></>}
 
                                 <strong id="fullname">{selectedUser?.Fullname}</strong>
@@ -149,7 +152,7 @@ function Profile() {
                     <div className="profileInfoSectionSmaller" >
                         <strong className="fullname_smaller" >{
                             selectedUser?.Fullname}</strong>
-                        {uploadsList ? <p className="totalpostsCount"><strong>{uploadsList?.length}</strong>{" " + 'posts'}</p> : <></>}
+                        {uploadsList ? <p className="totalpostsCount"><strong>{uploadsList?.length}</strong>{' posts'}</p> : <></>}
                     </div>
                 </div>
 

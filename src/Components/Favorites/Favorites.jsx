@@ -30,7 +30,7 @@ function Favorites() {
             const { bookmarkArr } = snapshot.data()
             setBookmarkArr(bookmarkArr)
         })
-    }, [db, Username])
+    }, [Username])
 
 
     useEffect(() => {
@@ -70,7 +70,18 @@ function Favorites() {
     return (
         navVisibility ?
             <div className='Favorites'>
-                {renderBookmarks}
+                {
+                    renderBookmarks && renderBookmarks.length > 0
+                        ? renderBookmarks :
+                        <p style={{
+                            color: "gray",
+                            fontSize: "18px",
+                            position: "absolute",
+                            top: "50%",
+                            left: "50%",
+                            transform: "translate(-50%,-50%)"
+                        }}>No post added to favorites</p>
+                }
             </div>
             : <InitialLoading />
     )

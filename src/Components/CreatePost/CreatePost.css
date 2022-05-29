@@ -112,11 +112,12 @@
     margin: 20px 0;
 }
 
-.bi-x-lg {
+.cancel-x {
     color: white;
     position: absolute;
-    top: 15px;
-    right: 20px;
+    top: 50%;
+    right: 20%;
+    transform: translate(0%, -45%);
     cursor: pointer;
 }
 

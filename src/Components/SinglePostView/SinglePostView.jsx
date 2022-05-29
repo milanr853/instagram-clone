@@ -35,7 +35,7 @@ function SinglePostView() {
 
     const { selectedImg, userData } = useSelector(store => store.individualPostDisplayReducer)
 
-    let { id, url, caption, timestamp } = selectedImg
+    let { id, url, caption, timestamp } = selectedImg ? selectedImg : ""
 
     timestamp = new Date(timestamp)
 
@@ -106,12 +106,13 @@ function SinglePostView() {
     //Get Comments-data from Firebase __registeredUsersCredentials__ coll
     useEffect(() => {
         if (!id) return
+        if (!ID) return
         const getAllComments = async () => {
             onSnapshot(query(collection(db, "registeredUsersCredentials", ID, `CommentsFor${id}`),
                 orderBy('timestamp', 'desc')), snapshot => setCommentsArr(snapshot.docs))
         }
         getAllComments()
-    }, [id, db])
+    }, [id, ID])
 
 
     //Render Comments List
@@ -152,6 +153,7 @@ function SinglePostView() {
     //Getting the likes data of particular image from Firebase __registeredUsersCredentials__
     useEffect(() => {
         if (!id) return
+        if (!ID) return
         const getAllLikes = async () => {
             onSnapshot(query(collection(db,
                 "registeredUsersCredentials", ID,
@@ -159,7 +161,7 @@ function SinglePostView() {
             ), snapshot => setLikesArr(snapshot.docs))
         }
         getAllLikes()
-    }, [id, db,])
+    }, [id, ID])
 
 
     //mapping the names of 'user liked' of the particular image to a List 
@@ -173,9 +175,10 @@ function SinglePostView() {
 
     //checking if auth.Username is included in the 'likedByUsersList' and then setting the 'setAuthUserLiked'
     useEffect(() => {
+        if (!authUserData.Username) return
         if (likedByUsersList.includes(authUserData.Username)) setAuthUserLiked(true)
         else setAuthUserLiked(false)
-    }, [likedByUsersList])
+    }, [likedByUsersList, authUserData.Username])
 
 
     //Creating or Deleting Like
@@ -239,12 +242,13 @@ function SinglePostView() {
     // sending a copy of image data to 'mainDisplayPosts' db
     useEffect(() => {
         if (!id) return
+        if (!likedByUsersList) return
         const Doc = doc(db, "mainDisplayPosts", id)
         updateDoc(Doc, {
             postImage_comment_count: commentsArr.length,
             likedByUsersList
         })
-    }, [likesArr, commentsArr, authUserLiked])
+    }, [id, likesArr, commentsArr, authUserLiked, likedByUsersList])
 
 
     //Getting bookmarks data of auth user
@@ -255,24 +259,33 @@ function SinglePostView() {
             const arr = snapshot.data().bookmarkArr
             setBookmarksArr(arr.map(obj => obj.postImage_id))
         })
-    }, [db, authUserData.Username])
+    }, [authUserData.Username])
 
 
 
 
     return (
-        <>
-            <div className='SinglePostView' style={{ display: display }} >
-                <div style={{
-                    backgroundColor: "rgba(0, 0, 0, 0.6)",
-                    width: "40px",
-                    height: "40px",
-                    position: "absolute",
-                    top: "15px",
-                    right: "15px",
-                }}>
-                    <i className="bi bi-x-lg cancel" onClick={HideIndividualPost}></i>
-                </div>
+        <div className='SinglePostView' style={{ display: display }} >
+            <div style={{
+                backgroundColor: "rgba(0, 0, 0, 0.6)",
+                width: "40px",
+                height: "40px",
+                position: "absolute",
+                top: "15px",
+                right: "15px",
+            }}>
+                <i className="bi bi-x-lg cancel" onClick={HideIndividualPost}></i>
+            </div>
+            {/* ------------------ */}
+            {!selectedImg ? <p style={{
+                color: "white",
+                fontSize: "22px",
+                padding: "20px 30px",
+                background: "gray",
+                borderRadius: "5px",
+                textAlign: "center"
+            }}>Post is no longer available</p>
+                :
                 <div className="individualPostContainer">
                     <div className="photoPart">
                         <img src={url} alt="uploadedPost" />
@@ -359,8 +372,9 @@ function SinglePostView() {
                     </div>
 
                 </div>
-            </div>
-        </>
+            }
+            {/* ------------------ */}
+        </div>
     )
 }
 

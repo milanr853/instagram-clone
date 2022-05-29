@@ -162,7 +162,17 @@ function CreatePost() {
 
     return (
         <div className='CreatePostParentWrapper' style={{ display: uploadOption.display }}>
-            <i className="bi bi-x-lg" onClick={hideUploadOptions}></i>
+            <div style={{
+                backgroundColor: "rgba(0, 0, 0, 0.6)",
+                width: "40px",
+                height: "40px",
+                position: "absolute",
+                top: "15px",
+                right: "15px",
+            }}>
+                <i className="bi bi-x-lg cancel-x" onClick={hideUploadOptions}></i>
+            </div>
+
             <div className="createPostContainer">
                 {/* Header */}
                 <div id='createPostContainerHeader'>

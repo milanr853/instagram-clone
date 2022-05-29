@@ -128,6 +128,8 @@ function Settings() {
     }, [error])
 
 
+
+
     return (
         navVisibility ?
             <>
@@ -153,7 +155,7 @@ function Settings() {
                             borderBottom: "1px solid lightgray",
                             display: "flex",
                             alignItems: "center",
-                        }}><strong >Edit your email</strong></div>
+                        }}><strong >Change your email</strong></div>
                         <div style={{
                             width: "100%",
                             height: "100%",
@@ -186,13 +188,13 @@ function Settings() {
 
                         <div className="updateEmail">
                             <input type="text" id="emailUpdate" ref={emailRef}
-                                placeholder="Change email" onChange={(e) => { setUserEmail(e.target.value.trim()) }} />
+                                placeholder={authUserData.Email} onChange={(e) => { setUserEmail(e.target.value.trim()) }} />
                             <button id="emailUpdateBtn" onClick={changeEmail}>Update Email</button>
                         </div>
 
                         <div className="changePassword">
                             <input type="text" maxLength={20} id="passwordChange" ref={passwordRef}
-                                placeholder="Change password" onChange={(e) => { setUserPassword(e.target.value.trim()) }} />
+                                placeholder={authUserData.PassWord} onChange={(e) => { setUserPassword(e.target.value.trim()) }} />
                             <button id="passwordChangeBtn" onClick={changePassword}>Change Password</button>
                         </div>
 
