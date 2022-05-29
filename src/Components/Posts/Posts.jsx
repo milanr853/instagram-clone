@@ -6,7 +6,7 @@ import defaultImage from "../../Constant/defaultImage"
 import { addDoc, arrayUnion, collection, deleteDoc, doc, getDoc, onSnapshot, orderBy, query, serverTimestamp, setDoc, updateDoc } from "firebase/firestore"
 import { db } from "../../Database/firebaseConfig"
 import moment from "moment"
-import { useNavigate } from "react-router-dom"
+import { useHref, useLocation, useNavigate, useParams } from "react-router-dom"
 import {
     WhatsappShareButton
 } from "react-share";
@@ -38,6 +38,8 @@ function Posts() {
     const { Username, ProfilePic, id } =
         useSelector(store =>
             store.selectedUserDataReducer.authUserData)
+
+    const homeUrl = window.location
     // -----------------------------
 
 
@@ -64,8 +66,6 @@ function Posts() {
         }
         getBookmarkData()
     }, [db, Username])
-
-
 
 
     useEffect(() => {
@@ -220,7 +220,7 @@ function Posts() {
                                 style={{ color: likedByUsersList.includes(Username) ? "#ed4956" : "" }}
                                 onClick={AddLikeData}
                             ></i>
-                            <WhatsappShareButton url={"https://www.instagram.com/"}>
+                            <WhatsappShareButton url={homeUrl}>
                                 <i className="bi bi-share "></i>
                             </WhatsappShareButton>
                             <i className={`bi ${fetched_bookmarkArr.includes(postImage_id) ? "bi-bookmark-fill" : "bi-bookmark"}`} onClick={BookmarkThePost} style={{

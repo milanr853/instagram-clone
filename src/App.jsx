@@ -23,11 +23,9 @@ function App() {
     if (![...e.target.classList].includes("bi-person-circle")) {
       dispatch(makeOptionsDisappear())
     }
-    setTimeout(() => {
-      if (![...e.target.classList].includes("searchUsersInput") && ![...e.target.classList].includes("search")) {
-        dispatch(disappearContainer())
-      }
-    }, 100);
+    if (![...e.target.classList].includes("searchUsersInput") && ![...e.target.classList].includes("search")) {
+      dispatch(disappearContainer())
+    }
   }
 
 

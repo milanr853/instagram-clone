@@ -48,9 +48,6 @@ function ExplorePage() {
     }
 
 
-    const handleChangeEvent = (e) => {
-        dispatch(setInput(refr.current.value))
-    }
 
 
     useEffect(() => {
@@ -76,7 +73,7 @@ function ExplorePage() {
             ? <>
                 <div className="explorePageHeader">
                     <input type="text" className="searchUsersInput" placeholder="Search"
-                        onClick={SearchResultsContainer} onChange={handleChangeEvent} ref={refr} />
+                        onClick={SearchResultsContainer} onChange={(e) => dispatch(setInput(e.target.value.toLocaleLowerCase()))} ref={refr} />
 
                     <SearchResultsDisplay usersArr={filteredUsers} />
                 </div>

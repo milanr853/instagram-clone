@@ -56,9 +56,6 @@ function Header() {
         dispatch(showContainer())
     }
 
-    const handleChange = () => {
-        dispatch(setInput(ref.current.value))
-    }
 
 
 
@@ -101,7 +98,7 @@ function Header() {
 
                     <div className="inputHolder">
                         <input type="text" className="search" placeholder="Search"
-                            onChange={handleChange}
+                            onChange={(e) => dispatch(setInput(e.target.value.toLocaleLowerCase()))}
                             onClick={SearchResultsContainer}
                             ref={ref} />
 

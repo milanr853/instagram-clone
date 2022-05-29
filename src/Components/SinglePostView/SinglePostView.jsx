@@ -55,6 +55,8 @@ function SinglePostView() {
 
     const CommentTrim = comment?.trim()
 
+    const homeUrl = window.location
+
 
     //EVENTS
     const showDeleteOption = () => {
@@ -261,7 +263,16 @@ function SinglePostView() {
     return (
         <>
             <div className='SinglePostView' style={{ display: display }} >
-                <i className="bi bi-x-lg" onClick={HideIndividualPost}></i>
+                <div style={{
+                    backgroundColor: "rgba(0, 0, 0, 0.6)",
+                    width: "40px",
+                    height: "40px",
+                    position: "absolute",
+                    top: "15px",
+                    right: "15px",
+                }}>
+                    <i className="bi bi-x-lg cancel" onClick={HideIndividualPost}></i>
+                </div>
                 <div className="individualPostContainer">
                     <div className="photoPart">
                         <img src={url} alt="uploadedPost" />
@@ -324,7 +335,7 @@ function SinglePostView() {
                                 <i className={`bi ${authUserLiked ? "bi-heart-fill" : "bi-heart"} `}
                                     style={{ color: authUserLiked ? "#ed4956" : "" }}
                                     onClick={AddLikeData}></i>
-                                <WhatsappShareButton url={"https://www.instagram.com/"}>
+                                <WhatsappShareButton url={homeUrl}>
                                     <i className="bi bi-share "></i>
                                 </WhatsappShareButton>
                                 <i className={`bi ${bookmarkArray.includes(id) ? "bi-bookmark-fill" : "bi-bookmark"}`}

@@ -19,11 +19,12 @@
 }
 
 
-.bi-x-lg {
+.cancel {
     color: white;
     position: absolute;
-    top: 15px;
-    right: 20px;
+    top: 50%;
+    left: 20%;
+    transform: translate(0, -45%);
     cursor: pointer;
 }
 
@@ -58,7 +59,7 @@
 
 
 .commentPartHeader {
-    min-height: 60px;
+    height: 60px;
     border-bottom: 1px solid lightgray;
 
     display: flex;
@@ -81,7 +82,12 @@
     border-radius: 50%;
 }
 
-
+.allCommentsArea {
+    width: 100%;
+    height: calc(100% - 230px);
+    overflow: hidden;
+    overflow-y: scroll;
+}
 
 
 .commentPartBottom {
@@ -92,13 +98,6 @@
     border-top: 1px solid lightgray;
 }
 
-
-.allCommentsArea {
-    width: 100%;
-    height: calc(100% - 230px);
-    overflow: hidden;
-    overflow-y: scroll;
-}
 
 
 .Comment {
@@ -158,5 +157,17 @@
         height: 100vh;
         flex-direction: column;
         justify-content: flex-start;
+    }
+}
+
+
+@media screen and (max-height:560px) {
+    .allCommentsArea {
+        height: 70px;
+    }
+
+    .commentPartBottom {
+        height: calc(100% - 60px - 75px);
+        overflow-y: scroll;
     }
 }

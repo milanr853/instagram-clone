@@ -15,7 +15,7 @@ function InitialLoading() {
         }}>
             <img style={{
                 objectFit: "cover",
-                width: "10%",
+                width: "8.5%",
             }} src={loadingScreen} alt="loadingScreen" />
         </div>
     )

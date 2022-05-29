@@ -46,6 +46,9 @@
     align-items: center;
 }
 
+.deleteAcc {
+    border-bottom: none;
+}
 
 
 #emailUpdate,
@@ -147,5 +150,12 @@
 
     #deleteAccountButton {
         height: 30px;
+    }
+}
+
+
+@media screen and (max-height: 600px) {
+    .settings {
+        height: calc(500px - 25px);
     }
 }

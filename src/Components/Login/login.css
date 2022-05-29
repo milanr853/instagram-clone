@@ -2,7 +2,6 @@
     background-color: #fafafa;
     width: 100vw;
     height: 100vh;
-
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -84,7 +83,7 @@
 .errormsg {
     color: rgb(217, 57, 57);
     position: absolute;
-    bottom: 50px;
+    bottom: 20px;
     text-align: center;
     width: 100%;
 }
@@ -123,5 +122,13 @@
     .login_Box,
     .signUpoption {
         width: 100vw;
+    }
+}
+
+@media screen and (max-height:500px) {
+    .Login {
+
+        height: 500px;
+        overflow-y: scroll
     }
 }
