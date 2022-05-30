@@ -168,6 +168,6 @@
 
     .commentPartBottom {
         height: calc(100% - 60px - 65px);
-        overflow-y: scroll;
+        /* overflow-y: scroll; */
     }
 }
