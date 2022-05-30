@@ -127,7 +127,9 @@
 
 @media screen and (max-height:500px) {
     .Login {
+        /* width: 100%; */
+        background-color: antiquewhite;
         height: 500px;
-        overflow-y: scroll
+        /* overflow-y: scroll */
     }
 }
