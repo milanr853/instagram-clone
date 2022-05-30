@@ -121,14 +121,13 @@
 
     .login_Box,
     .signUpoption {
-        width: 100%;
+        width: 90%;
     }
 }
 
 @media screen and (max-height:550px) {
     .Login {
         /* width: 100%; */
-        background-color: antiquewhite;
         height: 550px;
         /* overflow-y: scroll */
     }
