@@ -260,7 +260,8 @@ function Posts() {
                 <ReelsHolder />
                 {renderPosts_Images}
             </>
-            : <InitialLoading />
+            :
+            <InitialLoading />
     )
 }
 
