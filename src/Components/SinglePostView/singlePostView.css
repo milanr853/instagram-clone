@@ -154,7 +154,7 @@
     }
 
     .individualPostContainer {
-        height: 95%;
+        height: 75%;
         flex-direction: column;
         justify-content: flex-start;
     }
