@@ -12,6 +12,7 @@ function InitialLoading() {
             alignItems: "center",
             border: "none",
             background: "transparent",
+            backgroundColor: "black"
         }}>
             <img style={{
                 objectFit: "cover",
