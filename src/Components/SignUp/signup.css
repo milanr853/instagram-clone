@@ -128,15 +128,13 @@
 
     .signup_Box,
     .logInoption {
-        width: 100vw;
+        width: 90%;
     }
 }
 
 
 @media screen and (max-height:550px) {
     .Signup {
-
         height: 550px;
-        overflow-y: scroll
     }
 }
