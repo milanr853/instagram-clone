@@ -111,7 +111,7 @@
 }
 
 
-@media screen and (max-width:350px) {
+@media screen and (max-width:360px) {
 
     .login_Box,
     .signUpoption {
@@ -127,7 +127,6 @@
 
 @media screen and (max-height:500px) {
     .Login {
-        width: 200px;
         height: 500px;
         overflow-y: scroll
     }
