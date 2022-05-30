@@ -154,22 +154,21 @@
     }
 
     .individualPostContainer {
-        height: 100vh;
+        height: 95%;
         flex-direction: column;
         justify-content: flex-start;
     }
 }
 
 
+
 @media screen and (max-height:560px) {
     .allCommentsArea {
         height: 70px;
-        display: none;
     }
 
     .commentPartBottom {
-        /* height: calc(100% - 60px - 75px); */
-        height: calc(100% - 60px);
-        /* overflow-y: scroll; */
+        height: calc(100% - 60px - 75px);
+        overflow-y: scroll;
     }
 }
