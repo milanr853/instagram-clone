@@ -3,7 +3,7 @@
     background-color: #fafafa;
     /* padding: 90px 0 30px 0; */
     /* min-height: calc(100vh - 120px); */
-    min-height: calc(100vh);
+    min-height: calc(100vh - 30px);
 
     display: flex;
     flex-direction: column;
