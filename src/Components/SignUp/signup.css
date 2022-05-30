@@ -118,7 +118,7 @@
 }
 
 
-@media screen and (max-width:350px) {
+@media screen and (max-width:360px) {
 
     .signup_Box,
     .logInoption {
@@ -128,7 +128,7 @@
 
     .signup_Box,
     .logInoption {
-        width: 90%;
+        width: 95%;
     }
 }
 
