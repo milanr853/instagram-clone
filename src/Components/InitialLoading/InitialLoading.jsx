@@ -6,13 +6,12 @@ function InitialLoading() {
     return (
         <div className="PostContainer" style={{
             width: "600px",
-            height: "calc(400px)",
+            height: "calc(500px)",
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
             border: "none",
             background: "transparent",
-            backgroundColor: "black"
         }}>
             <img style={{
                 objectFit: "cover",
