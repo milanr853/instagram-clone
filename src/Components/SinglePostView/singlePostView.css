@@ -167,7 +167,8 @@
     }
 
     .commentPartBottom {
-        height: calc(100% - 60px - 75px);
-        overflow-y: scroll;
+        /* height: calc(100% - 60px - 75px); */
+        height: 180px;
+        /* overflow-y: scroll; */
     }
 }
