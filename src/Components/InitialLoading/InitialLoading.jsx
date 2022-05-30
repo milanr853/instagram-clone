@@ -6,7 +6,7 @@ function InitialLoading() {
     return (
         <div className="PostContainer" style={{
             width: "600px",
-            height: "calc(100vh - 125px - 30px)",
+            height: "calc(100vh - 125px - 50px)",
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
