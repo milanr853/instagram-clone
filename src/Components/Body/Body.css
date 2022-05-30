@@ -2,7 +2,7 @@
     width: 100%;
     background-color: #fafafa;
     padding: 90px 0 30px 0;
-    min-height: calc(400px);
+    min-height: calc(100vh - 120px);
 
     display: flex;
     flex-direction: column;
